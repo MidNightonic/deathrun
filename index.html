@@ -76,6 +76,28 @@
   .role { font-family: var(--mono); font-size: 11px; color: var(--parchment-dim); text-transform: uppercase; }
   .num-cell { font-family: var(--mono); text-align: right; }
   .delta-up { color: var(--green); }
+  .delta-down { color: var(--red); }
+  .delta-flat { color: var(--parchment-dim); }
+  .rank-cell { font-family: var(--mono); color: var(--parchment-dim); text-align: right; width: 32px; }
+  .new-badge {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em;
+    color: var(--red); border: 1px solid var(--red); padding: 1px 6px; white-space: nowrap;
+  }
+  .report-meta {
+    font-family: var(--mono); font-size: 12px; color: var(--parchment-dim);
+    margin: -8px 0 20px;
+  }
+
+  .tabs { display: flex; gap: 4px; margin: 36px 0 20px; border-bottom: 1px solid var(--panel-line); }
+  .tab {
+    background: none; border: none; color: var(--parchment-dim);
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 10px 18px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .tab:hover { color: var(--parchment); }
+  .tab.active { color: var(--gold-bright); border-bottom-color: var(--gold); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
 
   footer { text-align: center; margin-top: 40px; font-family: var(--mono); font-size: 11px; color: var(--panel-line); }
   .empty { text-align: center; padding: 60px 20px; color: var(--parchment-dim); font-family: var(--mono); font-size: 13px; }
@@ -91,21 +113,55 @@
 
   <div class="stats" id="stats"></div>
 
-  <div class="controls">
-    <input type="search" id="search" placeholder="Search member...">
+  <div class="tabs">
+    <button class="tab active" data-tab="overview">Overview</button>
+    <button class="tab" data-tab="daily">Daily</button>
+    <button class="tab" data-tab="weekly">Weekly</button>
+    <button class="tab" data-tab="monthly">Monthly</button>
+    <button class="tab" data-tab="events">Event Leaderboard</button>
   </div>
 
-  <table id="table">
-    <thead>
-      <tr>
-        <th data-key="name">Member</th>
-        <th data-key="role">Role</th>
-        <th data-key="investment">Investment</th>
-      </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-  </table>
-  <div class="empty" id="empty" style="display:none;">No members match.</div>
+  <div class="tab-panel active" id="tab-overview">
+    <div class="controls">
+      <input type="search" id="search" placeholder="Search member...">
+    </div>
+
+    <div class="table-scroll">
+      <table id="table">
+        <thead>
+          <tr>
+            <th data-key="name">Member</th>
+            <th data-key="role">Role</th>
+            <th data-key="investment">Investment</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="empty" style="display:none;">No members match.</div>
+  </div>
+
+  <div class="tab-panel" id="tab-daily"></div>
+  <div class="tab-panel" id="tab-weekly"></div>
+  <div class="tab-panel" id="tab-monthly"></div>
+
+  <div class="tab-panel" id="tab-events">
+    <div class="table-scroll">
+      <table id="eventTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Member</th>
+            <th>Role</th>
+            <th>Score</th>
+            <th>Today</th>
+          </tr>
+        </thead>
+        <tbody id="eventTbody"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="eventEmpty" style="display:none;">No event score data yet.</div>
+  </div>
 
   <footer id="footer"></footer>
 </div>
@@ -121,7 +177,50 @@ function formatInvestment(v) {
   return String(v);
 }
 
+function formatDelta(v) {
+  if (v == null) return "-";
+  const sign = v > 0 ? "+" : "";
+  return sign + formatInvestment(v);
+}
+
+function formatCount(v) {
+  if (v == null) return "-";
+  const sign = v > 0 ? "+" : "";
+  return sign + v.toLocaleString();
+}
+
+function deltaClass(v) {
+  if (v == null || v === 0) return "delta-flat";
+  return v > 0 ? "delta-up" : "delta-down";
+}
+
+// Find the most recent recorded value at or before `daysAgo` days before `asOfDate`.
+function valueDaysAgo(history, asOfDate, daysAgo) {
+  const target = new Date(asOfDate + "T00:00:00Z");
+  target.setUTCDate(target.getUTCDate() - daysAgo);
+  const targetIso = target.toISOString().slice(0, 10);
+  const dates = Object.keys(history).filter(d => d <= targetIso).sort();
+  if (!dates.length) return null;
+  return history[dates[dates.length - 1]];
+}
+
+function computeDelta(history, asOfDate, daysAgo) {
+  const latest = history[asOfDate];
+  const past = valueDaysAgo(history, asOfDate, daysAgo);
+  if (latest == null || past == null) return null;
+  return latest - past;
+}
+
 let state = { rows: [], sortKey: "investment", sortDir: -1, search: "" };
+let eventRows = [];
+let periodMembers = [];
+let guildInfo = {};
+
+const PERIODS = [
+  { key: "daily", days: 1, label: "Daily" },
+  { key: "weekly", days: 7, label: "Weekly" },
+  { key: "monthly", days: 30, label: "Monthly" },
+];
 
 async function load() {
   const footer = document.getElementById("footer");
@@ -136,6 +235,7 @@ async function load() {
 
     const guildEntry = (guildData.guilds || {}).deathrun;
     if (!guildEntry) throw new Error("no guild data yet — run fetch_snapshot.py first");
+    guildInfo = guildEntry;
 
     const allMembers = membersData.members || {};
     const memberIds = (guildEntry.members || []).map(m => m.id);
@@ -150,8 +250,51 @@ async function load() {
       };
     }).filter(Boolean);
 
+    periodMembers = memberIds.map(id => {
+      const rec = allMembers[id];
+      if (!rec) return null;
+      return {
+        name: rec.name || id,
+        role: rec.role || "",
+        joined: rec.joined || "",
+        investments: rec.investments || {},
+        networth: rec.networth_history || {},
+        bounty: rec.bounty_history || {},
+      };
+    }).filter(Boolean);
+
+    eventRows = memberIds.map(id => {
+      const rec = allMembers[id];
+      if (!rec) return null;
+      const eventScores = rec.event_scores || {};
+      const evDates = Object.keys(eventScores).sort();
+      const asOf = evDates.length ? evDates[evDates.length - 1] : guildEntry.snapshot_date;
+      return {
+        name: rec.name || id,
+        role: rec.role || "",
+        score: rec.latest_event_score || 0,
+        todayDelta: computeDelta(eventScores, asOf, 1),
+      };
+    }).filter(Boolean).sort((a, b) => b.score - a.score);
+
+    const guildLevel = guildEntry.level || "-";
+    const population = guildEntry.population ?? state.rows.length;
+    const capacity = guildEntry.capacity ?? "";
+    const guildNetworth = guildEntry.networth;
+    const guildRank = guildEntry.rank || "-";
+
+    document.getElementById("stats").innerHTML = `
+      <div class="stat"><div class="num">${population}${capacity ? "/" + capacity : ""}</div><div class="label">Members</div></div>
+      <div class="stat"><div class="num">${guildLevel}</div><div class="label">Guild Level</div></div>
+      <div class="stat"><div class="num">${formatInvestment(state.rows.reduce((s, r) => s + r.investment, 0))}</div><div class="label">Total Investment</div></div>
+      <div class="stat"><div class="num">${formatInvestment(guildNetworth)}</div><div class="label">Guild Networth</div></div>
+      <div class="stat"><div class="num">#${guildRank}</div><div class="label">Global Rank</div></div>
+    `;
+
     footer.textContent = `Latest snapshot: ${guildEntry.snapshot_date || "-"} · ${state.rows.length} members · generated ${membersData.generated_at || "-"}`;
     render();
+    renderEvents();
+    PERIODS.forEach(p => renderPeriodTab(p));
   } catch (err) {
     document.getElementById("empty").style.display = "block";
     document.getElementById("empty").textContent = "No data yet — " + err.message;
@@ -160,18 +303,12 @@ async function load() {
 }
 
 function render() {
-  const stats = document.getElementById("stats");
-  const total = state.rows.reduce((s, r) => s + r.investment, 0);
-  stats.innerHTML = `
-    <div class="stat"><div class="num">${state.rows.length}</div><div class="label">Members</div></div>
-    <div class="stat"><div class="num">${formatInvestment(total)}</div><div class="label">Total Investment</div></div>
-  `;
-
   let rows = state.rows.filter(r => r.name.toLowerCase().includes(state.search.toLowerCase()));
 
   rows.sort((a, b) => {
     let av = a[state.sortKey], bv = b[state.sortKey];
     if (typeof av === "string") return av.localeCompare(bv) * state.sortDir;
+    av = av ?? -Infinity; bv = bv ?? -Infinity;
     return (av - bv) * state.sortDir;
   });
 
@@ -184,7 +321,105 @@ function render() {
         <td class="name">${escapeHtml(r.name)}</td>
         <td class="role">${escapeHtml(r.role)}</td>
         <td class="num-cell">${formatInvestment(r.investment)}</td>
+        <td class="num-cell ${deltaClass(r.dailyDelta)}">${formatDelta(r.dailyDelta)}</td>
+        <td class="num-cell ${deltaClass(r.weeklyDelta)}">${formatDelta(r.weeklyDelta)}</td>
+        <td class="num-cell ${deltaClass(r.monthlyDelta)}">${formatDelta(r.monthlyDelta)}</td>
       </tr>`).join("");
+}
+
+function renderEvents() {
+  const tbody = document.getElementById("eventTbody");
+  const empty = document.getElementById("eventEmpty");
+  const withScore = eventRows.filter(r => r.score > 0);
+  empty.style.display = withScore.length ? "none" : "block";
+
+  tbody.innerHTML = eventRows.map((r, i) => `
+      <tr>
+        <td class="rank-cell">${i + 1}</td>
+        <td class="name">${escapeHtml(r.name)}</td>
+        <td class="role">${escapeHtml(r.role)}</td>
+        <td class="num-cell">${r.score.toLocaleString()}</td>
+        <td class="num-cell ${deltaClass(r.todayDelta)}">${r.todayDelta == null ? "-" : (r.todayDelta > 0 ? "+" : "") + r.todayDelta.toLocaleString()}</td>
+      </tr>`).join("");
+}
+
+function latestOf(history) {
+  const dates = Object.keys(history).sort();
+  return dates.length ? history[dates[dates.length - 1]] : null;
+}
+
+function latestDateOf(history, fallback) {
+  const dates = Object.keys(history).sort();
+  return dates.length ? dates[dates.length - 1] : fallback;
+}
+
+function isNewInPeriod(joined, asOfDate, days) {
+  if (!joined) return false;
+  const joinedMs = Date.parse(joined.replace(" ", "T") + "Z");
+  if (Number.isNaN(joinedMs)) return false;
+  const asOfMs = Date.parse(asOfDate + "T23:59:59Z");
+  return (asOfMs - joinedMs) / 86400000 < days;
+}
+
+function renderPeriodTab(period) {
+  const panel = document.getElementById("tab-" + period.key);
+  const asOf = guildInfo.snapshot_date;
+
+  const rows = periodMembers.map(m => {
+    const memberAsOf = latestDateOf(m.investments, asOf);
+    const isNew = isNewInPeriod(m.joined, memberAsOf, period.days);
+    const currentNW = latestOf(m.networth);
+    const currentInvest = latestOf(m.investments);
+    const startNW = isNew ? null : valueDaysAgo(m.networth, memberAsOf, period.days);
+    const startInvest = isNew ? null : valueDaysAgo(m.investments, memberAsOf, period.days);
+    const startBounty = isNew ? null : valueDaysAgo(m.bounty, memberAsOf, period.days);
+    const currentBounty = latestOf(m.bounty);
+    return {
+      name: m.name, role: m.role, isNew,
+      currentNW, startNW, deltaNW: (startNW == null || currentNW == null) ? null : currentNW - startNW,
+      currentInvest, startInvest, deltaInvest: (startInvest == null || currentInvest == null) ? null : currentInvest - startInvest,
+      deltaBounty: (startBounty == null || currentBounty == null) ? null : currentBounty - startBounty,
+    };
+  }).sort((a, b) => a.name.localeCompare(b.name));
+
+  const sum = key => rows.reduce((s, r) => s + (r[key] || 0), 0);
+  const newCount = rows.filter(r => r.isNew).length;
+
+  panel.innerHTML = `
+    <div class="report-meta">${period.label} · Generated ${guildInfo.fetched_at || "-"}</div>
+    <div class="stats">
+      <div class="stat"><div class="num">${rows.length}</div><div class="label">Members</div></div>
+      <div class="stat"><div class="num">${newCount}</div><div class="label">New</div></div>
+      <div class="stat"><div class="num ${deltaClass(sum("deltaNW"))}">${formatDelta(sum("deltaNW"))}</div><div class="label">&Delta; Networth</div></div>
+      <div class="stat"><div class="num ${deltaClass(sum("deltaInvest"))}">${formatDelta(sum("deltaInvest"))}</div><div class="label">&Delta; Invest</div></div>
+      <div class="stat"><div class="num ${deltaClass(sum("deltaBounty"))}">${formatCount(sum("deltaBounty"))}</div><div class="label">&Delta; Bounty</div></div>
+      <div class="stat"><div class="num">${formatInvestment(guildInfo.networth)}</div><div class="label">Guild NW</div></div>
+      <div class="stat"><div class="num">#${guildInfo.rank ?? "-"}</div><div class="label">Guild Rank</div></div>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Player</th><th>Start NW</th><th>Current NW</th><th>&Delta; NW</th>
+            <th>Start Invest</th><th>Current Invest</th><th>&Delta; Invest</th><th>&Delta; Bounty</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(r => `
+            <tr>
+              <td class="name">${escapeHtml(r.name)}${r.isNew ? ' <span class="new-badge">NEW</span>' : ""}</td>
+              <td class="num-cell">${r.isNew ? "-" : formatInvestment(r.startNW)}</td>
+              <td class="num-cell">${formatInvestment(r.currentNW)}</td>
+              <td class="num-cell ${r.isNew ? "" : deltaClass(r.deltaNW)}">${r.isNew ? '<span class="new-badge">NEW</span>' : formatDelta(r.deltaNW)}</td>
+              <td class="num-cell">${r.isNew ? "-" : formatInvestment(r.startInvest)}</td>
+              <td class="num-cell">${formatInvestment(r.currentInvest)}</td>
+              <td class="num-cell ${r.isNew ? "" : deltaClass(r.deltaInvest)}">${r.isNew ? '<span class="new-badge">NEW</span>' : formatDelta(r.deltaInvest)}</td>
+              <td class="num-cell ${r.isNew ? "" : deltaClass(r.deltaBounty)}">${r.isNew ? '<span class="new-badge">NEW</span>' : formatCount(r.deltaBounty)}</td>
+            </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
 }
 
 function escapeHtml(s) {
@@ -200,6 +435,13 @@ document.querySelectorAll("thead th").forEach(th => {
   });
 });
 document.getElementById("search").addEventListener("input", e => { state.search = e.target.value; render(); });
+
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b === btn));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.toggle("active", p.id === "tab-" + btn.dataset.tab));
+  });
+});
 
 load();
 </script>

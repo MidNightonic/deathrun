@@ -70,15 +70,30 @@ def get_members(snapshot: dict[str, Any]) -> list[Any]:
     return []
 
 
-def investment_of(member: Any) -> int:
-    if not isinstance(member, dict):
-        return 0
-    stats = member.get("stats")
-    value = stats.get("investments", 0) if isinstance(stats, dict) else member.get("investments", 0)
+def _int(value: Any, default: int = 0) -> int:
     try:
         return int(value)
     except (TypeError, ValueError):
+        return default
+
+
+def stat_of(member: dict[str, Any], key: str) -> int:
+    stats = member.get("stats")
+    value = stats.get(key, 0) if isinstance(stats, dict) else member.get(key, 0)
+    return _int(value)
+
+
+def investment_of(member: Any) -> int:
+    if not isinstance(member, dict):
         return 0
+    return stat_of(member, "investments")
+
+
+def event_score_of(member: dict[str, Any]) -> int:
+    events = member.get("events")
+    if not isinstance(events, dict):
+        return 0
+    return _int(events.get("current_event_score"))
 
 
 def role_of(member: dict[str, Any]) -> str:
@@ -86,6 +101,13 @@ def role_of(member: dict[str, Any]) -> str:
     if isinstance(guild, dict):
         return str(guild.get("rank") or "")
     return str(member.get("rank") or "")
+
+
+def joined_of(member: dict[str, Any]) -> str:
+    guild = member.get("guild")
+    if isinstance(guild, dict):
+        return str(guild.get("joined") or "")
+    return ""
 
 
 def normalize_member_id(member: dict[str, Any]) -> str:
@@ -108,10 +130,24 @@ def finalize_member_store(member_store: dict[str, Any], generated_at: str | None
             continue
         investments = record.get("investments")
         if not isinstance(investments, dict):
-            record["investments"] = {}
-            continue
+            investments = {}
         dates.update(str(date) for date in investments)
         record["investments"] = {date: investments[date] for date in sorted(investments)}
+
+        event_scores = record.get("event_scores")
+        if not isinstance(event_scores, dict):
+            event_scores = {}
+        record["event_scores"] = {date: event_scores[date] for date in sorted(event_scores)}
+
+        networth_history = record.get("networth_history")
+        if not isinstance(networth_history, dict):
+            networth_history = {}
+        record["networth_history"] = {date: networth_history[date] for date in sorted(networth_history)}
+
+        bounty_history = record.get("bounty_history")
+        if not isinstance(bounty_history, dict):
+            bounty_history = {}
+        record["bounty_history"] = {date: bounty_history[date] for date in sorted(bounty_history)}
 
     member_store["schema_version"] = 1
     member_store["generated_at"] = generated_at or utc_now()
@@ -162,6 +198,10 @@ def update_stores_from_snapshot(
     if not members:
         return False
 
+    guild_stats = snapshot.get("guild_stats")
+    if not isinstance(guild_stats, dict):
+        guild_stats = {}
+
     member_records = member_store.setdefault("members", {})
     guild_members_map: dict[str, dict[str, str]] = {}
 
@@ -174,6 +214,9 @@ def update_stores_from_snapshot(
 
         name = str(member.get("name") or member_id)
         investment = investment_of(member)
+        event_score = event_score_of(member)
+        networth = stat_of(member, "networth")
+        bounty = stat_of(member, "bounty")
         record = member_records.setdefault(
             member_id,
             {
@@ -183,20 +226,43 @@ def update_stores_from_snapshot(
                 "latest_investment": 0,
                 "latest_date": "",
                 "investments": {},
+                "event_scores": {},
+                "networth_history": {},
+                "bounty_history": {},
             },
         )
-        investments = record.setdefault("investments", {})
-        if not isinstance(investments, dict):
-            investments = {}
-            record["investments"] = investments
-        investments[snapshot_date] = investment
+
+        def _set_history(field: str, value: int) -> None:
+            history = record.setdefault(field, {})
+            if not isinstance(history, dict):
+                history = {}
+                record[field] = history
+            history[snapshot_date] = value
+
+        _set_history("investments", investment)
+        _set_history("event_scores", event_score)
+        _set_history("networth_history", networth)
+        _set_history("bounty_history", bounty)
 
         if should_replace_latest(record.get("latest_date"), snapshot_date):
+            events = member.get("events") if isinstance(member.get("events"), dict) else {}
             record["name"] = name
             record["level"] = member.get("level") or ""
             record["role"] = role_of(member)
+            record["joined"] = joined_of(member)
+            record["is_vip"] = bool(member.get("isVip"))
+            record["last_online"] = str(member.get("last_online") or "")
             record["latest_investment"] = investment
             record["latest_date"] = snapshot_date
+            record["latest_networth"] = stat_of(member, "networth")
+            record["latest_help"] = stat_of(member, "help")
+            record["latest_bounty"] = stat_of(member, "bounty")
+            record["latest_prestige"] = stat_of(member, "prestige")
+            record["latest_hero_power"] = stat_of(member, "best_hero_power")
+            record["latest_event_score"] = event_score
+            record["best_lcog_score"] = _int(events.get("best_lcog_score"))
+            record["best_kc_score"] = _int(events.get("best_kc_score"))
+            record["best_di_score"] = _int(events.get("best_di_score"))
 
         guild_members_map[member_id] = {"id": member_id, "name": name}
 
@@ -215,6 +281,11 @@ def update_stores_from_snapshot(
             "guild_url": guild.guild_url,
             "snapshot_date": snapshot_date,
             "fetched_at": fetched_at or "",
+            "level": guild_stats.get("level", ""),
+            "population": guild_stats.get("population", ""),
+            "capacity": guild_stats.get("capacity", ""),
+            "networth": guild_stats.get("networth", 0),
+            "rank": guild_stats.get("rank", ""),
             "members": guild_members,
         }
 

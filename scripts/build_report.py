@@ -17,7 +17,6 @@ from member_store import (
     read_json_object,
 )
 
-HUNDRED_MILLION = 100_000_000
 INACTIVE_THRESHOLD_DAYS = 7  # flag members whose investment hasn't moved in this many days
 
 
@@ -48,17 +47,27 @@ def markdown_escape(value: Any) -> str:
     return text.replace("\\", "\\\\").replace("|", "\\|").replace("\n", " ")
 
 
-def format_yi(value: int | float | None) -> str:
+def format_amount(value: int | float | None) -> str:
     if value is None:
         return "-"
-    return f"{value / HUNDRED_MILLION:.2f}亿"
+    sign = "-" if value < 0 else ""
+    abs_value = abs(value)
+    if abs_value >= 1e12:
+        return f"{sign}{abs_value / 1e12:.2f}T"
+    if abs_value >= 1e9:
+        return f"{sign}{abs_value / 1e9:.2f}G"
+    if abs_value >= 1e6:
+        return f"{sign}{abs_value / 1e6:.2f}M"
+    if abs_value >= 1e3:
+        return f"{sign}{abs_value / 1e3:.2f}K"
+    return f"{sign}{abs_value:.0f}"
 
 
 def format_delta(value: int | float | None) -> str:
     if value is None:
         return ""
     sign = "+" if value > 0 else ""
-    return f"{sign}{value / HUNDRED_MILLION:.2f}亿"
+    return f"{sign}{format_amount(value)}"
 
 
 def load_required_json(path: Path) -> dict[str, Any]:
@@ -132,8 +141,8 @@ def cell_value(member: MemberRecord, date: str, previous_date: str | None) -> st
         return "-"
     previous = member.by_date.get(previous_date) if previous_date else None
     if previous is None:
-        return format_yi(current)
-    return f"{format_yi(current)} ({format_delta(current - previous)})"
+        return format_amount(current)
+    return f"{format_amount(current)} ({format_delta(current - previous)})"
 
 
 def top_investors(dates: list[str], members: list[MemberRecord], limit: int = 10) -> list[tuple[MemberRecord, int]]:
@@ -248,7 +257,7 @@ def build_guild_report(
         f"- Latest member list date: {guild_entry.get('snapshot_date') or '-'}",
         f"- Latest investment date: {latest_date}",
         f"- Latest member count: {listed_member_count}",
-        f"- Latest total investment: {format_yi(latest_total)}",
+        f"- Latest total investment: {format_amount(latest_total)}",
         f"- Inactive members flagged: {len(flagged)}",
         "",
     ]
@@ -325,7 +334,7 @@ def build_root_readme(output_path: Path, summaries: list[GuildSummary]) -> None:
         report_link = relative_markdown_path(output_path, summary.report_path)
         lines.append(
             f"| {markdown_escape(summary.guild.name)} | `{summary.guild.guild_id}` | {summary.latest_date} | "
-            f"{summary.latest_member_count} | {format_yi(summary.latest_total)} | {summary.inactive_count} | "
+            f"{summary.latest_member_count} | {format_amount(summary.latest_total)} | {summary.inactive_count} | "
             f"[view]({report_link}) |"
         )
     lines.extend(

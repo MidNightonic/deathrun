@@ -71,6 +71,21 @@ def request_json(api_key: str) -> tuple[int, Any]:
         return 0, {"error": "invalid_json", "reason": str(exc)}
 
 
+def normalize_guild_stats(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict):
+        return {}
+    guild = payload.get("guild")
+    if not isinstance(guild, dict):
+        return {}
+    return {
+        "level": guild.get("level", ""),
+        "population": guild.get("population", ""),
+        "capacity": guild.get("capacity", ""),
+        "networth": guild.get("networth", 0),
+        "rank": guild.get("rank", ""),
+    }
+
+
 def normalize_members(payload: Any) -> list[Any]:
     if not isinstance(payload, dict):
         return []
@@ -113,7 +128,13 @@ def fetch_snapshot(guild: GuildConfig, api_key: str | None) -> dict[str, Any]:
     if status != 200:
         return {**base, "ok": False, "http_status": status, "error": payload}
 
-    return {**base, "ok": True, "members": normalize_members(payload), "raw": payload}
+    return {
+        **base,
+        "ok": True,
+        "members": normalize_members(payload),
+        "guild_stats": normalize_guild_stats(payload),
+        "raw": payload,
+    }
 
 
 def update_member_data(
