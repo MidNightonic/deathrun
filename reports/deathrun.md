@@ -4,12 +4,12 @@
 
 - Guild page: https://www.titansdb.com/
 - Guild ID: ``
-- Report updated: 2026-08-24T12:20:34Z
+- Report updated: 2026-08-24T12:57:23Z
 - Valid investment dates: 1 / last 30 days
 - Latest member list date: 2026-08-24
 - Latest investment date: 2026-08-24
 - Latest member count: 20
-- Latest total investment: 434784.26亿
+- Latest total investment: 43.48T
 - Inactive members flagged: 0
 
 ## ⚠ Inactive Members (no investment change in 7+ days)
@@ -26,26 +26,26 @@ Cell format: `total (change since previous record)`. Most recent date is on the 
 
 | Member | Level | Role | 2026-08-24 |
 | --- | ---: | --- | ---: |
-| ᴍɪᴅɴɪɢʜᴛ#27538 | 98 | Member | 108559.90亿 |
-| RobMods Cars#83233 | 87 | Member | 62139.90亿 |
-| Don#37874 | 94 | Member | 35111.90亿 |
-| Keyonayo#93192 | 81 | Member | 32530.90亿 |
-| Ollie#42403 | 84 | Member | 20221.30亿 |
-| Aphrodite#11689 | 85 | Guildmaster | 18956.90亿 |
-| Horus#36191 | 87 | Member | 18301.90亿 |
-| ⊱ ｆａｉｒｙ ⊰#40739 | 81 | Officer | 18278.94亿 |
-| AlphaBrass#78875 | 81 | Officer | 15445.40亿 |
-| GuyonCouch#42411 | 94 | Member | 14339.30亿 |
-| Laverian#57238 | 78 | Member | 10862.00亿 |
-| killerloop6#52380 | 87 | Member | 10714.40亿 |
-| Sena#79879 | 84 | Member | 10031.90亿 |
-| minkki89#28058 | 85 | Member | 9923.60亿 |
-| Parry#73227 | 85 | Member | 9284.11亿 |
-| DragonmawSyn#63271 | 81 | Member | 8801.10亿 |
-| Murxine#26790 | 81 | Member | 8499.90亿 |
-| Roman#50873 | 80 | Member | 8462.59亿 |
-| TubularPeak#25592 | 74 | Member | 7201.89亿 |
-| Skylar#93668 | 90 | Member | 7116.47亿 |
+| ᴍɪᴅɴɪɢʜᴛ#27538 | 98 | Member | 10.86T |
+| RobMods Cars#83233 | 87 | Member | 6.21T |
+| Don#37874 | 94 | Member | 3.51T |
+| Keyonayo#93192 | 81 | Member | 3.25T |
+| Ollie#42403 | 84 | Member | 2.02T |
+| Aphrodite#11689 | 85 | Guildmaster | 1.90T |
+| Horus#36191 | 87 | Member | 1.83T |
+| ⊱ ｆａｉｒｙ ⊰#40739 | 81 | Officer | 1.83T |
+| AlphaBrass#78875 | 81 | Officer | 1.54T |
+| GuyonCouch#42411 | 94 | Member | 1.43T |
+| Laverian#57238 | 78 | Member | 1.09T |
+| killerloop6#52380 | 87 | Member | 1.07T |
+| Sena#79879 | 84 | Member | 1.00T |
+| minkki89#28058 | 85 | Member | 992.36G |
+| Parry#73227 | 85 | Member | 928.41G |
+| DragonmawSyn#63271 | 81 | Member | 880.11G |
+| Murxine#26790 | 81 | Member | 849.99G |
+| Roman#50873 | 80 | Member | 846.26G |
+| TubularPeak#25592 | 74 | Member | 720.19G |
+| Skylar#93668 | 90 | Member | 711.65G |
 
 ## Auto-update
 
