@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deathrun — Guild Ledger</title>
+<style>
+  :root {
+    --ink: #171314;
+    --panel: #221c1a;
+    --panel-line: #3a2f2a;
+    --parchment: #f1e6cf;
+    --parchment-dim: #cfc1a2;
+    --gold: #c9973b;
+    --gold-bright: #e6b955;
+    --red: #b3462c;
+    --green: #6f8f4e;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(ellipse at top, #2a221e 0%, var(--ink) 60%);
+    color: var(--parchment);
+    font-family: var(--serif);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  header { text-align: center; margin-bottom: 40px; }
+  .crest {
+    width: 56px; height: 56px; margin: 0 auto 14px;
+    border: 2px solid var(--gold);
+    transform: rotate(45deg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .crest span { transform: rotate(-45deg); font-family: var(--mono); font-weight: 700; color: var(--gold-bright); font-size: 20px; }
+  h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    letter-spacing: 0.04em;
+    margin: 0 0 6px;
+    color: var(--gold-bright);
+    font-weight: 500;
+  }
+  .subtitle { color: var(--parchment-dim); font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px; background: var(--panel-line);
+    border: 1px solid var(--panel-line);
+    margin: 36px 0;
+  }
+  .stat { background: var(--panel); padding: 18px 16px; text-align: center; }
+  .stat .num { font-family: var(--mono); font-size: 24px; color: var(--gold-bright); }
+  .stat .label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--parchment-dim); margin-top: 4px; }
+
+  .controls { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  input[type="search"] {
+    flex: 1; min-width: 180px;
+    background: var(--panel); border: 1px solid var(--panel-line); color: var(--parchment);
+    padding: 10px 14px; font-family: var(--serif); font-size: 14px;
+  }
+  input[type="search"]:focus { outline: 1px solid var(--gold); }
+  .toggle {
+    background: var(--panel); border: 1px solid var(--panel-line); color: var(--parchment-dim);
+    padding: 10px 14px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+    cursor: pointer; text-transform: uppercase;
+  }
+  .toggle.active { color: var(--red); border-color: var(--red); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead th {
+    text-align: left; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--parchment-dim); border-bottom: 1px solid var(--gold);
+    padding: 10px 12px; cursor: pointer; user-select: none;
+  }
+  thead th:hover { color: var(--gold-bright); }
+  tbody td { padding: 12px; border-bottom: 1px solid var(--panel-line); vertical-align: middle; }
+  tbody tr.inactive { background: rgba(179, 70, 44, 0.12); }
+  tbody tr.inactive td:first-child { border-left: 2px solid var(--red); }
+  .name { font-weight: 600; color: var(--parchment); }
+  .role { font-family: var(--mono); font-size: 11px; color: var(--parchment-dim); text-transform: uppercase; }
+  .num-cell { font-family: var(--mono); text-align: right; }
+  .delta-up { color: var(--green); }
+  .idle-tag {
+    font-family: var(--mono); font-size: 11px; padding: 2px 8px;
+    border: 1px solid var(--red); color: #e79475; white-space: nowrap;
+  }
+  .ok-tag { font-family: var(--mono); font-size: 11px; color: var(--parchment-dim); }
+
+  footer { text-align: center; margin-top: 40px; font-family: var(--mono); font-size: 11px; color: var(--panel-line); }
+  .empty { text-align: center; padding: 60px 20px; color: var(--parchment-dim); font-family: var(--mono); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="crest"><span>D</span></div>
+    <h1>Deathrun</h1>
+    <div class="subtitle">Guild Ledger — Investment &amp; Activity</div>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <input type="search" id="search" placeholder="Search member...">
+    <button class="toggle" id="inactiveToggle">Inactive only</button>
+  </div>
+
+  <table id="table">
+    <thead>
+      <tr>
+        <th data-key="name">Member</th>
+        <th data-key="role">Role</th>
+        <th data-key="investment">Investment</th>
+        <th data-key="idle">Status</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="empty" id="empty" style="display:none;">No members match.</div>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+const HUNDRED_MILLION = 100000000;
+const INACTIVE_THRESHOLD_DAYS = 7;
+
+function formatInvestment(v) {
+  if (v == null) return "-";
+  return (v / HUNDRED_MILLION).toFixed(2) + "亿";
+}
+
+function daysBetween(a, b) {
+  const d1 = new Date(a), d2 = new Date(b);
+  return Math.round((d2 - d1) / 86400000);
+}
+
+function lastChangeDate(investments, asOfDate) {
+  const dates = Object.keys(investments).filter(d => d <= asOfDate).sort();
+  if (!dates.length) return null;
+  let lastChange = dates[0];
+  for (let i = 1; i < dates.length; i++) {
+    if (investments[dates[i]] !== investments[dates[i - 1]]) lastChange = dates[i];
+  }
+  return lastChange;
+}
+
+let state = { rows: [], sortKey: "investment", sortDir: -1, showInactiveOnly: false, search: "" };
+
+async function load() {
+  const footer = document.getElementById("footer");
+  try {
+    const [membersRes, guildRes] = await Promise.all([
+      fetch("data/members.json"),
+      fetch("data/guild-members.json"),
+    ]);
+    if (!membersRes.ok || !guildRes.ok) throw new Error("data files not found yet");
+    const membersData = await membersRes.json();
+    const guildData = await guildRes.json();
+
+    const guildEntry = (guildData.guilds || {}).deathrun;
+    if (!guildEntry) throw new Error("no guild data yet — run fetch_snapshot.py first");
+
+    const allMembers = membersData.members || {};
+    const memberIds = (guildEntry.members || []).map(m => m.id);
+    const latestDate = guildEntry.snapshot_date;
+
+    state.rows = memberIds.map(id => {
+      const rec = allMembers[id];
+      if (!rec) return null;
+      const investments = rec.investments || {};
+      const dates = Object.keys(investments).sort();
+      const asOf = dates.length ? dates[dates.length - 1] : latestDate;
+      const changedOn = lastChangeDate(investments, asOf);
+      const idle = changedOn ? daysBetween(changedOn, asOf) : null;
+      return {
+        name: rec.name || id,
+        role: rec.role || "",
+        investment: rec.latest_investment || 0,
+        idle,
+      };
+    }).filter(Boolean);
+
+    footer.textContent = `Latest snapshot: ${guildEntry.snapshot_date || "-"} · ${state.rows.length} members · generated ${membersData.generated_at || "-"}`;
+    render();
+  } catch (err) {
+    document.getElementById("empty").style.display = "block";
+    document.getElementById("empty").textContent = "No data yet — " + err.message;
+    footer.textContent = "";
+  }
+}
+
+function render() {
+  const stats = document.getElementById("stats");
+  const total = state.rows.reduce((s, r) => s + r.investment, 0);
+  const inactiveCount = state.rows.filter(r => r.idle != null && r.idle >= INACTIVE_THRESHOLD_DAYS).length;
+  stats.innerHTML = `
+    <div class="stat"><div class="num">${state.rows.length}</div><div class="label">Members</div></div>
+    <div class="stat"><div class="num">${formatInvestment(total)}</div><div class="label">Total Investment</div></div>
+    <div class="stat"><div class="num">${inactiveCount}</div><div class="label">Inactive (7d+)</div></div>
+  `;
+
+  let rows = state.rows.filter(r => r.name.toLowerCase().includes(state.search.toLowerCase()));
+  if (state.showInactiveOnly) rows = rows.filter(r => r.idle != null && r.idle >= INACTIVE_THRESHOLD_DAYS);
+
+  rows.sort((a, b) => {
+    let av = a[state.sortKey], bv = b[state.sortKey];
+    if (state.sortKey === "idle") { av = av ?? -1; bv = bv ?? -1; }
+    if (typeof av === "string") return av.localeCompare(bv) * state.sortDir;
+    return (av - bv) * state.sortDir;
+  });
+
+  const tbody = document.getElementById("tbody");
+  document.getElementById("empty").style.display = rows.length ? "none" : "block";
+  if (rows.length) document.getElementById("empty").textContent = "No members match.";
+
+  tbody.innerHTML = rows.map(r => {
+    const isInactive = r.idle != null && r.idle >= INACTIVE_THRESHOLD_DAYS;
+    const statusHtml = r.idle == null
+      ? `<span class="ok-tag">new</span>`
+      : isInactive
+        ? `<span class="idle-tag">idle ${r.idle}d</span>`
+        : `<span class="ok-tag">active</span>`;
+    return `
+      <tr class="${isInactive ? "inactive" : ""}">
+        <td class="name">${escapeHtml(r.name)}</td>
+        <td class="role">${escapeHtml(r.role)}</td>
+        <td class="num-cell">${formatInvestment(r.investment)}</td>
+        <td>${statusHtml}</td>
+      </tr>`;
+  }).join("");
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+document.querySelectorAll("thead th").forEach(th => {
+  th.addEventListener("click", () => {
+    const key = th.dataset.key;
+    if (state.sortKey === key) state.sortDir *= -1;
+    else { state.sortKey = key; state.sortDir = -1; }
+    render();
+  });
+});
+document.getElementById("search").addEventListener("input", e => { state.search = e.target.value; render(); });
+document.getElementById("inactiveToggle").addEventListener("click", e => {
+  state.showInactiveOnly = !state.showInactiveOnly;
+  e.target.classList.toggle("active", state.showInactiveOnly);
+  render();
+});
+
+load();
+</script>
+</body>
+</html>
