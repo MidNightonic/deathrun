@@ -125,29 +125,25 @@ def finalize_member_store(member_store: dict[str, Any], generated_at: str | None
         member_store["members"] = {}
         members = member_store["members"]
 
+    history_fields = [
+        "investments",
+        "event_scores",
+        "networth_history",
+        "bounty_history",
+        "lcog_best_history",
+        "kc_best_history",
+        "di_best_history",
+    ]
     for record in members.values():
         if not isinstance(record, dict):
             continue
-        investments = record.get("investments")
-        if not isinstance(investments, dict):
-            investments = {}
-        dates.update(str(date) for date in investments)
-        record["investments"] = {date: investments[date] for date in sorted(investments)}
-
-        event_scores = record.get("event_scores")
-        if not isinstance(event_scores, dict):
-            event_scores = {}
-        record["event_scores"] = {date: event_scores[date] for date in sorted(event_scores)}
-
-        networth_history = record.get("networth_history")
-        if not isinstance(networth_history, dict):
-            networth_history = {}
-        record["networth_history"] = {date: networth_history[date] for date in sorted(networth_history)}
-
-        bounty_history = record.get("bounty_history")
-        if not isinstance(bounty_history, dict):
-            bounty_history = {}
-        record["bounty_history"] = {date: bounty_history[date] for date in sorted(bounty_history)}
+        for field in history_fields:
+            history = record.get(field)
+            if not isinstance(history, dict):
+                history = {}
+            if field == "investments":
+                dates.update(str(date) for date in history)
+            record[field] = {date: history[date] for date in sorted(history)}
 
     member_store["schema_version"] = 1
     member_store["generated_at"] = generated_at or utc_now()
@@ -217,6 +213,10 @@ def update_stores_from_snapshot(
         event_score = event_score_of(member)
         networth = stat_of(member, "networth")
         bounty = stat_of(member, "bounty")
+        events = member.get("events") if isinstance(member.get("events"), dict) else {}
+        best_lcog = _int(events.get("best_lcog_score"))
+        best_kc = _int(events.get("best_kc_score"))
+        best_di = _int(events.get("best_di_score"))
         record = member_records.setdefault(
             member_id,
             {
@@ -229,6 +229,9 @@ def update_stores_from_snapshot(
                 "event_scores": {},
                 "networth_history": {},
                 "bounty_history": {},
+                "lcog_best_history": {},
+                "kc_best_history": {},
+                "di_best_history": {},
             },
         )
 
@@ -243,9 +246,11 @@ def update_stores_from_snapshot(
         _set_history("event_scores", event_score)
         _set_history("networth_history", networth)
         _set_history("bounty_history", bounty)
+        _set_history("lcog_best_history", best_lcog)
+        _set_history("kc_best_history", best_kc)
+        _set_history("di_best_history", best_di)
 
         if should_replace_latest(record.get("latest_date"), snapshot_date):
-            events = member.get("events") if isinstance(member.get("events"), dict) else {}
             record["name"] = name
             record["level"] = member.get("level") or ""
             record["role"] = role_of(member)
@@ -260,9 +265,9 @@ def update_stores_from_snapshot(
             record["latest_prestige"] = stat_of(member, "prestige")
             record["latest_hero_power"] = stat_of(member, "best_hero_power")
             record["latest_event_score"] = event_score
-            record["best_lcog_score"] = _int(events.get("best_lcog_score"))
-            record["best_kc_score"] = _int(events.get("best_kc_score"))
-            record["best_di_score"] = _int(events.get("best_di_score"))
+            record["best_lcog_score"] = best_lcog
+            record["best_kc_score"] = best_kc
+            record["best_di_score"] = best_di
 
         guild_members_map[member_id] = {"id": member_id, "name": name}
 

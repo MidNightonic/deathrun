@@ -83,6 +83,10 @@
     font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em;
     color: var(--red); border: 1px solid var(--red); padding: 1px 6px; white-space: nowrap;
   }
+  .record-badge {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em;
+    color: var(--gold-bright); border: 1px solid var(--gold); padding: 1px 6px; white-space: nowrap;
+  }
   .report-meta {
     font-family: var(--mono); font-size: 12px; color: var(--parchment-dim);
     margin: -8px 0 20px;
@@ -146,6 +150,7 @@
   <div class="tab-panel" id="tab-monthly"></div>
 
   <div class="tab-panel" id="tab-events">
+    <div class="report-meta">Ranked by score in the currently running event. "Record" flags a member's best-ever score in that event type, once we have enough snapshot history to know it's actually a new high.</div>
     <div class="table-scroll">
       <table id="eventTable">
         <thead>
@@ -153,8 +158,11 @@
             <th>#</th>
             <th>Member</th>
             <th>Role</th>
-            <th>Score</th>
-            <th>Today</th>
+            <th>Current Score</th>
+            <th>Best LCOG</th>
+            <th>Best KC</th>
+            <th>Best DI</th>
+            <th>Record</th>
           </tr>
         </thead>
         <tbody id="eventTbody"></tbody>
@@ -204,11 +212,16 @@ function valueDaysAgo(history, asOfDate, daysAgo) {
   return history[dates[dates.length - 1]];
 }
 
-function computeDelta(history, asOfDate, daysAgo) {
-  const latest = history[asOfDate];
-  const past = valueDaysAgo(history, asOfDate, daysAgo);
-  if (latest == null || past == null) return null;
-  return latest - past;
+// True if the most recent recorded value is a new high across all recorded history.
+// Needs at least two snapshots to mean anything — with only one, there's nothing to beat yet.
+function isNewAllTimeBest(history) {
+  if (!history) return false;
+  const dates = Object.keys(history).sort();
+  if (dates.length < 2) return false;
+  const latest = history[dates[dates.length - 1]];
+  if (!latest) return false;
+  const priorMax = Math.max(...dates.slice(0, -1).map(d => history[d]));
+  return latest > priorMax;
 }
 
 let state = { rows: [], sortKey: "investment", sortDir: -1, search: "" };
@@ -266,14 +279,18 @@ async function load() {
     eventRows = memberIds.map(id => {
       const rec = allMembers[id];
       if (!rec) return null;
-      const eventScores = rec.event_scores || {};
-      const evDates = Object.keys(eventScores).sort();
-      const asOf = evDates.length ? evDates[evDates.length - 1] : guildEntry.snapshot_date;
+      const newBests = [];
+      if (isNewAllTimeBest(rec.lcog_best_history)) newBests.push("LCOG");
+      if (isNewAllTimeBest(rec.kc_best_history)) newBests.push("KC");
+      if (isNewAllTimeBest(rec.di_best_history)) newBests.push("DI");
       return {
         name: rec.name || id,
         role: rec.role || "",
         score: rec.latest_event_score || 0,
-        todayDelta: computeDelta(eventScores, asOf, 1),
+        bestLcog: rec.best_lcog_score || 0,
+        bestKc: rec.best_kc_score || 0,
+        bestDi: rec.best_di_score || 0,
+        newBests,
       };
     }).filter(Boolean).sort((a, b) => b.score - a.score);
 
@@ -321,9 +338,6 @@ function render() {
         <td class="name">${escapeHtml(r.name)}</td>
         <td class="role">${escapeHtml(r.role)}</td>
         <td class="num-cell">${formatInvestment(r.investment)}</td>
-        <td class="num-cell ${deltaClass(r.dailyDelta)}">${formatDelta(r.dailyDelta)}</td>
-        <td class="num-cell ${deltaClass(r.weeklyDelta)}">${formatDelta(r.weeklyDelta)}</td>
-        <td class="num-cell ${deltaClass(r.monthlyDelta)}">${formatDelta(r.monthlyDelta)}</td>
       </tr>`).join("");
 }
 
@@ -339,7 +353,10 @@ function renderEvents() {
         <td class="name">${escapeHtml(r.name)}</td>
         <td class="role">${escapeHtml(r.role)}</td>
         <td class="num-cell">${r.score.toLocaleString()}</td>
-        <td class="num-cell ${deltaClass(r.todayDelta)}">${r.todayDelta == null ? "-" : (r.todayDelta > 0 ? "+" : "") + r.todayDelta.toLocaleString()}</td>
+        <td class="num-cell">${r.bestLcog.toLocaleString()}</td>
+        <td class="num-cell">${r.bestKc.toLocaleString()}</td>
+        <td class="num-cell">${r.bestDi.toLocaleString()}</td>
+        <td class="num-cell">${r.newBests.length ? r.newBests.map(t => `<span class="record-badge">${t} RECORD</span>`).join(" ") : "-"}</td>
       </tr>`).join("");
 }
 
