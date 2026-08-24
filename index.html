@@ -3,116 +3,120 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Deathrun — Guild Ledger</title>
+<title>Deathrun — Guild Tracker</title>
 <style>
   :root {
-    --ink: #171314;
-    --panel: #221c1a;
-    --panel-line: #3a2f2a;
-    --parchment: #f1e6cf;
-    --parchment-dim: #cfc1a2;
-    --gold: #c9973b;
-    --gold-bright: #e6b955;
-    --red: #b3462c;
-    --green: #6f8f4e;
-    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --bg: #0b0d12;
+    --panel: #12151c;
+    --panel-hover: #171b24;
+    --border: #232732;
+    --text: #e7e9ee;
+    --text-dim: #838a9a;
+    --accent: #f2b544;
+    --accent-soft: rgba(242, 181, 68, 0.12);
+    --red: #f0546b;
+    --red-soft: rgba(240, 84, 107, 0.12);
+    --green: #35d08e;
+    --mono: ui-monospace, "SF Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background:
-      radial-gradient(ellipse at top, #2a221e 0%, var(--ink) 60%);
-    color: var(--parchment);
-    font-family: var(--serif);
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
     min-height: 100vh;
   }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 48px 24px 80px; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
 
-  header { text-align: center; margin-bottom: 40px; }
+  header { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
   .crest {
-    width: 56px; height: 56px; margin: 0 auto 14px;
-    border: 2px solid var(--gold);
-    transform: rotate(45deg);
-    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--accent-soft); border: 1px solid var(--accent);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
-  .crest span { transform: rotate(-45deg); font-family: var(--mono); font-weight: 700; color: var(--gold-bright); font-size: 20px; }
+  .crest span { font-family: var(--sans); font-weight: 700; color: var(--accent); font-size: 17px; }
   h1 {
-    font-size: clamp(28px, 5vw, 42px);
-    letter-spacing: 0.04em;
-    margin: 0 0 6px;
-    color: var(--gold-bright);
-    font-weight: 500;
+    font-size: 22px; margin: 0; color: var(--text); font-weight: 700; letter-spacing: -0.01em;
   }
-  .subtitle { color: var(--parchment-dim); font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .subtitle { color: var(--text-dim); font-size: 13px; margin-top: 2px; }
 
   .stats {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1px; background: var(--panel-line);
-    border: 1px solid var(--panel-line);
-    margin: 36px 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px; margin: 28px 0;
   }
-  .stat { background: var(--panel); padding: 18px 16px; text-align: center; }
-  .stat .num { font-family: var(--mono); font-size: 24px; color: var(--gold-bright); }
-  .stat .label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--parchment-dim); margin-top: 4px; }
+  .stat {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .stat .num { font-family: var(--mono); font-size: 22px; font-weight: 600; color: var(--text); line-height: 1.2; }
+  .stat .label { font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-dim); margin-top: 6px; }
 
   .controls { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
   input[type="search"] {
     flex: 1; min-width: 180px;
-    background: var(--panel); border: 1px solid var(--panel-line); color: var(--parchment);
-    padding: 10px 14px; font-family: var(--serif); font-size: 14px;
+    background: var(--panel); border: 1px solid var(--border); color: var(--text);
+    border-radius: 8px; padding: 10px 14px; font-family: var(--sans); font-size: 14px;
   }
-  input[type="search"]:focus { outline: 1px solid var(--gold); }
+  input[type="search"]::placeholder { color: var(--text-dim); }
+  input[type="search"]:focus { outline: none; border-color: var(--accent); }
 
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  thead th {
-    text-align: left; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
-    text-transform: uppercase; color: var(--parchment-dim); border-bottom: 1px solid var(--gold);
-    padding: 10px 12px; cursor: pointer; user-select: none;
+  .table-scroll {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
   }
-  thead th:hover { color: var(--gold-bright); }
-  tbody td { padding: 12px; border-bottom: 1px solid var(--panel-line); vertical-align: middle; }
-  .name { font-weight: 600; color: var(--parchment); }
-  .role { font-family: var(--mono); font-size: 11px; color: var(--parchment-dim); text-transform: uppercase; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    text-align: left; font-family: var(--sans); font-size: 11px; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border);
+    padding: 12px 16px; cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th:hover { color: var(--accent); }
+  tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+  tbody tr:hover { background: var(--panel-hover); }
+  tbody td { padding: 12px 16px; vertical-align: middle; }
+  .name { font-weight: 600; color: var(--text); }
+  .role { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.03em; }
   .num-cell { font-family: var(--mono); text-align: right; }
   .delta-up { color: var(--green); }
   .delta-down { color: var(--red); }
-  .delta-flat { color: var(--parchment-dim); }
-  .rank-cell { font-family: var(--mono); color: var(--parchment-dim); text-align: right; width: 32px; }
-  .new-badge {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em;
-    color: var(--red); border: 1px solid var(--red); padding: 1px 6px; white-space: nowrap;
+  .delta-flat { color: var(--text-dim); }
+  .rank-cell { font-family: var(--mono); color: var(--text-dim); text-align: right; width: 32px; }
+  .new-badge, .record-badge {
+    font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: 0.03em;
+    padding: 3px 8px; border-radius: 999px; white-space: nowrap; display: inline-block;
   }
-  .record-badge {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em;
-    color: var(--gold-bright); border: 1px solid var(--gold); padding: 1px 6px; white-space: nowrap;
-  }
-  .report-meta {
-    font-family: var(--mono); font-size: 12px; color: var(--parchment-dim);
-    margin: -8px 0 20px;
-  }
+  .new-badge { color: var(--red); background: var(--red-soft); }
+  .record-badge { color: var(--accent); background: var(--accent-soft); }
+  .report-meta { font-size: 12px; color: var(--text-dim); margin: -10px 0 20px; }
 
-  .tabs { display: flex; gap: 4px; margin: 36px 0 20px; border-bottom: 1px solid var(--panel-line); }
-  .tab {
-    background: none; border: none; color: var(--parchment-dim);
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 10px 18px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  .tabs {
+    display: inline-flex; gap: 2px; margin: 28px 0 20px; padding: 4px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    flex-wrap: wrap;
   }
-  .tab:hover { color: var(--parchment); }
-  .tab.active { color: var(--gold-bright); border-bottom-color: var(--gold); }
+  .tab {
+    background: none; border: none; color: var(--text-dim);
+    font-family: var(--sans); font-size: 13px; font-weight: 500;
+    padding: 8px 14px; border-radius: 7px; cursor: pointer;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--bg); background: var(--accent); font-weight: 600; }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
-  footer { text-align: center; margin-top: 40px; font-family: var(--mono); font-size: 11px; color: var(--panel-line); }
-  .empty { text-align: center; padding: 60px 20px; color: var(--parchment-dim); font-family: var(--mono); font-size: 13px; }
+  footer { text-align: center; margin-top: 40px; font-size: 11px; color: var(--text-dim); opacity: 0.6; }
+  .empty { text-align: center; padding: 60px 20px; color: var(--text-dim); font-size: 13px; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="crest"><span>D</span></div>
-    <h1>Deathrun</h1>
-    <div class="subtitle">Guild Ledger — Investment &amp; Activity</div>
+    <div>
+      <h1>Deathrun</h1>
+      <div class="subtitle">Guild activity &amp; investment tracker</div>
+    </div>
   </header>
 
   <div class="stats" id="stats"></div>
