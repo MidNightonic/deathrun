@@ -63,12 +63,6 @@
     padding: 10px 14px; font-family: var(--serif); font-size: 14px;
   }
   input[type="search"]:focus { outline: 1px solid var(--gold); }
-  .toggle {
-    background: var(--panel); border: 1px solid var(--panel-line); color: var(--parchment-dim);
-    padding: 10px 14px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
-    cursor: pointer; text-transform: uppercase;
-  }
-  .toggle.active { color: var(--red); border-color: var(--red); }
 
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   thead th {
@@ -78,17 +72,10 @@
   }
   thead th:hover { color: var(--gold-bright); }
   tbody td { padding: 12px; border-bottom: 1px solid var(--panel-line); vertical-align: middle; }
-  tbody tr.inactive { background: rgba(179, 70, 44, 0.12); }
-  tbody tr.inactive td:first-child { border-left: 2px solid var(--red); }
   .name { font-weight: 600; color: var(--parchment); }
   .role { font-family: var(--mono); font-size: 11px; color: var(--parchment-dim); text-transform: uppercase; }
   .num-cell { font-family: var(--mono); text-align: right; }
   .delta-up { color: var(--green); }
-  .idle-tag {
-    font-family: var(--mono); font-size: 11px; padding: 2px 8px;
-    border: 1px solid var(--red); color: #e79475; white-space: nowrap;
-  }
-  .ok-tag { font-family: var(--mono); font-size: 11px; color: var(--parchment-dim); }
 
   footer { text-align: center; margin-top: 40px; font-family: var(--mono); font-size: 11px; color: var(--panel-line); }
   .empty { text-align: center; padding: 60px 20px; color: var(--parchment-dim); font-family: var(--mono); font-size: 13px; }
@@ -106,7 +93,6 @@
 
   <div class="controls">
     <input type="search" id="search" placeholder="Search member...">
-    <button class="toggle" id="inactiveToggle">Inactive only</button>
   </div>
 
   <table id="table">
@@ -115,7 +101,6 @@
         <th data-key="name">Member</th>
         <th data-key="role">Role</th>
         <th data-key="investment">Investment</th>
-        <th data-key="idle">Status</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -126,8 +111,6 @@
 </div>
 
 <script>
-const INACTIVE_THRESHOLD_DAYS = 7;
-
 function formatInvestment(v) {
   if (v == null) return "-";
   const abs = Math.abs(v);
@@ -138,22 +121,7 @@ function formatInvestment(v) {
   return String(v);
 }
 
-function daysBetween(a, b) {
-  const d1 = new Date(a), d2 = new Date(b);
-  return Math.round((d2 - d1) / 86400000);
-}
-
-function lastChangeDate(investments, asOfDate) {
-  const dates = Object.keys(investments).filter(d => d <= asOfDate).sort();
-  if (!dates.length) return null;
-  let lastChange = dates[0];
-  for (let i = 1; i < dates.length; i++) {
-    if (investments[dates[i]] !== investments[dates[i - 1]]) lastChange = dates[i];
-  }
-  return lastChange;
-}
-
-let state = { rows: [], sortKey: "investment", sortDir: -1, showInactiveOnly: false, search: "" };
+let state = { rows: [], sortKey: "investment", sortDir: -1, search: "" };
 
 async function load() {
   const footer = document.getElementById("footer");
@@ -171,21 +139,14 @@ async function load() {
 
     const allMembers = membersData.members || {};
     const memberIds = (guildEntry.members || []).map(m => m.id);
-    const latestDate = guildEntry.snapshot_date;
 
     state.rows = memberIds.map(id => {
       const rec = allMembers[id];
       if (!rec) return null;
-      const investments = rec.investments || {};
-      const dates = Object.keys(investments).sort();
-      const asOf = dates.length ? dates[dates.length - 1] : latestDate;
-      const changedOn = lastChangeDate(investments, asOf);
-      const idle = changedOn ? daysBetween(changedOn, asOf) : null;
       return {
         name: rec.name || id,
         role: rec.role || "",
         investment: rec.latest_investment || 0,
-        idle,
       };
     }).filter(Boolean);
 
@@ -201,19 +162,15 @@ async function load() {
 function render() {
   const stats = document.getElementById("stats");
   const total = state.rows.reduce((s, r) => s + r.investment, 0);
-  const inactiveCount = state.rows.filter(r => r.idle != null && r.idle >= INACTIVE_THRESHOLD_DAYS).length;
   stats.innerHTML = `
     <div class="stat"><div class="num">${state.rows.length}</div><div class="label">Members</div></div>
     <div class="stat"><div class="num">${formatInvestment(total)}</div><div class="label">Total Investment</div></div>
-    <div class="stat"><div class="num">${inactiveCount}</div><div class="label">Inactive (7d+)</div></div>
   `;
 
   let rows = state.rows.filter(r => r.name.toLowerCase().includes(state.search.toLowerCase()));
-  if (state.showInactiveOnly) rows = rows.filter(r => r.idle != null && r.idle >= INACTIVE_THRESHOLD_DAYS);
 
   rows.sort((a, b) => {
     let av = a[state.sortKey], bv = b[state.sortKey];
-    if (state.sortKey === "idle") { av = av ?? -1; bv = bv ?? -1; }
     if (typeof av === "string") return av.localeCompare(bv) * state.sortDir;
     return (av - bv) * state.sortDir;
   });
@@ -222,21 +179,12 @@ function render() {
   document.getElementById("empty").style.display = rows.length ? "none" : "block";
   if (rows.length) document.getElementById("empty").textContent = "No members match.";
 
-  tbody.innerHTML = rows.map(r => {
-    const isInactive = r.idle != null && r.idle >= INACTIVE_THRESHOLD_DAYS;
-    const statusHtml = r.idle == null
-      ? `<span class="ok-tag">new</span>`
-      : isInactive
-        ? `<span class="idle-tag">idle ${r.idle}d</span>`
-        : `<span class="ok-tag">active</span>`;
-    return `
-      <tr class="${isInactive ? "inactive" : ""}">
+  tbody.innerHTML = rows.map(r => `
+      <tr>
         <td class="name">${escapeHtml(r.name)}</td>
         <td class="role">${escapeHtml(r.role)}</td>
         <td class="num-cell">${formatInvestment(r.investment)}</td>
-        <td>${statusHtml}</td>
-      </tr>`;
-  }).join("");
+      </tr>`).join("");
 }
 
 function escapeHtml(s) {
@@ -252,11 +200,6 @@ document.querySelectorAll("thead th").forEach(th => {
   });
 });
 document.getElementById("search").addEventListener("input", e => { state.search = e.target.value; render(); });
-document.getElementById("inactiveToggle").addEventListener("click", e => {
-  state.showInactiveOnly = !state.showInactiveOnly;
-  e.target.classList.toggle("active", state.showInactiveOnly);
-  render();
-});
 
 load();
 </script>
