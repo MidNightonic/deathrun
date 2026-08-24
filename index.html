@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Deathrun — Guild Tracker</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%230b0d12'/%3E%3Crect x='2' y='2' width='36' height='36' rx='8' fill='none' stroke='%23f2b544' stroke-width='2'/%3E%3Ctext x='20' y='27' font-family='sans-serif' font-weight='700' font-size='20' fill='%23f2b544' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
+
 <style>
   :root {
     --bg: #0b0d12;
@@ -72,6 +74,7 @@
     padding: 12px 16px; cursor: pointer; user-select: none; white-space: nowrap;
   }
   thead th:hover { color: var(--accent); }
+  .sort-arrow { display: inline-block; width: 10px; margin-left: 2px; color: var(--accent); font-size: 10px; }
   tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   tbody tr:hover { background: var(--panel-hover); }
   tbody td { padding: 12px 16px; vertical-align: middle; }
@@ -138,9 +141,9 @@
       <table id="table">
         <thead>
           <tr>
-            <th data-key="name">Member</th>
-            <th data-key="role">Role</th>
-            <th data-key="investment">Investment</th>
+            <th data-key="name">Member<span class="sort-arrow"></span></th>
+            <th data-key="role">Role<span class="sort-arrow"></span></th>
+            <th data-key="investment">Investment<span class="sort-arrow"></span></th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -160,12 +163,12 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Member</th>
-            <th>Role</th>
-            <th>Current Score</th>
-            <th>Best LCOG</th>
-            <th>Best KC</th>
-            <th>Best DI</th>
+            <th data-key="name">Member<span class="sort-arrow"></span></th>
+            <th data-key="role">Role<span class="sort-arrow"></span></th>
+            <th data-key="score">Current Score<span class="sort-arrow"></span></th>
+            <th data-key="bestLcog">Best LCOG<span class="sort-arrow"></span></th>
+            <th data-key="bestKc">Best KC<span class="sort-arrow"></span></th>
+            <th data-key="bestDi">Best DI<span class="sort-arrow"></span></th>
             <th>Record</th>
           </tr>
         </thead>
@@ -201,6 +204,23 @@ function formatCount(v) {
   return sign + v.toLocaleString();
 }
 
+function applySortArrows(table, sortKey, sortDir) {
+  table.querySelectorAll("thead th[data-key]").forEach(th => {
+    const arrow = th.querySelector(".sort-arrow");
+    if (!arrow) return;
+    arrow.textContent = th.dataset.key === sortKey ? (sortDir === 1 ? "▲" : "▼") : "";
+  });
+}
+
+function sortRows(rows, sortKey, sortDir) {
+  return rows.slice().sort((a, b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if (typeof av === "string") return av.localeCompare(bv) * sortDir;
+    av = av ?? -Infinity; bv = bv ?? -Infinity;
+    return (av - bv) * sortDir;
+  });
+}
+
 function deltaClass(v) {
   if (v == null || v === 0) return "delta-flat";
   return v > 0 ? "delta-up" : "delta-down";
@@ -230,6 +250,7 @@ function isNewAllTimeBest(history) {
 
 let state = { rows: [], sortKey: "investment", sortDir: -1, search: "" };
 let eventRows = [];
+let eventSort = { key: "score", dir: -1 };
 let periodMembers = [];
 let guildInfo = {};
 
@@ -238,6 +259,8 @@ const PERIODS = [
   { key: "weekly", days: 7, label: "Weekly" },
   { key: "monthly", days: 30, label: "Monthly" },
 ];
+const periodSort = {};
+PERIODS.forEach(p => periodSort[p.key] = { key: "name", dir: 1 });
 
 async function load() {
   const footer = document.getElementById("footer");
@@ -296,7 +319,7 @@ async function load() {
         bestDi: rec.best_di_score || 0,
         newBests,
       };
-    }).filter(Boolean).sort((a, b) => b.score - a.score);
+    }).filter(Boolean);
 
     const guildLevel = guildEntry.level || "-";
     const population = guildEntry.population ?? state.rows.length;
@@ -325,13 +348,8 @@ async function load() {
 
 function render() {
   let rows = state.rows.filter(r => r.name.toLowerCase().includes(state.search.toLowerCase()));
-
-  rows.sort((a, b) => {
-    let av = a[state.sortKey], bv = b[state.sortKey];
-    if (typeof av === "string") return av.localeCompare(bv) * state.sortDir;
-    av = av ?? -Infinity; bv = bv ?? -Infinity;
-    return (av - bv) * state.sortDir;
-  });
+  rows = sortRows(rows, state.sortKey, state.sortDir);
+  applySortArrows(document.getElementById("table"), state.sortKey, state.sortDir);
 
   const tbody = document.getElementById("tbody");
   document.getElementById("empty").style.display = rows.length ? "none" : "block";
@@ -351,7 +369,10 @@ function renderEvents() {
   const withScore = eventRows.filter(r => r.score > 0);
   empty.style.display = withScore.length ? "none" : "block";
 
-  tbody.innerHTML = eventRows.map((r, i) => `
+  const rows = sortRows(eventRows, eventSort.key, eventSort.dir);
+  applySortArrows(document.getElementById("eventTable"), eventSort.key, eventSort.dir);
+
+  tbody.innerHTML = rows.map((r, i) => `
       <tr>
         <td class="rank-cell">${i + 1}</td>
         <td class="name">${escapeHtml(r.name)}</td>
@@ -401,7 +422,9 @@ function renderPeriodTab(period) {
       currentInvest, startInvest, deltaInvest: (startInvest == null || currentInvest == null) ? null : currentInvest - startInvest,
       deltaBounty: (startBounty == null || currentBounty == null) ? null : currentBounty - startBounty,
     };
-  }).sort((a, b) => a.name.localeCompare(b.name));
+  });
+  const sort = periodSort[period.key];
+  const sortedRows = sortRows(rows, sort.key, sort.dir);
 
   const sum = key => rows.reduce((s, r) => s + (r[key] || 0), 0);
   const newCount = rows.filter(r => r.isNew).length;
@@ -421,12 +444,18 @@ function renderPeriodTab(period) {
       <table>
         <thead>
           <tr>
-            <th>Player</th><th>Start NW</th><th>Current NW</th><th>&Delta; NW</th>
-            <th>Start Invest</th><th>Current Invest</th><th>&Delta; Invest</th><th>&Delta; Bounty</th>
+            <th data-key="name">Player<span class="sort-arrow"></span></th>
+            <th data-key="startNW">Start NW<span class="sort-arrow"></span></th>
+            <th data-key="currentNW">Current NW<span class="sort-arrow"></span></th>
+            <th data-key="deltaNW">&Delta; NW<span class="sort-arrow"></span></th>
+            <th data-key="startInvest">Start Invest<span class="sort-arrow"></span></th>
+            <th data-key="currentInvest">Current Invest<span class="sort-arrow"></span></th>
+            <th data-key="deltaInvest">&Delta; Invest<span class="sort-arrow"></span></th>
+            <th data-key="deltaBounty">&Delta; Bounty<span class="sort-arrow"></span></th>
           </tr>
         </thead>
         <tbody>
-          ${rows.map(r => `
+          ${sortedRows.map(r => `
             <tr>
               <td class="name">${escapeHtml(r.name)}${r.isNew ? ' <span class="new-badge">NEW</span>' : ""}</td>
               <td class="num-cell">${r.isNew ? "-" : formatInvestment(r.startNW)}</td>
@@ -441,13 +470,14 @@ function renderPeriodTab(period) {
       </table>
     </div>
   `;
+  applySortArrows(panel.querySelector("table"), sort.key, sort.dir);
 }
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
-document.querySelectorAll("thead th").forEach(th => {
+document.querySelectorAll("#table thead th[data-key]").forEach(th => {
   th.addEventListener("click", () => {
     const key = th.dataset.key;
     if (state.sortKey === key) state.sortDir *= -1;
@@ -456,6 +486,27 @@ document.querySelectorAll("thead th").forEach(th => {
   });
 });
 document.getElementById("search").addEventListener("input", e => { state.search = e.target.value; render(); });
+
+document.getElementById("eventTable").addEventListener("click", e => {
+  const th = e.target.closest("th[data-key]");
+  if (!th) return;
+  const key = th.dataset.key;
+  if (eventSort.key === key) eventSort.dir *= -1;
+  else { eventSort.key = key; eventSort.dir = (key === "name" || key === "role") ? 1 : -1; }
+  renderEvents();
+});
+
+PERIODS.forEach(period => {
+  document.getElementById("tab-" + period.key).addEventListener("click", e => {
+    const th = e.target.closest("th[data-key]");
+    if (!th) return;
+    const key = th.dataset.key;
+    const sort = periodSort[period.key];
+    if (sort.key === key) sort.dir *= -1;
+    else { sort.key = key; sort.dir = key === "name" ? 1 : -1; }
+    renderPeriodTab(period);
+  });
+});
 
 document.querySelectorAll(".tab").forEach(btn => {
   btn.addEventListener("click", () => {
