@@ -4,12 +4,12 @@
 
 - Guild page: https://www.titansdb.com/
 - Guild ID: ``
-- Report updated: 2026-08-26T12:36:21Z
-- Valid investment dates: 3 / last 30 days
-- Latest member list date: 2026-08-26
-- Latest investment date: 2026-08-26
+- Report updated: 2026-08-27T06:28:20Z
+- Valid investment dates: 4 / last 30 days
+- Latest member list date: 2026-08-27
+- Latest investment date: 2026-08-27
 - Latest member count: 20
-- Latest total investment: 44.27T
+- Latest total investment: 39.19T
 - Inactive members flagged: 0
 
 ## ⚠ Inactive Members (no investment change in 7+ days)
@@ -20,43 +20,43 @@ Nobody is currently flagged as inactive. 🎉
 
 | # | Member | Level | Role | New Investment |
 | ---: | --- | ---: | --- | ---: |
-| 1 | ᴍɪᴅɴɪɢʜᴛ#27538 | 98 | Member | +390.20G |
-| 2 | Aphrodite#11689 | 85 | Guildmaster | +96.20G |
-| 3 | ⊱ ｆａｉｒｙ ⊰#40739 | 81 | Officer | +78.30G |
+| 1 | ᴍɪᴅɴɪɢʜᴛ#27538 | 98 | Member | +564.10G |
+| 2 | Aphrodite#11689 | 85 | Guildmaster | +101.70G |
+| 3 | ⊱ ｆａｉｒｙ ⊰#40739 | 81 | Officer | +79.40G |
 | 4 | Keyonayo#93192 | 81 | Member | +52.00G |
 | 5 | Laverian#57238 | 78 | Member | +28.40G |
-| 6 | Parry#73227 | 85 | Member | +27.88G |
+| 6 | Parry#73227 | 86 | Member | +27.88G |
 | 7 | Don#37874 | 94 | Member | +25.20G |
 | 8 | GuyonCouch#42411 | 94 | Member | +24.90G |
-| 9 | Roman#50873 | 80 | Member | +15.95G |
-| 10 | Horus#36191 | 87 | Member | +13.00G |
+| 9 | DragonmawSyn#63271 | 81 | Member | +20.81G |
+| 10 | Roman#50873 | 80 | Member | +15.95G |
 
 ## Investment Detail
 
 Cell format: `total (change since previous record)`. Most recent date is on the left.
 
-| Member | Level | Role | 2026-08-26 | 2026-08-25 | 2026-08-24 |
-| --- | ---: | --- | ---: | ---: | ---: |
-| ᴍɪᴅɴɪɢʜᴛ#27538 | 98 | Member | 11.25T (+246.10G) | 11.00T (+144.10G) | 10.86T |
-| RobMods Cars#83233 | 87 | Member | 6.21T (0) | 6.21T (0) | 6.21T |
-| Don#37874 | 94 | Member | 3.54T (+17.10G) | 3.52T (+8.10G) | 3.51T |
-| Keyonayo#93192 | 81 | Member | 3.31T (0) | 3.31T (+52.00G) | 3.25T |
-| Ollie#42403 | 84 | Member | 2.03T (0) | 2.03T (+3.00G) | 2.02T |
-| Aphrodite#11689 | 85 | Guildmaster | 1.99T (+50.10G) | 1.94T (+46.10G) | 1.90T |
-| ⊱ ｆａｉｒｙ ⊰#40739 | 81 | Officer | 1.91T (+40.90G) | 1.87T (+37.40G) | 1.83T |
-| Horus#36191 | 87 | Member | 1.84T (+7.40G) | 1.84T (+5.60G) | 1.83T |
-| AlphaBrass#78875 | 81 | Officer | 1.54T (0) | 1.54T (0) | 1.54T |
-| GuyonCouch#42411 | 94 | Member | 1.46T (+20.40G) | 1.44T (+4.50G) | 1.43T |
-| Laverian#57238 | 78 | Member | 1.11T (+28.40G) | 1.09T (0) | 1.09T |
-| killerloop6#52380 | 87 | Member | 1.08T (+10.00G) | 1.07T (0) | 1.07T |
-| Sena#79879 | 84 | Member | 1.00T (0) | 1.00T (0) | 1.00T |
-| minkki89#28058 | 85 | Member | 992.36G (0) | 992.36G (0) | 992.36G |
-| Parry#73227 | 85 | Member | 956.29G (0) | 956.29G (+27.88G) | 928.41G |
-| DragonmawSyn#63271 | 81 | Member | 891.72G (+6.86G) | 884.86G (+4.75G) | 880.11G |
-| Roman#50873 | 80 | Member | 862.21G (+9.95G) | 852.26G (+6.00G) | 846.26G |
-| Murxine#26790 | 81 | Member | 855.63G (+3.40G) | 852.23G (+2.24G) | 849.99G |
-| TubularPeak#25592 | 74 | Member | 721.79G (0) | 721.79G (+1.60G) | 720.19G |
-| Skylar#93668 | 90 | Member | 715.75G (0) | 715.75G (+4.10G) | 711.65G |
+| Member | Level | Role | 2026-08-27 | 2026-08-26 | 2026-08-25 | 2026-08-24 |
+| --- | ---: | --- | ---: | ---: | ---: | ---: |
+| ᴍɪᴅɴɪɢʜᴛ#27538 | 98 | Member | 11.42T (+173.90G) | 11.25T (+246.10G) | 11.00T (+144.10G) | 10.86T |
+| Don#37874 | 94 | Member | 3.54T (0) | 3.54T (+17.10G) | 3.52T (+8.10G) | 3.51T |
+| Keyonayo#93192 | 81 | Member | 3.31T (0) | 3.31T (0) | 3.31T (+52.00G) | 3.25T |
+| Ollie#42403 | 84 | Member | 2.03T (0) | 2.03T (0) | 2.03T (+3.00G) | 2.02T |
+| Aphrodite#11689 | 85 | Guildmaster | 2.00T (+5.50G) | 1.99T (+50.10G) | 1.94T (+46.10G) | 1.90T |
+| ⊱ ｆａｉｒｙ ⊰#40739 | 81 | Officer | 1.91T (+1.10G) | 1.91T (+40.90G) | 1.87T (+37.40G) | 1.83T |
+| Horus#36191 | 87 | Member | 1.84T (0) | 1.84T (+7.40G) | 1.84T (+5.60G) | 1.83T |
+| AlphaBrass#78875 | 81 | Officer | 1.54T (0) | 1.54T (0) | 1.54T (0) | 1.54T |
+| GuyonCouch#42411 | 94 | Member | 1.46T (0) | 1.46T (+20.40G) | 1.44T (+4.50G) | 1.43T |
+| Laverian#57238 | 78 | Member | 1.11T (0) | 1.11T (+28.40G) | 1.09T (0) | 1.09T |
+| killerloop6#52380 | 87 | Member | 1.08T (0) | 1.08T (+10.00G) | 1.07T (0) | 1.07T |
+| Sena#79879 | 84 | Member | 1.00T (0) | 1.00T (0) | 1.00T (0) | 1.00T |
+| minkki89#28058 | 85 | Member | 992.36G (0) | 992.36G (0) | 992.36G (0) | 992.36G |
+| Parry#73227 | 86 | Member | 956.29G (0) | 956.29G (0) | 956.29G (+27.88G) | 928.41G |
+| ĦȄŜŦƗǠ#59387 | 77 | Member | 938.18G | - | - | - |
+| DragonmawSyn#63271 | 81 | Member | 900.92G (+9.20G) | 891.72G (+6.86G) | 884.86G (+4.75G) | 880.11G |
+| Roman#50873 | 80 | Member | 862.21G (0) | 862.21G (+9.95G) | 852.26G (+6.00G) | 846.26G |
+| Murxine#26790 | 81 | Member | 855.63G (0) | 855.63G (+3.40G) | 852.23G (+2.24G) | 849.99G |
+| TubularPeak#25592 | 74 | Member | 729.84G (+8.05G) | 721.79G (0) | 721.79G (+1.60G) | 720.19G |
+| Skylar#93668 | 90 | Member | 715.75G (0) | 715.75G (0) | 715.75G (+4.10G) | 711.65G |
 
 ## Auto-update
 
