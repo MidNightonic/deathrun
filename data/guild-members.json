@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-27T06:28:20Z",
+  "generated_at": "2026-08-27T21:31:22Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,12 +8,12 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-08-27",
-      "fetched_at": "2026-08-27T06:28:19.120456Z",
+      "fetched_at": "2026-08-27T21:31:21.143399Z",
       "level": 200,
       "population": 20,
       "capacity": 20,
-      "networth": 39198246236665,
-      "rank": 239,
+      "networth": 39470466236665,
+      "rank": 238,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -60,16 +60,16 @@
           "name": "killerloop6#52380"
         },
         {
+          "id": "5e53afcc35a5f712243299ab",
+          "name": "Parry#73227"
+        },
+        {
           "id": "64c8b9380b6497835f9188da",
           "name": "Sena#79879"
         },
         {
           "id": "62dac1c236882c15ca1fe3b9",
           "name": "minkki89#28058"
-        },
-        {
-          "id": "5e53afcc35a5f712243299ab",
-          "name": "Parry#73227"
         },
         {
           "id": "61f6ed876baac312e56b6ed2",
