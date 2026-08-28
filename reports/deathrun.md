@@ -4,12 +4,12 @@
 
 - Guild page: https://www.titansdb.com/
 - Guild ID: ``
-- Report updated: 2026-08-27T21:31:22Z
-- Valid investment dates: 4 / last 30 days
-- Latest member list date: 2026-08-27
-- Latest investment date: 2026-08-27
+- Report updated: 2026-08-28T08:19:05Z
+- Valid investment dates: 5 / last 30 days
+- Latest member list date: 2026-08-28
+- Latest investment date: 2026-08-28
 - Latest member count: 20
-- Latest total investment: 39.38T
+- Latest total investment: 39.53T
 - Inactive members flagged: 0
 
 ## ⚠ Inactive Members (no investment change in 7+ days)
@@ -21,42 +21,42 @@ Nobody is currently flagged as inactive. 🎉
 | # | Member | Level | Role | New Investment |
 | ---: | --- | ---: | --- | ---: |
 | 1 | ᴍɪᴅɴɪɢʜᴛ#27538 | 98 | Member | +622.60G |
-| 2 | Aphrodite#11689 | 86 | Guildmaster | +120.50G |
-| 3 | ⊱ ｆａｉｒｙ ⊰#40739 | 81 | Officer | +84.80G |
-| 4 | Parry#73227 | 86 | Member | +83.50G |
-| 5 | Keyonayo#93192 | 81 | Member | +52.00G |
-| 6 | Don#37874 | 94 | Member | +47.60G |
+| 2 | Aphrodite#11689 | 86 | Guildmaster | +155.80G |
+| 3 | Parry#73227 | 86 | Member | +145.30G |
+| 4 | ⊱ ｆａｉｒｙ ⊰#40739 | 81 | Officer | +102.40G |
+| 5 | Don#37874 | 94 | Member | +64.80G |
+| 6 | Keyonayo#93192 | 81 | Member | +52.00G |
 | 7 | Laverian#57238 | 78 | Member | +44.80G |
-| 8 | DragonmawSyn#63271 | 81 | Member | +28.91G |
-| 9 | GuyonCouch#42411 | 94 | Member | +24.90G |
+| 8 | GuyonCouch#42411 | 94 | Member | +38.10G |
+| 9 | DragonmawSyn#63271 | 81 | Member | +34.81G |
 | 10 | Horus#36191 | 87 | Member | +16.00G |
 
 ## Investment Detail
 
 Cell format: `total (change since previous record)`. Most recent date is on the left.
 
-| Member | Level | Role | 2026-08-27 | 2026-08-26 | 2026-08-25 | 2026-08-24 |
-| --- | ---: | --- | ---: | ---: | ---: | ---: |
-| ᴍɪᴅɴɪɢʜᴛ#27538 | 98 | Member | 11.48T (+232.40G) | 11.25T (+246.10G) | 11.00T (+144.10G) | 10.86T |
-| Don#37874 | 94 | Member | 3.56T (+22.40G) | 3.54T (+17.10G) | 3.52T (+8.10G) | 3.51T |
-| Keyonayo#93192 | 81 | Member | 3.31T (0) | 3.31T (0) | 3.31T (+52.00G) | 3.25T |
-| Ollie#42403 | 84 | Member | 2.03T (0) | 2.03T (0) | 2.03T (+3.00G) | 2.02T |
-| Aphrodite#11689 | 86 | Guildmaster | 2.02T (+24.30G) | 1.99T (+50.10G) | 1.94T (+46.10G) | 1.90T |
-| ⊱ ｆａｉｒｙ ⊰#40739 | 81 | Officer | 1.91T (+6.50G) | 1.91T (+40.90G) | 1.87T (+37.40G) | 1.83T |
-| Horus#36191 | 87 | Member | 1.85T (+3.00G) | 1.84T (+7.40G) | 1.84T (+5.60G) | 1.83T |
-| AlphaBrass#78875 | 81 | Officer | 1.55T (+1.20G) | 1.54T (0) | 1.54T (0) | 1.54T |
-| GuyonCouch#42411 | 94 | Member | 1.46T (0) | 1.46T (+20.40G) | 1.44T (+4.50G) | 1.43T |
-| Laverian#57238 | 78 | Member | 1.13T (+16.40G) | 1.11T (+28.40G) | 1.09T (0) | 1.09T |
-| killerloop6#52380 | 87 | Member | 1.08T (0) | 1.08T (+10.00G) | 1.07T (0) | 1.07T |
-| Parry#73227 | 86 | Member | 1.01T (+55.62G) | 956.29G (0) | 956.29G (+27.88G) | 928.41G |
-| Sena#79879 | 84 | Member | 1.00T (0) | 1.00T (0) | 1.00T (0) | 1.00T |
-| minkki89#28058 | 85 | Member | 992.36G (0) | 992.36G (0) | 992.36G (0) | 992.36G |
-| ĦȄŜŦƗǠ#59387 | 77 | Member | 938.18G | - | - | - |
-| DragonmawSyn#63271 | 81 | Member | 909.02G (+17.30G) | 891.72G (+6.86G) | 884.86G (+4.75G) | 880.11G |
-| Roman#50873 | 80 | Member | 862.21G (0) | 862.21G (+9.95G) | 852.26G (+6.00G) | 846.26G |
-| Murxine#26790 | 81 | Member | 855.63G (0) | 855.63G (+3.40G) | 852.23G (+2.24G) | 849.99G |
-| TubularPeak#25592 | 74 | Member | 733.14G (+11.35G) | 721.79G (0) | 721.79G (+1.60G) | 720.19G |
-| Skylar#93668 | 90 | Member | 715.75G (0) | 715.75G (0) | 715.75G (+4.10G) | 711.65G |
+| Member | Level | Role | 2026-08-28 | 2026-08-27 | 2026-08-26 | 2026-08-25 | 2026-08-24 |
+| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| ᴍɪᴅɴɪɢʜᴛ#27538 | 98 | Member | 11.48T (0) | 11.48T (+232.40G) | 11.25T (+246.10G) | 11.00T (+144.10G) | 10.86T |
+| Don#37874 | 94 | Member | 3.58T (+17.20G) | 3.56T (+22.40G) | 3.54T (+17.10G) | 3.52T (+8.10G) | 3.51T |
+| Keyonayo#93192 | 81 | Member | 3.31T (0) | 3.31T (0) | 3.31T (0) | 3.31T (+52.00G) | 3.25T |
+| Aphrodite#11689 | 86 | Guildmaster | 2.05T (+35.30G) | 2.02T (+24.30G) | 1.99T (+50.10G) | 1.94T (+46.10G) | 1.90T |
+| Ollie#42403 | 84 | Member | 2.03T (0) | 2.03T (0) | 2.03T (0) | 2.03T (+3.00G) | 2.02T |
+| ⊱ ｆａｉｒｙ ⊰#40739 | 81 | Officer | 1.93T (+17.60G) | 1.91T (+6.50G) | 1.91T (+40.90G) | 1.87T (+37.40G) | 1.83T |
+| Horus#36191 | 87 | Member | 1.85T (0) | 1.85T (+3.00G) | 1.84T (+7.40G) | 1.84T (+5.60G) | 1.83T |
+| AlphaBrass#78875 | 81 | Officer | 1.55T (0) | 1.55T (+1.20G) | 1.54T (0) | 1.54T (0) | 1.54T |
+| GuyonCouch#42411 | 94 | Member | 1.47T (+13.20G) | 1.46T (0) | 1.46T (+20.40G) | 1.44T (+4.50G) | 1.43T |
+| Laverian#57238 | 78 | Member | 1.13T (0) | 1.13T (+16.40G) | 1.11T (+28.40G) | 1.09T (0) | 1.09T |
+| killerloop6#52380 | 87 | Member | 1.08T (0) | 1.08T (0) | 1.08T (+10.00G) | 1.07T (0) | 1.07T |
+| Parry#73227 | 86 | Member | 1.07T (+61.80G) | 1.01T (+55.62G) | 956.29G (0) | 956.29G (+27.88G) | 928.41G |
+| Sena#79879 | 84 | Member | 1.00T (0) | 1.00T (0) | 1.00T (0) | 1.00T (0) | 1.00T |
+| minkki89#28058 | 85 | Member | 992.36G (0) | 992.36G (0) | 992.36G (0) | 992.36G (0) | 992.36G |
+| ĦȄŜŦƗǠ#59387 | 77 | Member | 938.18G (0) | 938.18G | - | - | - |
+| DragonmawSyn#63271 | 81 | Member | 914.92G (+5.90G) | 909.02G (+17.30G) | 891.72G (+6.86G) | 884.86G (+4.75G) | 880.11G |
+| Roman#50873 | 80 | Member | 862.21G (0) | 862.21G (0) | 862.21G (+9.95G) | 852.26G (+6.00G) | 846.26G |
+| Murxine#26790 | 81 | Member | 855.63G (0) | 855.63G (0) | 855.63G (+3.40G) | 852.23G (+2.24G) | 849.99G |
+| TubularPeak#25592 | 74 | Member | 733.14G (0) | 733.14G (+11.35G) | 721.79G (0) | 721.79G (+1.60G) | 720.19G |
+| Skylar#93668 | 90 | Member | 715.75G (0) | 715.75G (0) | 715.75G (0) | 715.75G (+4.10G) | 711.65G |
 
 ## Auto-update
 
