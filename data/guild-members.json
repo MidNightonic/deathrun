@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-29T05:00:59Z",
+  "generated_at": "2026-08-29T15:59:41Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,12 +8,12 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-08-29",
-      "fetched_at": "2026-08-29T05:00:58.377556Z",
+      "fetched_at": "2026-08-29T15:59:39.865857Z",
       "level": 200,
       "population": 20,
       "capacity": 20,
-      "networth": 39871016236665,
-      "rank": 237,
+      "networth": 40071848622765,
+      "rank": 235,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -80,12 +80,12 @@
           "name": "DragonmawSyn#63271"
         },
         {
-          "id": "641753a0c64344130387af8d",
-          "name": "Murxine#26790"
-        },
-        {
           "id": "5d1c03d45774bf10843fac74",
           "name": "Roman#50873"
+        },
+        {
+          "id": "641753a0c64344130387af8d",
+          "name": "Murxine#26790"
         },
         {
           "id": "5d53cdb7f61cdb1228f6a24f",
