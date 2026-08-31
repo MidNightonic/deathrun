@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-31T02:43:21Z",
+  "generated_at": "2026-08-31T18:32:30Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,12 +8,12 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-08-31",
-      "fetched_at": "2026-08-31T02:43:20.028798Z",
+      "fetched_at": "2026-08-31T18:32:29.195580Z",
       "level": 200,
       "population": 20,
       "capacity": 20,
-      "networth": 40502288622765,
-      "rank": 235,
+      "networth": 40704838622765,
+      "rank": 234,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -56,12 +56,12 @@
           "name": "Laverian#57238"
         },
         {
-          "id": "60129ae39d8a5a1339baaf6f",
-          "name": "killerloop6#52380"
-        },
-        {
           "id": "5e53afcc35a5f712243299ab",
           "name": "Parry#73227"
+        },
+        {
+          "id": "60129ae39d8a5a1339baaf6f",
+          "name": "killerloop6#52380"
         },
         {
           "id": "64c8b9380b6497835f9188da",
@@ -80,12 +80,12 @@
           "name": "ĦȄŜŦƗǠ#59387"
         },
         {
-          "id": "5d1c03d45774bf10843fac74",
-          "name": "Roman#50873"
-        },
-        {
           "id": "641753a0c64344130387af8d",
           "name": "Murxine#26790"
+        },
+        {
+          "id": "5d1c03d45774bf10843fac74",
+          "name": "Roman#50873"
         },
         {
           "id": "5d53cdb7f61cdb1228f6a24f",
