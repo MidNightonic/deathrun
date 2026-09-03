@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-02T15:44:13Z",
+  "generated_at": "2026-09-03T02:22:17Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
       "name": "Deathrun",
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
-      "snapshot_date": "2026-09-02",
-      "fetched_at": "2026-09-02T15:44:11.870817Z",
+      "snapshot_date": "2026-09-03",
+      "fetched_at": "2026-09-03T02:22:16.562301Z",
       "level": 200,
       "population": 19,
       "capacity": 20,
-      "networth": 39907978862165,
-      "rank": 236,
+      "networth": 39786660471865,
+      "rank": 237,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -53,11 +53,7 @@
         },
         {
           "id": "5e53afcc35a5f712243299ab",
-          "name": "Parry#73227"
-        },
-        {
-          "id": "60129ae39d8a5a1339baaf6f",
-          "name": "killerloop6#52380"
+          "name": "Valerian#63289"
         },
         {
           "id": "64c8b9380b6497835f9188da",
@@ -86,6 +82,10 @@
         {
           "id": "5d53cdb7f61cdb1228f6a24f",
           "name": "TubularPeak#25592"
+        },
+        {
+          "id": "5d12761988480d1076949208",
+          "name": "Slubby#10455"
         },
         {
           "id": "5e101dcf906b871177dd82c3",
