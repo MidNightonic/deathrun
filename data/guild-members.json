@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-03T02:22:17Z",
+  "generated_at": "2026-09-03T15:33:55Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,12 +8,12 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-09-03",
-      "fetched_at": "2026-09-03T02:22:16.562301Z",
+      "fetched_at": "2026-09-03T15:33:54.258429Z",
       "level": 200,
-      "population": 19,
+      "population": 20,
       "capacity": 20,
-      "networth": 39786660471865,
-      "rank": 237,
+      "networth": 43198470232465,
+      "rank": 218,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -80,12 +80,12 @@
           "name": "Murxine#26790"
         },
         {
-          "id": "5d53cdb7f61cdb1228f6a24f",
-          "name": "TubularPeak#25592"
-        },
-        {
           "id": "5d12761988480d1076949208",
           "name": "Slubby#10455"
+        },
+        {
+          "id": "5d53cdb7f61cdb1228f6a24f",
+          "name": "TubularPeak#25592"
         },
         {
           "id": "5e101dcf906b871177dd82c3",
