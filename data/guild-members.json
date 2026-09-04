@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-04T02:17:33Z",
+  "generated_at": "2026-09-04T15:32:20Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,12 +8,12 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-09-04",
-      "fetched_at": "2026-09-04T02:17:32.242223Z",
+      "fetched_at": "2026-09-04T15:32:19.197784Z",
       "level": 200,
       "population": 20,
       "capacity": 20,
-      "networth": 43310170232465,
-      "rank": 219,
+      "networth": 43371270232465,
+      "rank": 220,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -64,12 +64,12 @@
           "name": "Sena#79879"
         },
         {
-          "id": "62dac1c236882c15ca1fe3b9",
-          "name": "minkki89#28058"
-        },
-        {
           "id": "674ca1bc0dddce7b1fcf18f1",
           "name": "DragonmawSyn#63271"
+        },
+        {
+          "id": "62dac1c236882c15ca1fe3b9",
+          "name": "minkki89#28058"
         },
         {
           "id": "61f6ed876baac312e56b6ed2",
