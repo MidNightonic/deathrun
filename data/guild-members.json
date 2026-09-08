@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-07T16:57:56Z",
+  "generated_at": "2026-09-08T02:23:09Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
       "name": "Deathrun",
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
-      "snapshot_date": "2026-09-07",
-      "fetched_at": "2026-09-07T16:57:54.720690Z",
+      "snapshot_date": "2026-09-08",
+      "fetched_at": "2026-09-08T02:23:08.210146Z",
       "level": 200,
       "population": 20,
       "capacity": 20,
-      "networth": 44111070232465,
+      "networth": 44446980618565,
       "rank": 220,
       "members": [
         {
@@ -52,12 +52,12 @@
           "name": "Horus#36191"
         },
         {
-          "id": "640e0f0b21ade213107e4a8a",
-          "name": "GuyonCouch#42411"
-        },
-        {
           "id": "5e53afcc35a5f712243299ab",
           "name": "Valerian#63289"
+        },
+        {
+          "id": "640e0f0b21ade213107e4a8a",
+          "name": "GuyonCouch#42411"
         },
         {
           "id": "674ca1bc0dddce7b1fcf18f1",
