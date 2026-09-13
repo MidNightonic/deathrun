@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-12T14:44:32Z",
+  "generated_at": "2026-09-13T02:26:51Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
       "name": "Deathrun",
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
-      "snapshot_date": "2026-09-12",
-      "fetched_at": "2026-09-12T14:44:31.548866Z",
+      "snapshot_date": "2026-09-13",
+      "fetched_at": "2026-09-13T02:26:50.491072Z",
       "level": 200,
       "population": 20,
       "capacity": 20,
-      "networth": 46507180618565,
-      "rank": 209,
+      "networth": 47098680618565,
+      "rank": 206,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -44,16 +44,16 @@
           "name": "PitFall#25172"
         },
         {
+          "id": "5e53afcc35a5f712243299ab",
+          "name": "Valerian#63289"
+        },
+        {
           "id": "640b8ea92eb59c13042358d4",
           "name": "Ollie#42403"
         },
         {
           "id": "6462cc27fdb783d2aa0226ab",
           "name": "Horus#36191"
-        },
-        {
-          "id": "5e53afcc35a5f712243299ab",
-          "name": "Valerian#63289"
         },
         {
           "id": "640e0f0b21ade213107e4a8a",
