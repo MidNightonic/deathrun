@@ -1,9 +1,9 @@
-name: Guild Snapshot (every 12h)
+name: Guild Snapshot (hourly)
 
 on:
   schedule:
-    # 00:00 and 12:00 UTC — adjust to your preferred times.
-    - cron: "0 0,12 * * *"
+    # Every hour, on the hour (UTC).
+    - cron: "0 * * * *"
   workflow_dispatch:
     inputs:
       snapshot_date:
