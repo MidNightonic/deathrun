@@ -94,6 +94,17 @@
   .record-badge { color: var(--accent); background: var(--accent-soft); }
   .report-meta { font-size: 12px; color: var(--text-dim); margin: -10px 0 20px; }
 
+  .date-nav, .season-nav {
+    display: flex; align-items: center; gap: 12px; margin: -10px 0 20px;
+    font-size: 12px; color: var(--text-dim);
+  }
+  .nav-btn {
+    background: var(--panel); border: 1px solid var(--border); color: var(--text);
+    border-radius: 7px; padding: 4px 10px; font-size: 12px; cursor: pointer;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
   .activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
   .activity-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
   .activity-panel h3 {
@@ -169,7 +180,7 @@
   <div class="tab-panel" id="tab-monthly"></div>
 
   <div class="tab-panel" id="tab-events">
-    <div class="report-meta">Ranked by score in the currently running event. "Record" flags a member's best-ever score in that event type, once we have enough snapshot history to know it's actually a new high.</div>
+    <div class="report-meta">Ranked by score in the currently running event. "Record" flags when a member's current progress already beats the final score from their last completed run of that same event type (not just yesterday) — hover for that previous best. Needs at least one finished prior event to compare against.</div>
     <div class="stats" id="eventStats"></div>
     <div class="table-scroll">
       <table id="eventTable">
@@ -253,14 +264,37 @@ function valueDaysAgo(history, asOfDate, daysAgo) {
 
 // True if the most recent recorded value is a new high across all recorded history.
 // Needs at least two snapshots to mean anything — with only one, there's nothing to beat yet.
-function isNewAllTimeBest(history) {
-  if (!history) return false;
+// These "best_X_score" trackers climb continuously while an event is live and only drop
+// when a new occurrence of that event starts — a drop marks the end of one cycle and the
+// value right before it was that cycle's final score. Splits history into completed
+// cycles (by those drops) plus whatever is still in progress.
+function splitEventCycles(history) {
   const dates = Object.keys(history).sort();
-  if (dates.length < 2) return false;
-  const latest = history[dates[dates.length - 1]];
-  if (!latest) return false;
-  const priorMax = Math.max(...dates.slice(0, -1).map(d => history[d]));
-  return latest > priorMax;
+  if (!dates.length) return { completedFinals: [], current: null };
+  const completedFinals = [];
+  let cycleMax = history[dates[0]] || 0;
+  for (let i = 1; i < dates.length; i++) {
+    const v = history[dates[i]] || 0;
+    if (v < cycleMax) {
+      completedFinals.push(cycleMax);
+      cycleMax = v;
+    } else {
+      cycleMax = Math.max(cycleMax, v);
+    }
+  }
+  return { completedFinals, current: cycleMax };
+}
+
+// Returns { priorMax, gain } if the current (possibly still in-progress) event cycle
+// already beats the best FINAL score from a previously completed cycle of that same
+// event, else null. Needs at least one completed cycle to compare against — otherwise
+// there's no real "previous event" to have broken a record against yet.
+function newBestInfo(history) {
+  if (!history) return null;
+  const { completedFinals, current } = splitEventCycles(history);
+  if (!completedFinals.length || !current) return null;
+  const priorMax = Math.max(...completedFinals);
+  return current > priorMax ? { priorMax, gain: current - priorMax } : null;
 }
 
 let state = { rows: [], sortKey: "investment", sortDir: -1, search: "" };
@@ -268,6 +302,8 @@ let eventRows = [];
 let eventSort = { key: "score", dir: -1 };
 let periodMembers = [];
 let guildInfo = {};
+let availableDates = [];
+let asOfIndex = -1;
 
 const PERIODS = [
   { key: "daily", days: 1, label: "Daily" },
@@ -291,6 +327,9 @@ async function load() {
     const guildEntry = (guildData.guilds || {}).deathrun;
     if (!guildEntry) throw new Error("no guild data yet — run fetch_snapshot.py first");
     guildInfo = guildEntry;
+
+    availableDates = (membersData.dates || []).slice().sort();
+    if (asOfIndex < 0 || asOfIndex >= availableDates.length) asOfIndex = availableDates.length - 1;
 
     const allMembers = membersData.members || {};
     const memberIds = (guildEntry.members || []).map(m => m.id);
@@ -329,9 +368,12 @@ async function load() {
       const rec = allMembers[id];
       if (!rec) return null;
       const newBests = [];
-      if (isNewAllTimeBest(rec.lcog_best_history)) newBests.push("LCOG");
-      if (isNewAllTimeBest(rec.kc_best_history)) newBests.push("KC");
-      if (isNewAllTimeBest(rec.di_best_history)) newBests.push("DI");
+      const lcogBest = newBestInfo(rec.lcog_best_history);
+      const kcBest = newBestInfo(rec.kc_best_history);
+      const diBest = newBestInfo(rec.di_best_history);
+      if (lcogBest) newBests.push({ type: "LCOG", ...lcogBest });
+      if (kcBest) newBests.push({ type: "KC", ...kcBest });
+      if (diBest) newBests.push({ type: "DI", ...diBest });
       return {
         name: rec.name || id,
         role: rec.role || "",
@@ -397,7 +439,7 @@ function renderEvents() {
   const totalKc = eventRows.reduce((s, r) => s + r.bestKc, 0);
   const totalDi = eventRows.reduce((s, r) => s + r.bestDi, 0);
   document.getElementById("eventStats").innerHTML = `
-    <div class="stat"><div class="num">${totalScore.toLocaleString()}</div><div class="label">Guild Current Event</div></div>
+    <div class="stat"><div class="num">${totalScore.toLocaleString()}</div><div class="label">Guild Total (Current Event)</div></div>
     <div class="stat"><div class="num">${totalLcog.toLocaleString()}</div><div class="label">Guild Total LCOG</div></div>
     <div class="stat"><div class="num">${totalKc.toLocaleString()}</div><div class="label">Guild Total KC</div></div>
     <div class="stat"><div class="num">${totalDi.toLocaleString()}</div><div class="label">Guild Total DI</div></div>
@@ -415,18 +457,13 @@ function renderEvents() {
         <td class="num-cell">${r.bestLcog.toLocaleString()}</td>
         <td class="num-cell">${r.bestKc.toLocaleString()}</td>
         <td class="num-cell">${r.bestDi.toLocaleString()}</td>
-        <td class="num-cell">${r.newBests.length ? r.newBests.map(t => `<span class="record-badge">${t} RECORD</span>`).join(" ") : "-"}</td>
+        <td class="num-cell">${r.newBests.length ? r.newBests.map(b => `<span class="record-badge" title="Previous best: ${b.priorMax.toLocaleString()}">${b.type} +${b.gain.toLocaleString()}</span>`).join(" ") : "-"}</td>
       </tr>`).join("");
 }
 
-function latestOf(history) {
-  const dates = Object.keys(history).sort();
-  return dates.length ? history[dates[dates.length - 1]] : null;
-}
-
-function latestDateOf(history, fallback) {
-  const dates = Object.keys(history).sort();
-  return dates.length ? dates[dates.length - 1] : fallback;
+function latestDateOf(history, asOfDate) {
+  const dates = Object.keys(history).filter(d => d <= asOfDate).sort();
+  return dates.length ? dates[dates.length - 1] : asOfDate;
 }
 
 function isNewInPeriod(joined, asOfDate, days) {
@@ -439,17 +476,18 @@ function isNewInPeriod(joined, asOfDate, days) {
 
 function renderPeriodTab(period) {
   const panel = document.getElementById("tab-" + period.key);
-  const asOf = guildInfo.snapshot_date;
+  const asOf = availableDates[asOfIndex] || guildInfo.snapshot_date;
+  const isHistory = asOfIndex < availableDates.length - 1;
 
   const rows = periodMembers.map(m => {
     const memberAsOf = latestDateOf(m.investments, asOf);
     const isNew = isNewInPeriod(m.joined, memberAsOf, period.days);
-    const currentNW = latestOf(m.networth);
-    const currentInvest = latestOf(m.investments);
+    const currentNW = valueAt(m.networth, memberAsOf);
+    const currentInvest = valueAt(m.investments, memberAsOf);
     const startNW = isNew ? null : valueDaysAgo(m.networth, memberAsOf, period.days);
     const startInvest = isNew ? null : valueDaysAgo(m.investments, memberAsOf, period.days);
     const startBounty = isNew ? null : valueDaysAgo(m.bounty, memberAsOf, period.days);
-    const currentBounty = latestOf(m.bounty);
+    const currentBounty = valueAt(m.bounty, memberAsOf);
     return {
       name: m.name, role: m.role, isNew,
       currentNW, startNW, deltaNW: (startNW == null || currentNW == null) ? null : currentNW - startNW,
@@ -464,7 +502,11 @@ function renderPeriodTab(period) {
   const newCount = rows.filter(r => r.isNew).length;
 
   panel.innerHTML = `
-    <div class="report-meta">${period.label} · Generated ${guildInfo.fetched_at || "-"}</div>
+    <div class="date-nav">
+      <button class="date-nav-prev nav-btn" ${asOfIndex <= 0 ? "disabled" : ""}>&#9664;</button>
+      <span>${period.label} as of ${asOf}${isHistory ? " — viewing history" : " (latest)"}</span>
+      <button class="date-nav-next nav-btn" ${!isHistory ? "disabled" : ""}>&#9654;</button>
+    </div>
     <div class="stats">
       <div class="stat"><div class="num">${rows.length}</div><div class="label">Members</div></div>
       <div class="stat"><div class="num">${newCount}</div><div class="label">New</div></div>
@@ -508,12 +550,34 @@ function renderPeriodTab(period) {
 }
 
 const BIWEEKLY_DAYS = 14;
+const SEASON_ANCHOR = "2026-09-20"; // first day the full activity-points formula was tracked
+let activitySeasonNum = null;
 
-function gainOver(history, asOfDate, days) {
-  const latest = latestOf(history);
-  const past = valueDaysAgo(history, asOfDate, days);
-  if (latest == null || past == null) return null;
-  return latest - past;
+function addDaysIso(dateStr, n) {
+  const d = new Date(dateStr + "T00:00:00Z");
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+}
+
+function seasonRange(n) {
+  return { start: addDaysIso(SEASON_ANCHOR, (n - 1) * BIWEEKLY_DAYS), end: addDaysIso(SEASON_ANCHOR, n * BIWEEKLY_DAYS - 1) };
+}
+
+function currentSeasonNumber(asOfDate) {
+  const days = Math.floor((Date.parse(asOfDate + "T00:00:00Z") - Date.parse(SEASON_ANCHOR + "T00:00:00Z")) / 86400000);
+  return Math.max(1, Math.floor(days / BIWEEKLY_DAYS) + 1);
+}
+
+// Value at-or-before a specific date (not "N days before" — daysAgo=0 means "as of this exact date").
+function valueAt(history, date) {
+  return valueDaysAgo(history, date, 0);
+}
+
+function seasonGain(history, startDate, endDate) {
+  const startVal = valueAt(history, startDate);
+  const endVal = valueAt(history, endDate);
+  if (startVal == null || endVal == null) return null;
+  return endVal - startVal;
 }
 
 function pointsFmt(v) {
@@ -537,20 +601,25 @@ function activityPanel(title, sub, rows, cols) {
 
 function renderActivity() {
   const panel = document.getElementById("tab-activity");
-  const asOf = guildInfo.snapshot_date;
+  const latestAsOf = guildInfo.snapshot_date;
+  if (activitySeasonNum == null) activitySeasonNum = currentSeasonNumber(latestAsOf);
+
+  const maxSeason = currentSeasonNumber(latestAsOf);
+  const { start: seasonStart, end: seasonEndNominal } = seasonRange(activitySeasonNum);
+  const seasonEnd = seasonEndNominal < latestAsOf ? seasonEndNominal : latestAsOf;
+  const isComplete = seasonEndNominal < latestAsOf;
 
   const rows = periodMembers.map(m => {
-    const memberAsOf = latestDateOf(m.investments, asOf);
-    const nwGain = gainOver(m.networth, memberAsOf, BIWEEKLY_DAYS);
-    const investGain = gainOver(m.investments, memberAsOf, BIWEEKLY_DAYS);
-    const bountyGain = gainOver(m.bounty, memberAsOf, BIWEEKLY_DAYS);
-    const craftedGain = gainOver(m.crafted, memberAsOf, BIWEEKLY_DAYS);
-    const soldGain = gainOver(m.sold, memberAsOf, BIWEEKLY_DAYS);
-    const helpGain = gainOver(m.help, memberAsOf, BIWEEKLY_DAYS);
-    const questsGain = gainOver(m.quests, memberAsOf, BIWEEKLY_DAYS);
-    const collectionGain = gainOver(m.collection, memberAsOf, BIWEEKLY_DAYS);
-    const masteredGain = gainOver(m.mastered, memberAsOf, BIWEEKLY_DAYS);
-    const ascensionsGain = gainOver(m.ascensions, memberAsOf, BIWEEKLY_DAYS);
+    const nwGain = seasonGain(m.networth, seasonStart, seasonEnd);
+    const investGain = seasonGain(m.investments, seasonStart, seasonEnd);
+    const bountyGain = seasonGain(m.bounty, seasonStart, seasonEnd);
+    const craftedGain = seasonGain(m.crafted, seasonStart, seasonEnd);
+    const soldGain = seasonGain(m.sold, seasonStart, seasonEnd);
+    const helpGain = seasonGain(m.help, seasonStart, seasonEnd);
+    const questsGain = seasonGain(m.quests, seasonStart, seasonEnd);
+    const collectionGain = seasonGain(m.collection, seasonStart, seasonEnd);
+    const masteredGain = seasonGain(m.mastered, seasonStart, seasonEnd);
+    const ascensionsGain = seasonGain(m.ascensions, seasonStart, seasonEnd);
 
     const nwPoints = (nwGain || 0) / 1e9 * 1;
     const investPoints = (investGain || 0) / 1e9 * 1.5;
@@ -576,10 +645,15 @@ function renderActivity() {
   const tagRow = r => `<span class="activity-tag">[${pointsFmt(r.totalPoints)}]</span>`;
 
   panel.innerHTML = `
+    <div class="season-nav">
+      <button class="season-prev nav-btn" ${activitySeasonNum <= 1 ? "disabled" : ""}>&#9664;</button>
+      <span>Season ${activitySeasonNum} &middot; ${seasonStart} to ${seasonEndNominal} ${isComplete ? "(final)" : "(in progress)"}</span>
+      <button class="season-next nav-btn" ${activitySeasonNum >= maxSeason ? "disabled" : ""}>&#9654;</button>
+    </div>
     <div class="report-meta">
-      Bi-weekly (last ${BIWEEKLY_DAYS} days) · Generated ${guildInfo.fetched_at || "-"}<br>
+      Generated ${guildInfo.fetched_at || "-"}<br>
       Overall points = Networth + Investment + Bounty + Crafted + Sold + Help + Quests + Collection + Mastered + Ascension gains.
-      Crafted/Sold/Help/Quests/Collection/Mastered/Ascension tracking started ${asOf} — those components read 0 until ${BIWEEKLY_DAYS} days of history exist.
+      Season 1 starts ${SEASON_ANCHOR}, the day full activity tracking began.
     </div>
     <div class="activity-grid">
       ${activityPanel("Top 20 Overall Activity Points", "NW + Invest + Bounty + Crafted + Sold + Help + Quests + Collection + Mastered + Ascension",
@@ -621,8 +695,27 @@ document.getElementById("eventTable").addEventListener("click", e => {
   renderEvents();
 });
 
+document.getElementById("tab-activity").addEventListener("click", e => {
+  if (e.target.closest(".season-prev") && activitySeasonNum > 1) {
+    activitySeasonNum--;
+    renderActivity();
+  }
+  if (e.target.closest(".season-next") && activitySeasonNum < currentSeasonNumber(guildInfo.snapshot_date)) {
+    activitySeasonNum++;
+    renderActivity();
+  }
+});
+
 PERIODS.forEach(period => {
   document.getElementById("tab-" + period.key).addEventListener("click", e => {
+    if (e.target.closest(".date-nav-prev")) {
+      if (asOfIndex > 0) { asOfIndex--; PERIODS.forEach(p => renderPeriodTab(p)); }
+      return;
+    }
+    if (e.target.closest(".date-nav-next")) {
+      if (asOfIndex < availableDates.length - 1) { asOfIndex++; PERIODS.forEach(p => renderPeriodTab(p)); }
+      return;
+    }
     const th = e.target.closest("th[data-key]");
     if (!th) return;
     const key = th.dataset.key;
