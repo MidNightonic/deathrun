@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-20T02:42:44Z",
+  "generated_at": "2026-09-20T07:21:20Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -259,7 +259,28 @@
       "latest_event_score": 6033408,
       "best_lcog_score": 81525,
       "best_kc_score": 85607259,
-      "best_di_score": 2429947
+      "best_di_score": 2429947,
+      "help_history": {
+        "2026-09-20": 14425
+      },
+      "mastered_history": {
+        "2026-09-20": 981
+      },
+      "ascensions_history": {
+        "2026-09-20": 1935
+      },
+      "collection_history": {
+        "2026-09-20": 48125
+      },
+      "crafted_history": {
+        "2026-09-20": 149466
+      },
+      "sold_history": {
+        "2026-09-20": 253240
+      },
+      "quests_history": {
+        "2026-09-20": 19587
+      }
     },
     "6787913db4172937fd45014b": {
       "name": "⊱ ｆａｉｒｙ ⊰#40739",
@@ -325,7 +346,7 @@
         "2026-09-17": 4656127,
         "2026-09-18": 9374149,
         "2026-09-19": 14131617,
-        "2026-09-20": 15526047
+        "2026-09-20": 16753056
       },
       "networth_history": {
         "2026-08-24": 872054642007,
@@ -479,16 +500,37 @@
       },
       "joined": "2026-01-13 21:45:40",
       "is_vip": true,
-      "last_online": "2026-09-20 00:15:50",
+      "last_online": "2026-09-20 06:38:20",
       "latest_networth": 1176734093030,
       "latest_help": 6019,
       "latest_bounty": 18016,
       "latest_prestige": 267165,
       "latest_hero_power": 242120,
-      "latest_event_score": 15526047,
+      "latest_event_score": 16753056,
       "best_lcog_score": 47920,
       "best_kc_score": 31107571,
-      "best_di_score": 1128913
+      "best_di_score": 1128913,
+      "help_history": {
+        "2026-09-20": 6019
+      },
+      "mastered_history": {
+        "2026-09-20": 735
+      },
+      "ascensions_history": {
+        "2026-09-20": 1262
+      },
+      "collection_history": {
+        "2026-09-20": 43617
+      },
+      "crafted_history": {
+        "2026-09-20": 173624
+      },
+      "sold_history": {
+        "2026-09-20": 295220
+      },
+      "quests_history": {
+        "2026-09-20": 21290
+      }
     },
     "5e9f03a4368df71229110db1": {
       "name": "AlphaBrass#78875",
@@ -717,7 +759,28 @@
       "latest_event_score": 6532954,
       "best_lcog_score": 58918,
       "best_kc_score": 52901428,
-      "best_di_score": 2633764
+      "best_di_score": 2633764,
+      "help_history": {
+        "2026-09-20": 10150
+      },
+      "mastered_history": {
+        "2026-09-20": 1000
+      },
+      "ascensions_history": {
+        "2026-09-20": 1764
+      },
+      "collection_history": {
+        "2026-09-20": 51148
+      },
+      "crafted_history": {
+        "2026-09-20": 125945
+      },
+      "sold_history": {
+        "2026-09-20": 138702
+      },
+      "quests_history": {
+        "2026-09-20": 17379
+      }
     },
     "657f8b23ad82ce868affac31": {
       "name": "MidNight#93973",
@@ -783,7 +846,7 @@
         "2026-09-17": 235316323,
         "2026-09-18": 368111290,
         "2026-09-19": 494496724,
-        "2026-09-20": 552829625
+        "2026-09-20": 558482046
       },
       "networth_history": {
         "2026-08-24": 5188199054950,
@@ -937,16 +1000,37 @@
       },
       "joined": "2026-07-21 17:33:40",
       "is_vip": true,
-      "last_online": "2026-09-19 22:29:53",
+      "last_online": "2026-09-20 07:19:26",
       "latest_networth": 7223906357682,
       "latest_help": 5138,
       "latest_bounty": 21962,
       "latest_prestige": 193265,
       "latest_hero_power": 1537074,
-      "latest_event_score": 552829625,
+      "latest_event_score": 558482046,
       "best_lcog_score": 199165,
       "best_kc_score": 1311033400,
-      "best_di_score": 2424708
+      "best_di_score": 2424708,
+      "help_history": {
+        "2026-09-20": 5138
+      },
+      "mastered_history": {
+        "2026-09-20": 1354
+      },
+      "ascensions_history": {
+        "2026-09-20": 2093
+      },
+      "collection_history": {
+        "2026-09-20": 119457
+      },
+      "crafted_history": {
+        "2026-09-20": 348854
+      },
+      "sold_history": {
+        "2026-09-20": 437133
+      },
+      "quests_history": {
+        "2026-09-20": 26449
+      }
     },
     "5eb76fd6ccc7611238dbda2f": {
       "name": "RobMods Cars#83233",
@@ -1000,7 +1084,14 @@
       "latest_event_score": 7379260,
       "best_lcog_score": 107992,
       "best_kc_score": 8884857,
-      "best_di_score": 822719
+      "best_di_score": 822719,
+      "help_history": {},
+      "mastered_history": {},
+      "ascensions_history": {},
+      "collection_history": {},
+      "crafted_history": {},
+      "sold_history": {},
+      "quests_history": {}
     },
     "6380131d1d9e3612f4eef059": {
       "name": "Don#37874",
@@ -1096,7 +1187,7 @@
         "2026-09-17": 3268721296548,
         "2026-09-18": 3275976560633,
         "2026-09-19": 3295119209972,
-        "2026-09-20": 3295570955812
+        "2026-09-20": 3296137310040
       },
       "bounty_history": {
         "2026-08-24": 27548,
@@ -1126,7 +1217,7 @@
         "2026-09-17": 28403,
         "2026-09-18": 28444,
         "2026-09-19": 28507,
-        "2026-09-20": 28513
+        "2026-09-20": 28523
       },
       "lcog_best_history": {
         "2026-08-24": 41055,
@@ -1220,16 +1311,37 @@
       },
       "joined": "2024-10-01 14:35:05",
       "is_vip": true,
-      "last_online": "2026-09-19 18:04:47",
-      "latest_networth": 3295570955812,
-      "latest_help": 15940,
-      "latest_bounty": 28513,
+      "last_online": "2026-09-20 07:09:58",
+      "latest_networth": 3296137310040,
+      "latest_help": 15942,
+      "latest_bounty": 28523,
       "latest_prestige": 214745,
       "latest_hero_power": 602606,
       "latest_event_score": 4753398,
       "best_lcog_score": 41055,
       "best_kc_score": 27487059,
-      "best_di_score": 2213247
+      "best_di_score": 2213247,
+      "help_history": {
+        "2026-09-20": 15942
+      },
+      "mastered_history": {
+        "2026-09-20": 1169
+      },
+      "ascensions_history": {
+        "2026-09-20": 1400
+      },
+      "collection_history": {
+        "2026-09-20": 88506
+      },
+      "crafted_history": {
+        "2026-09-20": 251963
+      },
+      "sold_history": {
+        "2026-09-20": 402117
+      },
+      "quests_history": {
+        "2026-09-20": 49450
+      }
     },
     "5ddc7cc252c21a111561fe0f": {
       "name": "Keyonayo#93192",
@@ -1458,7 +1570,28 @@
       "latest_event_score": 3304204,
       "best_lcog_score": 55418,
       "best_kc_score": 20240068,
-      "best_di_score": 2687881
+      "best_di_score": 2687881,
+      "help_history": {
+        "2026-09-20": 8541
+      },
+      "mastered_history": {
+        "2026-09-20": 141
+      },
+      "ascensions_history": {
+        "2026-09-20": 1142
+      },
+      "collection_history": {
+        "2026-09-20": 6918
+      },
+      "crafted_history": {
+        "2026-09-20": 110400
+      },
+      "sold_history": {
+        "2026-09-20": 133654
+      },
+      "quests_history": {
+        "2026-09-20": 16246
+      }
     },
     "640b8ea92eb59c13042358d4": {
       "name": "Ollie#42403",
@@ -1524,7 +1657,7 @@
         "2026-09-17": 3016971,
         "2026-09-18": 3482627,
         "2026-09-19": 3603708,
-        "2026-09-20": 3903660
+        "2026-09-20": 3942998
       },
       "networth_history": {
         "2026-08-24": 793642385265,
@@ -1678,16 +1811,37 @@
       },
       "joined": "2026-01-22 16:12:56",
       "is_vip": true,
-      "last_online": "2026-09-20 00:59:48",
+      "last_online": "2026-09-20 06:26:14",
       "latest_networth": 806102850790,
       "latest_help": 10639,
       "latest_bounty": 4935,
       "latest_prestige": 141085,
       "latest_hero_power": 334331,
-      "latest_event_score": 3903660,
+      "latest_event_score": 3942998,
       "best_lcog_score": 30903,
       "best_kc_score": 8737564,
-      "best_di_score": 712693
+      "best_di_score": 712693,
+      "help_history": {
+        "2026-09-20": 10639
+      },
+      "mastered_history": {
+        "2026-09-20": 442
+      },
+      "ascensions_history": {
+        "2026-09-20": 1159
+      },
+      "collection_history": {
+        "2026-09-20": 14361
+      },
+      "crafted_history": {
+        "2026-09-20": 93309
+      },
+      "sold_history": {
+        "2026-09-20": 198519
+      },
+      "quests_history": {
+        "2026-09-20": 15992
+      }
     },
     "6462cc27fdb783d2aa0226ab": {
       "name": "Horus#36191",
@@ -1916,13 +2070,34 @@
       "latest_event_score": 4059382,
       "best_lcog_score": 61471,
       "best_kc_score": 21461585,
-      "best_di_score": 2146758
+      "best_di_score": 2146758,
+      "help_history": {
+        "2026-09-20": 9924
+      },
+      "mastered_history": {
+        "2026-09-20": 1084
+      },
+      "ascensions_history": {
+        "2026-09-20": 1806
+      },
+      "collection_history": {
+        "2026-09-20": 58761
+      },
+      "crafted_history": {
+        "2026-09-20": 159183
+      },
+      "sold_history": {
+        "2026-09-20": 232433
+      },
+      "quests_history": {
+        "2026-09-20": 21937
+      }
     },
     "640e0f0b21ade213107e4a8a": {
       "name": "GuyonCouch#42411",
       "level": 94,
       "role": "Member",
-      "latest_investment": 1759839760600,
+      "latest_investment": 1801039760600,
       "latest_date": "2026-09-20",
       "investments": {
         "2026-08-24": 1433929760600,
@@ -1952,7 +2127,7 @@
         "2026-09-17": 1733439760600,
         "2026-09-18": 1733439760600,
         "2026-09-19": 1759839760600,
-        "2026-09-20": 1759839760600
+        "2026-09-20": 1801039760600
       },
       "event_scores": {
         "2026-08-24": 41601095,
@@ -1982,7 +2157,7 @@
         "2026-09-17": 18681785,
         "2026-09-18": 31512300,
         "2026-09-19": 35504679,
-        "2026-09-20": 45872682
+        "2026-09-20": 56312170
       },
       "networth_history": {
         "2026-08-24": 2944819766929,
@@ -2012,7 +2187,7 @@
         "2026-09-17": 3255870815213,
         "2026-09-18": 3275482444613,
         "2026-09-19": 3285021690063,
-        "2026-09-20": 3301920030538
+        "2026-09-20": 3312215297888
       },
       "bounty_history": {
         "2026-08-24": 8929,
@@ -2042,7 +2217,7 @@
         "2026-09-17": 9123,
         "2026-09-18": 9126,
         "2026-09-19": 9126,
-        "2026-09-20": 9140
+        "2026-09-20": 9157
       },
       "lcog_best_history": {
         "2026-08-24": 51547,
@@ -2102,7 +2277,7 @@
         "2026-09-17": 41601095,
         "2026-09-18": 41601095,
         "2026-09-19": 41601095,
-        "2026-09-20": 45872682
+        "2026-09-20": 56312170
       },
       "di_best_history": {
         "2026-08-24": 943752,
@@ -2136,16 +2311,37 @@
       },
       "joined": "2026-07-04 16:54:06",
       "is_vip": true,
-      "last_online": "2026-09-19 23:17:51",
-      "latest_networth": 3301920030538,
-      "latest_help": 7678,
-      "latest_bounty": 9140,
-      "latest_prestige": 211760,
+      "last_online": "2026-09-20 06:44:57",
+      "latest_networth": 3312215297888,
+      "latest_help": 7679,
+      "latest_bounty": 9157,
+      "latest_prestige": 213410,
       "latest_hero_power": 474378,
-      "latest_event_score": 45872682,
+      "latest_event_score": 56312170,
       "best_lcog_score": 51547,
-      "best_kc_score": 45872682,
-      "best_di_score": 943752
+      "best_kc_score": 56312170,
+      "best_di_score": 943752,
+      "help_history": {
+        "2026-09-20": 7679
+      },
+      "mastered_history": {
+        "2026-09-20": 1134
+      },
+      "ascensions_history": {
+        "2026-09-20": 1464
+      },
+      "collection_history": {
+        "2026-09-20": 68484
+      },
+      "crafted_history": {
+        "2026-09-20": 235740
+      },
+      "sold_history": {
+        "2026-09-20": 547833
+      },
+      "quests_history": {
+        "2026-09-20": 35291
+      }
     },
     "5f728a026d051130e0dddf43": {
       "name": "Laverian#57238",
@@ -2241,7 +2437,14 @@
       "latest_event_score": 905313,
       "best_lcog_score": 21439,
       "best_kc_score": 9490371,
-      "best_di_score": 962845
+      "best_di_score": 962845,
+      "help_history": {},
+      "mastered_history": {},
+      "ascensions_history": {},
+      "collection_history": {},
+      "crafted_history": {},
+      "sold_history": {},
+      "quests_history": {}
     },
     "60129ae39d8a5a1339baaf6f": {
       "name": "killerloop6#52380",
@@ -2344,7 +2547,14 @@
       "latest_event_score": 715348,
       "best_lcog_score": 30973,
       "best_kc_score": 10871686,
-      "best_di_score": 1288520
+      "best_di_score": 1288520,
+      "help_history": {},
+      "mastered_history": {},
+      "ascensions_history": {},
+      "collection_history": {},
+      "crafted_history": {},
+      "sold_history": {},
+      "quests_history": {}
     },
     "64c8b9380b6497835f9188da": {
       "name": "Sena#79879",
@@ -2573,7 +2783,28 @@
       "latest_event_score": 2630775,
       "best_lcog_score": 30093,
       "best_kc_score": 41250899,
-      "best_di_score": 1210506
+      "best_di_score": 1210506,
+      "help_history": {
+        "2026-09-20": 7897
+      },
+      "mastered_history": {
+        "2026-09-20": 959
+      },
+      "ascensions_history": {
+        "2026-09-20": 1689
+      },
+      "collection_history": {
+        "2026-09-20": 83787
+      },
+      "crafted_history": {
+        "2026-09-20": 133861
+      },
+      "sold_history": {
+        "2026-09-20": 146451
+      },
+      "quests_history": {
+        "2026-09-20": 14141
+      }
     },
     "62dac1c236882c15ca1fe3b9": {
       "name": "minkki89#28058",
@@ -2767,7 +2998,14 @@
       "latest_event_score": 12128,
       "best_lcog_score": 30410,
       "best_kc_score": 6673468,
-      "best_di_score": 763636
+      "best_di_score": 763636,
+      "help_history": {},
+      "mastered_history": {},
+      "ascensions_history": {},
+      "collection_history": {},
+      "crafted_history": {},
+      "sold_history": {},
+      "quests_history": {}
     },
     "5e53afcc35a5f712243299ab": {
       "name": "Valerian#63289",
@@ -2863,7 +3101,7 @@
         "2026-09-17": 3138857308769,
         "2026-09-18": 3183094756549,
         "2026-09-19": 3256011612839,
-        "2026-09-20": 3274438740839
+        "2026-09-20": 3275786115839
       },
       "bounty_history": {
         "2026-08-24": 8829,
@@ -2953,7 +3191,7 @@
         "2026-09-17": 119536718,
         "2026-09-18": 148860457,
         "2026-09-19": 213400399,
-        "2026-09-20": 230780671
+        "2026-09-20": 231930694
       },
       "di_best_history": {
         "2026-08-24": 759304,
@@ -2987,16 +3225,37 @@
       },
       "joined": "2026-08-11 21:13:17",
       "is_vip": true,
-      "last_online": "2026-09-20 00:01:30",
-      "latest_networth": 3274438740839,
+      "last_online": "2026-09-20 00:06:51",
+      "latest_networth": 3275786115839,
       "latest_help": 2348,
       "latest_bounty": 10902,
       "latest_prestige": 115895,
       "latest_hero_power": 698362,
       "latest_event_score": 231930694,
       "best_lcog_score": 47404,
-      "best_kc_score": 230780671,
-      "best_di_score": 759304
+      "best_kc_score": 231930694,
+      "best_di_score": 759304,
+      "help_history": {
+        "2026-09-20": 2348
+      },
+      "mastered_history": {
+        "2026-09-20": 866
+      },
+      "ascensions_history": {
+        "2026-09-20": 869
+      },
+      "collection_history": {
+        "2026-09-20": 34549
+      },
+      "crafted_history": {
+        "2026-09-20": 517848
+      },
+      "sold_history": {
+        "2026-09-20": 535012
+      },
+      "quests_history": {
+        "2026-09-20": 9493
+      }
     },
     "674ca1bc0dddce7b1fcf18f1": {
       "name": "DragonmawSyn#63271",
@@ -3062,7 +3321,7 @@
         "2026-09-17": 3691229,
         "2026-09-18": 4119844,
         "2026-09-19": 4385882,
-        "2026-09-20": 4481542
+        "2026-09-20": 4557725
       },
       "networth_history": {
         "2026-08-24": 636715231807,
@@ -3222,10 +3481,31 @@
       "latest_bounty": 18223,
       "latest_prestige": 178620,
       "latest_hero_power": 383637,
-      "latest_event_score": 4481542,
+      "latest_event_score": 4557725,
       "best_lcog_score": 40205,
       "best_kc_score": 10187598,
-      "best_di_score": 1708120
+      "best_di_score": 1708120,
+      "help_history": {
+        "2026-09-20": 8509
+      },
+      "mastered_history": {
+        "2026-09-20": 912
+      },
+      "ascensions_history": {
+        "2026-09-20": 1359
+      },
+      "collection_history": {
+        "2026-09-20": 45532
+      },
+      "crafted_history": {
+        "2026-09-20": 209210
+      },
+      "sold_history": {
+        "2026-09-20": 317484
+      },
+      "quests_history": {
+        "2026-09-20": 17794
+      }
     },
     "641753a0c64344130387af8d": {
       "name": "Murxine#26790",
@@ -3291,7 +3571,7 @@
         "2026-09-17": 2937877,
         "2026-09-18": 4414672,
         "2026-09-19": 5327592,
-        "2026-09-20": 5358372
+        "2026-09-20": 5609077
       },
       "networth_history": {
         "2026-08-24": 434447318761,
@@ -3445,16 +3725,37 @@
       },
       "joined": "2026-06-10 21:24:28",
       "is_vip": true,
-      "last_online": "2026-09-19 20:44:27",
+      "last_online": "2026-09-20 05:15:35",
       "latest_networth": 466001589211,
       "latest_help": 8651,
       "latest_bounty": 5092,
       "latest_prestige": 178835,
       "latest_hero_power": 953827,
-      "latest_event_score": 5358372,
+      "latest_event_score": 5609077,
       "best_lcog_score": 55195,
       "best_kc_score": 13565270,
-      "best_di_score": 1788179
+      "best_di_score": 1788179,
+      "help_history": {
+        "2026-09-20": 8651
+      },
+      "mastered_history": {
+        "2026-09-20": 1008
+      },
+      "ascensions_history": {
+        "2026-09-20": 1798
+      },
+      "collection_history": {
+        "2026-09-20": 56118
+      },
+      "crafted_history": {
+        "2026-09-20": 184964
+      },
+      "sold_history": {
+        "2026-09-20": 176069
+      },
+      "quests_history": {
+        "2026-09-20": 21985
+      }
     },
     "5d1c03d45774bf10843fac74": {
       "name": "Roman#50873",
@@ -3683,7 +3984,28 @@
       "latest_event_score": 11499311,
       "best_lcog_score": 31293,
       "best_kc_score": 14407814,
-      "best_di_score": 1148694
+      "best_di_score": 1148694,
+      "help_history": {
+        "2026-09-20": 8302
+      },
+      "mastered_history": {
+        "2026-09-20": 641
+      },
+      "ascensions_history": {
+        "2026-09-20": 1670
+      },
+      "collection_history": {
+        "2026-09-20": 18205
+      },
+      "crafted_history": {
+        "2026-09-20": 129221
+      },
+      "sold_history": {
+        "2026-09-20": 266874
+      },
+      "quests_history": {
+        "2026-09-20": 23234
+      }
     },
     "5d53cdb7f61cdb1228f6a24f": {
       "name": "TubularPeak#25592",
@@ -3912,7 +4234,28 @@
       "latest_event_score": 2941371,
       "best_lcog_score": 35364,
       "best_kc_score": 4008601,
-      "best_di_score": 1502307
+      "best_di_score": 1502307,
+      "help_history": {
+        "2026-09-20": 3793
+      },
+      "mastered_history": {
+        "2026-09-20": 308
+      },
+      "ascensions_history": {
+        "2026-09-20": 627
+      },
+      "collection_history": {
+        "2026-09-20": 9383
+      },
+      "crafted_history": {
+        "2026-09-20": 67169
+      },
+      "sold_history": {
+        "2026-09-20": 54326
+      },
+      "quests_history": {
+        "2026-09-20": 8510
+      }
     },
     "5e101dcf906b871177dd82c3": {
       "name": "Skylar#93668",
@@ -4141,7 +4484,28 @@
       "latest_event_score": 768969,
       "best_lcog_score": 31229,
       "best_kc_score": 10638075,
-      "best_di_score": 1409434
+      "best_di_score": 1409434,
+      "help_history": {
+        "2026-09-20": 12071
+      },
+      "mastered_history": {
+        "2026-09-20": 1521
+      },
+      "ascensions_history": {
+        "2026-09-20": 2395
+      },
+      "collection_history": {
+        "2026-09-20": 77700
+      },
+      "crafted_history": {
+        "2026-09-20": 172998
+      },
+      "sold_history": {
+        "2026-09-20": 410087
+      },
+      "quests_history": {
+        "2026-09-20": 33690
+      }
     },
     "61f6ed876baac312e56b6ed2": {
       "name": "ĦȄŜŦƗǠ#59387",
@@ -4349,7 +4713,28 @@
       "latest_event_score": 0,
       "best_lcog_score": 32547,
       "best_kc_score": 5630329,
-      "best_di_score": 678258
+      "best_di_score": 678258,
+      "help_history": {
+        "2026-09-20": 4974
+      },
+      "mastered_history": {
+        "2026-09-20": 795
+      },
+      "ascensions_history": {
+        "2026-09-20": 354
+      },
+      "collection_history": {
+        "2026-09-20": 39917
+      },
+      "crafted_history": {
+        "2026-09-20": 62722
+      },
+      "sold_history": {
+        "2026-09-20": 100145
+      },
+      "quests_history": {
+        "2026-09-20": 7139
+      }
     },
     "5d12761988480d1076949208": {
       "name": "Slubby#10455",
@@ -4499,7 +4884,7 @@
       },
       "joined": "2026-09-02 17:49:31",
       "is_vip": true,
-      "last_online": "2026-09-20 00:33:04",
+      "last_online": "2026-09-20 05:47:12",
       "latest_networth": 275576961848,
       "latest_help": 7602,
       "latest_bounty": 10377,
@@ -4508,7 +4893,28 @@
       "latest_event_score": 10817678,
       "best_lcog_score": 54751,
       "best_kc_score": 10817678,
-      "best_di_score": 1517934
+      "best_di_score": 1517934,
+      "help_history": {
+        "2026-09-20": 7602
+      },
+      "mastered_history": {
+        "2026-09-20": 704
+      },
+      "ascensions_history": {
+        "2026-09-20": 975
+      },
+      "collection_history": {
+        "2026-09-20": 26909
+      },
+      "crafted_history": {
+        "2026-09-20": 103846
+      },
+      "sold_history": {
+        "2026-09-20": 139420
+      },
+      "quests_history": {
+        "2026-09-20": 15336
+      }
     },
     "63094d70f11b9112f57fe2fc": {
       "name": "PitFall#25172",
@@ -4552,7 +4958,7 @@
         "2026-09-17": 16287281,
         "2026-09-18": 18562425,
         "2026-09-19": 21046851,
-        "2026-09-20": 21625324
+        "2026-09-20": 22736970
       },
       "networth_history": {
         "2026-09-04": 4715751151830,
@@ -4571,7 +4977,7 @@
         "2026-09-17": 4906258004822,
         "2026-09-18": 4910957197562,
         "2026-09-19": 4934854277561,
-        "2026-09-20": 4939513030678
+        "2026-09-20": 4950918726482
       },
       "bounty_history": {
         "2026-09-04": 32147,
@@ -4590,7 +4996,7 @@
         "2026-09-17": 32500,
         "2026-09-18": 32508,
         "2026-09-19": 32525,
-        "2026-09-20": 32556
+        "2026-09-20": 32574
       },
       "lcog_best_history": {
         "2026-09-04": 300984,
@@ -4651,16 +5057,37 @@
       },
       "joined": "2026-09-03 13:21:48",
       "is_vip": true,
-      "last_online": "2026-09-20 01:56:00",
-      "latest_networth": 4939513030678,
-      "latest_help": 13728,
-      "latest_bounty": 32556,
+      "last_online": "2026-09-20 06:48:27",
+      "latest_networth": 4950918726482,
+      "latest_help": 13731,
+      "latest_bounty": 32574,
       "latest_prestige": 266805,
       "latest_hero_power": 920881,
-      "latest_event_score": 21625324,
+      "latest_event_score": 22736970,
       "best_lcog_score": 300984,
       "best_kc_score": 63029779,
-      "best_di_score": 3718066
+      "best_di_score": 3718066,
+      "help_history": {
+        "2026-09-20": 13731
+      },
+      "mastered_history": {
+        "2026-09-20": 461
+      },
+      "ascensions_history": {
+        "2026-09-20": 1830
+      },
+      "collection_history": {
+        "2026-09-20": 33581
+      },
+      "crafted_history": {
+        "2026-09-20": 178970
+      },
+      "sold_history": {
+        "2026-09-20": 338430
+      },
+      "quests_history": {
+        "2026-09-20": 32961
+      }
     },
     "5d0ffd8b9e3f051073b3229b": {
       "name": "DallasEric#78795",
@@ -4682,7 +5109,7 @@
         "2026-09-17": 3027031,
         "2026-09-18": 4114794,
         "2026-09-19": 4951163,
-        "2026-09-20": 5355099
+        "2026-09-20": 5746025
       },
       "networth_history": {
         "2026-09-15": 2468617150293,
@@ -4690,7 +5117,7 @@
         "2026-09-17": 2477731527248,
         "2026-09-18": 2479379294557,
         "2026-09-19": 2480419136958,
-        "2026-09-20": 2482388222114
+        "2026-09-20": 2484831989302
       },
       "bounty_history": {
         "2026-09-15": 12738,
@@ -4726,16 +5153,37 @@
       },
       "joined": "2026-09-15 11:24:36",
       "is_vip": true,
-      "last_online": "2026-09-20 01:15:21",
-      "latest_networth": 2482388222114,
-      "latest_help": 16860,
+      "last_online": "2026-09-20 06:40:00",
+      "latest_networth": 2484831989302,
+      "latest_help": 16861,
       "latest_bounty": 12757,
       "latest_prestige": 260950,
       "latest_hero_power": 220088,
-      "latest_event_score": 5355099,
+      "latest_event_score": 5746025,
       "best_lcog_score": 54103,
       "best_kc_score": 9707697,
-      "best_di_score": 1059673
+      "best_di_score": 1059673,
+      "help_history": {
+        "2026-09-20": 16861
+      },
+      "mastered_history": {
+        "2026-09-20": 1185
+      },
+      "ascensions_history": {
+        "2026-09-20": 2480
+      },
+      "collection_history": {
+        "2026-09-20": 55464
+      },
+      "crafted_history": {
+        "2026-09-20": 180810
+      },
+      "sold_history": {
+        "2026-09-20": 231650
+      },
+      "quests_history": {
+        "2026-09-20": 31979
+      }
     }
   }
 }

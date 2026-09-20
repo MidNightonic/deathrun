@@ -133,6 +133,13 @@ def finalize_member_store(member_store: dict[str, Any], generated_at: str | None
         "lcog_best_history",
         "kc_best_history",
         "di_best_history",
+        "help_history",
+        "mastered_history",
+        "ascensions_history",
+        "collection_history",
+        "crafted_history",
+        "sold_history",
+        "quests_history",
     ]
     for record in members.values():
         if not isinstance(record, dict):
@@ -213,6 +220,13 @@ def update_stores_from_snapshot(
         event_score = event_score_of(member)
         networth = stat_of(member, "networth")
         bounty = stat_of(member, "bounty")
+        help_ = stat_of(member, "help")
+        mastered = stat_of(member, "mastered")
+        ascensions = stat_of(member, "ascensions")
+        collection = stat_of(member, "collection")
+        total_crafted = stat_of(member, "total_crafted")
+        total_sold = stat_of(member, "total_sold")
+        total_quests = stat_of(member, "total_quests")
         events = member.get("events") if isinstance(member.get("events"), dict) else {}
         best_lcog = _int(events.get("best_lcog_score"))
         best_kc = _int(events.get("best_kc_score"))
@@ -232,6 +246,13 @@ def update_stores_from_snapshot(
                 "lcog_best_history": {},
                 "kc_best_history": {},
                 "di_best_history": {},
+                "help_history": {},
+                "mastered_history": {},
+                "ascensions_history": {},
+                "collection_history": {},
+                "crafted_history": {},
+                "sold_history": {},
+                "quests_history": {},
             },
         )
 
@@ -249,6 +270,13 @@ def update_stores_from_snapshot(
         _set_history("lcog_best_history", best_lcog)
         _set_history("kc_best_history", best_kc)
         _set_history("di_best_history", best_di)
+        _set_history("help_history", help_)
+        _set_history("mastered_history", mastered)
+        _set_history("ascensions_history", ascensions)
+        _set_history("collection_history", collection)
+        _set_history("crafted_history", total_crafted)
+        _set_history("sold_history", total_sold)
+        _set_history("quests_history", total_quests)
 
         if should_replace_latest(record.get("latest_date"), snapshot_date):
             record["name"] = name

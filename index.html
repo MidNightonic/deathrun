@@ -94,6 +94,16 @@
   .record-badge { color: var(--accent); background: var(--accent-soft); }
   .report-meta { font-size: 12px; color: var(--text-dim); margin: -10px 0 20px; }
 
+  .activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .activity-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .activity-panel h3 {
+    margin: 0; padding: 14px 16px 4px; font-size: 13px; font-weight: 700; color: var(--text);
+  }
+  .activity-panel .activity-sub { padding: 0 16px 12px; font-size: 11px; color: var(--text-dim); }
+  .activity-panel table { font-size: 12px; }
+  .activity-panel th, .activity-panel td { padding: 8px 12px; }
+  .activity-tag { color: var(--text-dim); font-size: 10px; }
+
   .tabs {
     display: inline-flex; gap: 2px; margin: 28px 0 20px; padding: 4px;
     background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
@@ -131,6 +141,7 @@
     <button class="tab" data-tab="weekly">Weekly</button>
     <button class="tab" data-tab="monthly">Monthly</button>
     <button class="tab" data-tab="events">Event Leaderboard</button>
+    <button class="tab" data-tab="activity">Activity Points</button>
   </div>
 
   <div class="tab-panel active" id="tab-overview">
@@ -159,6 +170,7 @@
 
   <div class="tab-panel" id="tab-events">
     <div class="report-meta">Ranked by score in the currently running event. "Record" flags a member's best-ever score in that event type, once we have enough snapshot history to know it's actually a new high.</div>
+    <div class="stats" id="eventStats"></div>
     <div class="table-scroll">
       <table id="eventTable">
         <thead>
@@ -178,6 +190,8 @@
     </div>
     <div class="empty" id="eventEmpty" style="display:none;">No event score data yet.</div>
   </div>
+
+  <div class="tab-panel" id="tab-activity"></div>
 
   <footer id="footer"></footer>
 </div>
@@ -267,8 +281,8 @@ async function load() {
   const footer = document.getElementById("footer");
   try {
     const [membersRes, guildRes] = await Promise.all([
-      fetch("data/members.json"),
-      fetch("data/guild-members.json"),
+      fetch("data/members.json", { cache: "no-store" }),
+      fetch("data/guild-members.json", { cache: "no-store" }),
     ]);
     if (!membersRes.ok || !guildRes.ok) throw new Error("data files not found yet");
     const membersData = await membersRes.json();
@@ -301,6 +315,13 @@ async function load() {
         investments: rec.investments || {},
         networth: rec.networth_history || {},
         bounty: rec.bounty_history || {},
+        help: rec.help_history || {},
+        mastered: rec.mastered_history || {},
+        ascensions: rec.ascensions_history || {},
+        collection: rec.collection_history || {},
+        crafted: rec.crafted_history || {},
+        sold: rec.sold_history || {},
+        quests: rec.quests_history || {},
       };
     }).filter(Boolean);
 
@@ -340,6 +361,7 @@ async function load() {
     render();
     renderEvents();
     PERIODS.forEach(p => renderPeriodTab(p));
+    renderActivity();
   } catch (err) {
     document.getElementById("empty").style.display = "block";
     document.getElementById("empty").textContent = "No data yet — " + err.message;
@@ -369,6 +391,17 @@ function renderEvents() {
   const empty = document.getElementById("eventEmpty");
   const withScore = eventRows.filter(r => r.score > 0);
   empty.style.display = withScore.length ? "none" : "block";
+
+  const totalScore = eventRows.reduce((s, r) => s + r.score, 0);
+  const totalLcog = eventRows.reduce((s, r) => s + r.bestLcog, 0);
+  const totalKc = eventRows.reduce((s, r) => s + r.bestKc, 0);
+  const totalDi = eventRows.reduce((s, r) => s + r.bestDi, 0);
+  document.getElementById("eventStats").innerHTML = `
+    <div class="stat"><div class="num">${totalScore.toLocaleString()}</div><div class="label">Guild Current Event</div></div>
+    <div class="stat"><div class="num">${totalLcog.toLocaleString()}</div><div class="label">Guild Total LCOG</div></div>
+    <div class="stat"><div class="num">${totalKc.toLocaleString()}</div><div class="label">Guild Total KC</div></div>
+    <div class="stat"><div class="num">${totalDi.toLocaleString()}</div><div class="label">Guild Total DI</div></div>
+  `;
 
   const rows = sortRows(eventRows, eventSort.key, eventSort.dir);
   applySortArrows(document.getElementById("eventTable"), eventSort.key, eventSort.dir);
@@ -472,6 +505,97 @@ function renderPeriodTab(period) {
     </div>
   `;
   applySortArrows(panel.querySelector("table"), sort.key, sort.dir);
+}
+
+const BIWEEKLY_DAYS = 14;
+
+function gainOver(history, asOfDate, days) {
+  const latest = latestOf(history);
+  const past = valueDaysAgo(history, asOfDate, days);
+  if (latest == null || past == null) return null;
+  return latest - past;
+}
+
+function pointsFmt(v) {
+  if (v == null) return "-";
+  return Number(v.toFixed(1)).toLocaleString();
+}
+
+function activityPanel(title, sub, rows, cols) {
+  return `
+    <div class="activity-panel">
+      <h3>${title}</h3>
+      <div class="activity-sub">${sub}</div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr>${cols.map(c => `<th>${c}</th>`).join("")}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function renderActivity() {
+  const panel = document.getElementById("tab-activity");
+  const asOf = guildInfo.snapshot_date;
+
+  const rows = periodMembers.map(m => {
+    const memberAsOf = latestDateOf(m.investments, asOf);
+    const nwGain = gainOver(m.networth, memberAsOf, BIWEEKLY_DAYS);
+    const investGain = gainOver(m.investments, memberAsOf, BIWEEKLY_DAYS);
+    const bountyGain = gainOver(m.bounty, memberAsOf, BIWEEKLY_DAYS);
+    const craftedGain = gainOver(m.crafted, memberAsOf, BIWEEKLY_DAYS);
+    const soldGain = gainOver(m.sold, memberAsOf, BIWEEKLY_DAYS);
+    const helpGain = gainOver(m.help, memberAsOf, BIWEEKLY_DAYS);
+    const questsGain = gainOver(m.quests, memberAsOf, BIWEEKLY_DAYS);
+    const collectionGain = gainOver(m.collection, memberAsOf, BIWEEKLY_DAYS);
+    const masteredGain = gainOver(m.mastered, memberAsOf, BIWEEKLY_DAYS);
+    const ascensionsGain = gainOver(m.ascensions, memberAsOf, BIWEEKLY_DAYS);
+
+    const nwPoints = (nwGain || 0) / 1e9 * 1;
+    const investPoints = (investGain || 0) / 1e9 * 1.5;
+    const bountyPoints = Math.floor((bountyGain || 0) / 3);
+    const craftedPoints = (craftedGain || 0) / 20;
+    const soldPoints = (soldGain || 0) / 40;
+    const helpPoints = (helpGain || 0) * 0.2;
+    const questsPoints = (questsGain || 0) / 5;
+    const collectionPoints = (collectionGain || 0) / 10;
+    const masteredPoints = (masteredGain || 0) * 10;
+    const ascensionsPoints = (ascensionsGain || 0) * 2;
+    const totalPoints = nwPoints + investPoints + bountyPoints + craftedPoints + soldPoints
+      + helpPoints + questsPoints + collectionPoints + masteredPoints + ascensionsPoints;
+
+    return { name: m.name, role: m.role, nwGain, investGain, bountyGain, nwPoints, investPoints, bountyPoints, totalPoints };
+  });
+
+  const byOverall = rows.slice().sort((a, b) => b.totalPoints - a.totalPoints).slice(0, 20);
+  const byNW = rows.filter(r => r.nwGain != null).sort((a, b) => b.nwGain - a.nwGain).slice(0, 20);
+  const byInvest = rows.filter(r => r.investGain != null).sort((a, b) => b.investGain - a.investGain).slice(0, 20);
+  const byBounty = rows.filter(r => r.bountyGain != null).sort((a, b) => b.bountyGain - a.bountyGain).slice(0, 20);
+
+  const tagRow = r => `<span class="activity-tag">[${pointsFmt(r.totalPoints)}]</span>`;
+
+  panel.innerHTML = `
+    <div class="report-meta">
+      Bi-weekly (last ${BIWEEKLY_DAYS} days) · Generated ${guildInfo.fetched_at || "-"}<br>
+      Overall points = Networth + Investment + Bounty + Crafted + Sold + Help + Quests + Collection + Mastered + Ascension gains.
+      Crafted/Sold/Help/Quests/Collection/Mastered/Ascension tracking started ${asOf} — those components read 0 until ${BIWEEKLY_DAYS} days of history exist.
+    </div>
+    <div class="activity-grid">
+      ${activityPanel("Top 20 Overall Activity Points", "NW + Invest + Bounty + Crafted + Sold + Help + Quests + Collection + Mastered + Ascension",
+        byOverall.map((r, i) => `<tr><td class="rank-cell">${i + 1}</td><td class="name">${escapeHtml(r.name)}</td><td class="num-cell">${pointsFmt(r.totalPoints)}</td></tr>`).join(""),
+        ["#", "Player", "Points"])}
+      ${activityPanel("Top 20 Net Worth Gain", "1G Networth = 1 point",
+        byNW.map((r, i) => `<tr><td class="rank-cell">${i + 1}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.nwGain)}">${formatDelta(r.nwGain)}</td><td class="num-cell">${pointsFmt(r.nwPoints)}</td></tr>`).join(""),
+        ["#", "Player", "Raw", "Points"])}
+      ${activityPanel("Top 20 Investment Gain", "1G Investment = 1.5 points",
+        byInvest.map((r, i) => `<tr><td class="rank-cell">${i + 1}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.investGain)}">${formatDelta(r.investGain)}</td><td class="num-cell">${pointsFmt(r.investPoints)}</td></tr>`).join(""),
+        ["#", "Player", "Raw", "Points"])}
+      ${activityPanel("Top 20 Bounty Points", "3 Bounty = 1 point (rounded down)",
+        byBounty.map((r, i) => `<tr><td class="rank-cell">${i + 1}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.bountyGain)}">${formatCount(r.bountyGain)}</td><td class="num-cell">${pointsFmt(r.bountyPoints)}</td></tr>`).join(""),
+        ["#", "Player", "Raw", "Points"])}
+    </div>
+  `;
 }
 
 function escapeHtml(s) {
