@@ -79,6 +79,20 @@
   .chart-tooltip .val { font-family: var(--mono); font-weight: 600; color: var(--text); }
   .chart-tooltip .date { font-weight: 600; color: var(--text); margin-bottom: 4px; }
 
+  .metric-select {
+    background: var(--panel); border: 1px solid var(--border); color: var(--text);
+    border-radius: 8px; padding: 6px 10px; font-size: 12px; font-family: var(--sans); cursor: pointer;
+  }
+  .member-picker { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
+  .member-pill {
+    padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--panel); color: var(--text-dim); font-size: 11px; font-family: var(--sans);
+    cursor: pointer;
+  }
+  .member-pill:hover:not(:disabled) { border-color: var(--accent); color: var(--text); }
+  .member-pill.active { border-color: var(--accent); color: var(--bg); background: var(--accent); font-weight: 600; }
+  .member-pill:disabled { opacity: 0.35; cursor: default; }
+
 
   .table-scroll {
     background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
@@ -169,6 +183,16 @@
       <div class="chart-legend" id="chartLegend"></div>
     </div>
     <div class="chart-wrap" id="chartWrap"></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-head">
+      <h3>Member Trends</h3>
+      <select id="trendMetric" class="metric-select"></select>
+    </div>
+    <div class="member-picker" id="memberPicker"></div>
+    <div class="chart-legend" id="trendLegend"></div>
+    <div class="chart-wrap" id="trendChartWrap"></div>
   </div>
 
   <div class="tabs">
@@ -367,6 +391,7 @@ async function load() {
         crafted: rec.crafted_history || {},
         sold: rec.sold_history || {},
         quests: rec.quests_history || {},
+        eventScore: rec.event_scores || {},
       };
     }).filter(Boolean);
 
@@ -407,6 +432,7 @@ async function load() {
 
     footer.textContent = `Latest snapshot: ${guildEntry.snapshot_date || "-"} · ${state.rows.length} members · generated ${membersData.generated_at || "-"}`;
     renderGuildChart();
+    renderTrendChart();
     render();
     renderEvents();
     PERIODS.forEach(p => renderPeriodTab(p));
@@ -486,27 +512,33 @@ function isNewInPeriod(joined, asOfDate, days) {
   return (asOfMs - joinedMs) / 86400000 < days;
 }
 
-function renderGuildChart() {
-  const wrap = document.getElementById("chartWrap");
-  const legend = document.getElementById("chartLegend");
+// Shared line-chart engine: renders into #<wrapId>/#<legendId>, one instance per call
+// so multiple independent charts can coexist on the page (element ids are namespaced
+// off wrapId). seriesDefs: [{ label, color, values }], values aligned to `dates`.
+function renderLineChart(wrapId, legendId, dates, seriesDefs, opts) {
+  opts = opts || {};
+  const muted = !!opts.muted; // many-series mode: thin gray lines, highlight nearest on hover
+  const wrap = document.getElementById(wrapId);
+  const legend = legendId ? document.getElementById(legendId) : null;
   if (!wrap) return;
-  const dates = availableDates;
+
+  if (!seriesDefs.length) {
+    wrap.innerHTML = '<div class="empty">Nothing selected to chart.</div>';
+    if (legend) legend.innerHTML = "";
+    return;
+  }
   if (dates.length < 2) {
     wrap.innerHTML = '<div class="empty">Need at least 2 days of history for a trend chart.</div>';
-    legend.innerHTML = "";
+    if (legend) legend.innerHTML = "";
     return;
   }
 
-  const investSeries = dates.map(d => periodMembers.reduce((s, m) => s + (valueAt(m.investments, d) || 0), 0));
-  const nwSeries = dates.map(d => periodMembers.reduce((s, m) => s + (valueAt(m.networth, d) || 0), 0));
-  const seriesDefs = [
-    { label: "Total Investment", color: "#f2b544", values: investSeries },
-    { label: "Guild Networth", color: "#3987e5", values: nwSeries },
-  ];
+  const svgId = wrapId + "Svg", tooltipId = wrapId + "Tooltip", crosshairId = wrapId + "Crosshair", dotsId = wrapId + "Dots", hitId = wrapId + "Hit";
+  const MUTED_COLOR = "#4a5162";
 
   const W = 900, H = 260, padL = 60, padR = 16, padT = 16, padB = 26;
   const plotW = W - padL - padR, plotH = H - padT - padB;
-  const maxV = Math.max(...investSeries, ...nwSeries) * 1.08 || 1;
+  const maxV = Math.max(0, ...seriesDefs.flatMap(s => s.values)) * 1.08 || 1;
   const xAt = i => padL + (dates.length === 1 ? 0 : (i / (dates.length - 1)) * plotW);
   const yAt = v => padT + plotH - (v / maxV) * plotH;
   const pathFor = values => values.map((v, i) => `${i === 0 ? "M" : "L"}${xAt(i).toFixed(1)},${yAt(v).toFixed(1)}`).join(" ");
@@ -522,48 +554,77 @@ function renderGuildChart() {
   if (xTickIdxs[xTickIdxs.length - 1] !== dates.length - 1) xTickIdxs.push(dates.length - 1);
   const xLabels = xTickIdxs.map(i => `<text x="${xAt(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" class="chart-axis-label">${escapeHtml(dates[i].slice(5))}</text>`).join("");
 
-  const paths = seriesDefs.map(s => `<path d="${pathFor(s.values)}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`).join("");
-  const endDots = seriesDefs.map(s => {
+  const paths = seriesDefs.map((s, i) => muted
+    ? `<path id="${svgId}-line-${i}" d="${pathFor(s.values)}" fill="none" stroke="${MUTED_COLOR}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>`
+    : `<path id="${svgId}-line-${i}" d="${pathFor(s.values)}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
+  ).join("");
+  const endDots = muted ? "" : seriesDefs.map(s => {
     const i = s.values.length - 1;
     return `<circle cx="${xAt(i).toFixed(1)}" cy="${yAt(s.values[i]).toFixed(1)}" r="4" fill="${s.color}" stroke="#12151c" stroke-width="2"/>`;
   }).join("");
 
   wrap.innerHTML = `
-    <svg viewBox="0 0 ${W} ${H}" class="chart-svg" id="guildChartSvg">
+    <svg viewBox="0 0 ${W} ${H}" class="chart-svg" id="${svgId}">
       ${gridLines}${yLabels}${xLabels}${paths}${endDots}
-      <line id="chartCrosshair" x1="0" x2="0" y1="${padT}" y2="${H - padB}" class="chart-crosshair" style="display:none"/>
-      <g id="chartHoverDots"></g>
-      <rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="transparent" id="chartHitRect"/>
+      <line id="${crosshairId}" x1="0" x2="0" y1="${padT}" y2="${H - padB}" class="chart-crosshair" style="display:none"/>
+      <g id="${dotsId}"></g>
+      <rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="transparent" id="${hitId}"/>
     </svg>
-    <div class="chart-tooltip" id="chartTooltip"></div>
+    <div class="chart-tooltip" id="${tooltipId}"></div>
   `;
 
-  legend.innerHTML = seriesDefs.map(s =>
-    `<span class="key"><span class="swatch" style="background:${s.color}"></span>${escapeHtml(s.label)}</span>`
-  ).join("");
+  if (legend) {
+    legend.innerHTML = muted
+      ? `<span class="key">${seriesDefs.length} members &middot; hover a line to identify it</span>`
+      : seriesDefs.map(s => `<span class="key"><span class="swatch" style="background:${s.color}"></span>${escapeHtml(s.label)}</span>`).join("");
+  }
 
-  const hitRect = document.getElementById("chartHitRect");
-  const tooltip = document.getElementById("chartTooltip");
-  const crosshair = document.getElementById("chartCrosshair");
-  const hoverDots = document.getElementById("chartHoverDots");
+  const hitRect = document.getElementById(hitId);
+  const tooltip = document.getElementById(tooltipId);
+  const crosshair = document.getElementById(crosshairId);
+  const hoverDots = document.getElementById(dotsId);
+  const svgEl = document.getElementById(svgId);
+
+  function resetLines() {
+    if (!muted) return;
+    seriesDefs.forEach((s, i) => {
+      const p = document.getElementById(`${svgId}-line-${i}`);
+      if (p) { p.setAttribute("stroke", MUTED_COLOR); p.setAttribute("stroke-width", "1.5"); p.setAttribute("opacity", "0.6"); }
+    });
+  }
 
   function showAt(clientX, clientY) {
-    const svgRect = hitRect.ownerSVGElement.getBoundingClientRect();
+    const svgRect = svgEl.getBoundingClientRect();
     const localX = (clientX - svgRect.left) * (W / svgRect.width);
+    const localY = (clientY - svgRect.top) * (H / svgRect.height);
     let idx = Math.round(((localX - padL) / plotW) * (dates.length - 1));
     idx = Math.max(0, Math.min(dates.length - 1, idx));
     const x = xAt(idx);
     crosshair.setAttribute("x1", x);
     crosshair.setAttribute("x2", x);
     crosshair.style.display = "block";
-    hoverDots.innerHTML = seriesDefs.map(s => `<circle cx="${x.toFixed(1)}" cy="${yAt(s.values[idx]).toFixed(1)}" r="4" fill="${s.color}" stroke="#12151c" stroke-width="2"/>`).join("");
+
+    let activeSeries = seriesDefs;
+    if (muted) {
+      resetLines();
+      let nearestI = 0, nearestDist = Infinity;
+      seriesDefs.forEach((s, i) => {
+        const d = Math.abs(yAt(s.values[idx]) - localY);
+        if (d < nearestDist) { nearestDist = d; nearestI = i; }
+      });
+      const p = document.getElementById(`${svgId}-line-${nearestI}`);
+      if (p) { p.setAttribute("stroke", "#f2b544"); p.setAttribute("stroke-width", "2.5"); p.setAttribute("opacity", "1"); svgEl.appendChild(p); }
+      activeSeries = [{ ...seriesDefs[nearestI], color: "#f2b544" }];
+    }
+
+    hoverDots.innerHTML = activeSeries.map(s => `<circle cx="${x.toFixed(1)}" cy="${yAt(s.values[idx]).toFixed(1)}" r="4" fill="${s.color}" stroke="#12151c" stroke-width="2"/>`).join("");
 
     const dateEl = document.createElement("div");
     dateEl.className = "date";
     dateEl.textContent = dates[idx];
     tooltip.innerHTML = "";
     tooltip.appendChild(dateEl);
-    seriesDefs.forEach(s => {
+    activeSeries.forEach(s => {
       const row = document.createElement("div");
       row.className = "row";
       const sw = document.createElement("span");
@@ -586,13 +647,75 @@ function renderGuildChart() {
     tooltip.style.top = Math.max(0, top) + "px";
   }
 
-  const svgEl = document.getElementById("guildChartSvg");
   svgEl.addEventListener("mousemove", e => showAt(e.clientX, e.clientY));
   svgEl.addEventListener("mouseleave", () => {
     crosshair.style.display = "none";
     hoverDots.innerHTML = "";
     tooltip.style.opacity = "0";
+    resetLines();
   });
+}
+
+function renderGuildChart() {
+  const dates = availableDates;
+  const investSeries = dates.map(d => periodMembers.reduce((s, m) => s + (valueAt(m.investments, d) || 0), 0));
+  const nwSeries = dates.map(d => periodMembers.reduce((s, m) => s + (valueAt(m.networth, d) || 0), 0));
+  renderLineChart("chartWrap", "chartLegend", dates, [
+    { label: "Total Investment", color: "#f2b544", values: investSeries },
+    { label: "Guild Networth", color: "#3987e5", values: nwSeries },
+  ]);
+}
+
+const TREND_METRICS = [
+  { key: "investments", label: "Investment" },
+  { key: "networth", label: "Networth" },
+  { key: "bounty", label: "Bounty" },
+  { key: "eventScore", label: "Event Score (current)" },
+  { key: "help", label: "Help" },
+  { key: "mastered", label: "Mastered" },
+  { key: "ascensions", label: "Ascensions" },
+  { key: "collection", label: "Collection" },
+  { key: "crafted", label: "Items Crafted" },
+  { key: "sold", label: "Items Sold" },
+  { key: "quests", label: "Quests" },
+];
+const TREND_COLORS = ["#f2b544", "#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#9085e9", "#e66767"];
+const MAX_TREND_MEMBERS = 8;
+let trendMetric = "investments";
+let trendSelectedNames = [];
+
+function renderMemberPicker() {
+  const picker = document.getElementById("memberPicker");
+  if (!picker) return;
+  const names = periodMembers.map(m => m.name).sort((a, b) => a.localeCompare(b));
+  picker.innerHTML = `
+    <button class="member-pill ${trendSelectedNames.length === 0 ? "active" : ""}" data-name="">All Guild (every member)</button>
+    ${names.map(n => `<button class="member-pill ${trendSelectedNames.includes(n) ? "active" : ""}" data-name="${escapeHtml(n)}" ${!trendSelectedNames.includes(n) && trendSelectedNames.length >= MAX_TREND_MEMBERS ? "disabled" : ""}>${escapeHtml(n)}</button>`).join("")}
+  `;
+}
+
+function renderTrendChart() {
+  const select = document.getElementById("trendMetric");
+  if (select && select.value !== trendMetric) select.value = trendMetric;
+  renderMemberPicker();
+
+  const dates = availableDates;
+  const metric = TREND_METRICS.find(m => m.key === trendMetric) || TREND_METRICS[0];
+  let seriesDefs, muted;
+  if (trendSelectedNames.length === 0) {
+    // "All Guild": every member as their own line — too many for distinct colors, so
+    // render muted with hover-to-identify instead of trying to color 20 series.
+    seriesDefs = periodMembers.map(m => ({ label: m.name, values: dates.map(d => valueAt(m[metric.key], d) || 0) }));
+    muted = true;
+  } else {
+    seriesDefs = trendSelectedNames.map((name, i) => {
+      const member = periodMembers.find(m => m.name === name);
+      const values = member ? dates.map(d => valueAt(member[metric.key], d) || 0) : dates.map(() => 0);
+      return { label: name, color: TREND_COLORS[i % TREND_COLORS.length], values };
+    });
+    muted = false;
+  }
+  renderLineChart("trendChartWrap", "trendLegend", dates, seriesDefs, { muted });
 }
 
 function renderPeriodTab(period) {
@@ -857,6 +980,27 @@ document.querySelectorAll(".tab").forEach(btn => {
     document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b === btn));
     document.querySelectorAll(".tab-panel").forEach(p => p.classList.toggle("active", p.id === "tab-" + btn.dataset.tab));
   });
+});
+
+const trendMetricSelect = document.getElementById("trendMetric");
+trendMetricSelect.innerHTML = TREND_METRICS.map(m => `<option value="${m.key}">${escapeHtml(m.label)}</option>`).join("");
+trendMetricSelect.addEventListener("change", e => {
+  trendMetric = e.target.value;
+  renderTrendChart();
+});
+
+document.getElementById("memberPicker").addEventListener("click", e => {
+  const btn = e.target.closest(".member-pill");
+  if (!btn) return;
+  const name = btn.dataset.name;
+  if (name === "") {
+    trendSelectedNames = [];
+  } else if (trendSelectedNames.includes(name)) {
+    trendSelectedNames = trendSelectedNames.filter(n => n !== name);
+  } else if (trendSelectedNames.length < MAX_TREND_MEMBERS) {
+    trendSelectedNames.push(name);
+  }
+  renderTrendChart();
 });
 
 load();
