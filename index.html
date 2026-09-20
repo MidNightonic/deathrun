@@ -687,13 +687,13 @@ const TREND_METRICS = [
   { key: "lcogBest", label: "Event Score — LCOG" },
   { key: "kcBest", label: "Event Score — KC" },
   { key: "diBest", label: "Event Score — DI" },
-  { key: "help", label: "Help (per day)", perDay: true },
-  { key: "mastered", label: "Mastered (per day)", perDay: true },
-  { key: "ascensions", label: "Ascensions (per day)", perDay: true },
-  { key: "collection", label: "Collection (per day)", perDay: true },
-  { key: "crafted", label: "Items Crafted (per day)", perDay: true },
-  { key: "sold", label: "Items Sold (per day)", perDay: true },
-  { key: "quests", label: "Quests (per day)", perDay: true },
+  { key: "help", label: "Help" },
+  { key: "mastered", label: "Mastered" },
+  { key: "ascensions", label: "Ascensions" },
+  { key: "collection", label: "Collection" },
+  { key: "crafted", label: "Items Crafted" },
+  { key: "sold", label: "Items Sold" },
+  { key: "quests", label: "Quests" },
 ];
 // Deterministic per-member color: same member always gets the same hue, everywhere
 // on the site (chart lines, table dots), instead of a color that shifts by position.
@@ -731,20 +731,8 @@ function renderMemberPicker() {
   `;
 }
 
-// Cumulative counters (crafted, sold, ...) make a boring ever-rising ramp — for those,
-// chart the day-over-day change instead of the running total.
-function toDailySeries(dates, history) {
-  return dates.map((d, i) => {
-    if (i === 0) return 0;
-    const cur = valueAt(history, d);
-    const prev = valueAt(history, dates[i - 1]);
-    if (cur == null || prev == null) return 0;
-    return Math.max(0, cur - prev);
-  });
-}
-
 function metricSeries(member, metric, dates) {
-  return metric.perDay ? toDailySeries(dates, member[metric.key]) : dates.map(d => valueAt(member[metric.key], d) || 0);
+  return dates.map(d => valueAt(member[metric.key], d) || 0);
 }
 
 function renderTrendChart() {
