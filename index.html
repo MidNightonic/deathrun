@@ -25,7 +25,10 @@
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: var(--bg);
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(242, 181, 68, 0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(57, 135, 229, 0.08), transparent 55%),
+      var(--bg);
     color: var(--text);
     font-family: var(--sans);
     min-height: 100vh;
@@ -37,6 +40,7 @@
     width: 40px; height: 40px; border-radius: 10px;
     background: var(--accent-soft); border: 1px solid var(--accent);
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(242, 181, 68, 0.35);
   }
   .crest span { font-family: var(--sans); font-weight: 700; color: var(--accent); font-size: 17px; }
   h1 {
@@ -49,9 +53,13 @@
     gap: 12px; margin: 28px 0;
   }
   .stat {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    background: var(--panel); border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: 12px;
     padding: 16px 18px;
   }
+  .stats .stat:nth-child(5n+2) { border-top-color: #3987e5; }
+  .stats .stat:nth-child(5n+3) { border-top-color: #199e70; }
+  .stats .stat:nth-child(5n+4) { border-top-color: #d55181; }
+  .stats .stat:nth-child(5n+5) { border-top-color: #9085e9; }
   .stat .num { font-family: var(--mono); font-size: 22px; font-weight: 600; color: var(--text); line-height: 1.2; }
   .stat .label { font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-dim); margin-top: 6px; }
 
@@ -112,6 +120,11 @@
   tbody td { padding: 12px 16px; vertical-align: middle; white-space: nowrap; }
   .name { font-weight: 600; color: var(--text); }
   .role { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.03em; }
+  .member-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: middle; flex-shrink: 0; }
+  .role-badge {
+    display: inline-block; padding: 2px 9px; border-radius: 999px; border: 1px solid;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  }
   .num-cell { font-family: var(--mono); text-align: right; }
   .delta-up { color: var(--green); }
   .delta-down { color: var(--red); }
@@ -457,8 +470,8 @@ function render() {
 
   tbody.innerHTML = rows.map(r => `
       <tr>
-        <td class="name">${escapeHtml(r.name)}</td>
-        <td class="role">${escapeHtml(r.role)}</td>
+        <td class="name">${nameCell(r.name)}</td>
+        <td class="role">${roleBadge(r.role)}</td>
         <td class="num-cell">${formatInvestment(r.investment)}</td>
       </tr>`).join("");
 }
@@ -491,8 +504,8 @@ function renderEvents() {
   tbody.innerHTML = rows.map((r, i) => `
       <tr>
         <td class="rank-cell">${i + 1}</td>
-        <td class="name">${escapeHtml(r.name)}</td>
-        <td class="role">${escapeHtml(r.role)}</td>
+        <td class="name">${nameCell(r.name)}</td>
+        <td class="role">${roleBadge(r.role)}</td>
         <td class="num-cell">${r.score.toLocaleString()}</td>
         <td class="num-cell">${r.bestLcog.toLocaleString()}</td>
         <td class="num-cell">${r.bestKc.toLocaleString()}</td>
@@ -536,7 +549,6 @@ function renderLineChart(wrapId, legendId, dates, seriesDefs, opts) {
   }
 
   const svgId = wrapId + "Svg", tooltipId = wrapId + "Tooltip", crosshairId = wrapId + "Crosshair", dotsId = wrapId + "Dots", hitId = wrapId + "Hit";
-  const MUTED_COLOR = "#4a5162";
 
   const W = 900, H = 260, padL = 60, padR = 16, padT = 16, padB = 26;
   const plotW = W - padL - padR, plotH = H - padT - padB;
@@ -557,12 +569,12 @@ function renderLineChart(wrapId, legendId, dates, seriesDefs, opts) {
   const xLabels = xTickIdxs.map(i => `<text x="${xAt(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" class="chart-axis-label">${escapeHtml(dates[i].slice(5))}</text>`).join("");
 
   const paths = seriesDefs.map((s, i) => muted
-    ? `<path id="${svgId}-line-${i}" d="${pathFor(s.values)}" fill="none" stroke="${MUTED_COLOR}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>`
+    ? `<path id="${svgId}-line-${i}" d="${pathFor(s.values)}" fill="none" stroke="${s.color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>`
     : `<path id="${svgId}-line-${i}" d="${pathFor(s.values)}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
   ).join("");
-  const endDots = muted ? "" : seriesDefs.map(s => {
+  const endDots = seriesDefs.map(s => {
     const i = s.values.length - 1;
-    return `<circle cx="${xAt(i).toFixed(1)}" cy="${yAt(s.values[i]).toFixed(1)}" r="4" fill="${s.color}" stroke="#12151c" stroke-width="2"/>`;
+    return `<circle cx="${xAt(i).toFixed(1)}" cy="${yAt(s.values[i]).toFixed(1)}" r="${muted ? 3 : 4}" fill="${s.color}" stroke="#12151c" stroke-width="2" opacity="${muted ? 0.6 : 1}"/>`;
   }).join("");
 
   wrap.innerHTML = `
@@ -591,7 +603,7 @@ function renderLineChart(wrapId, legendId, dates, seriesDefs, opts) {
     if (!muted) return;
     seriesDefs.forEach((s, i) => {
       const p = document.getElementById(`${svgId}-line-${i}`);
-      if (p) { p.setAttribute("stroke", MUTED_COLOR); p.setAttribute("stroke-width", "1.5"); p.setAttribute("opacity", "0.6"); }
+      if (p) { p.setAttribute("stroke", s.color); p.setAttribute("stroke-width", "1.5"); p.setAttribute("opacity", "0.5"); }
     });
   }
 
@@ -615,8 +627,8 @@ function renderLineChart(wrapId, legendId, dates, seriesDefs, opts) {
         if (d < nearestDist) { nearestDist = d; nearestI = i; }
       });
       const p = document.getElementById(`${svgId}-line-${nearestI}`);
-      if (p) { p.setAttribute("stroke", "#f2b544"); p.setAttribute("stroke-width", "2.5"); p.setAttribute("opacity", "1"); svgEl.appendChild(p); }
-      activeSeries = [{ ...seriesDefs[nearestI], color: "#f2b544" }];
+      if (p) { p.setAttribute("stroke-width", "2.5"); p.setAttribute("opacity", "1"); svgEl.appendChild(p); }
+      activeSeries = [seriesDefs[nearestI]];
     }
 
     hoverDots.innerHTML = activeSeries.map(s => `<circle cx="${x.toFixed(1)}" cy="${yAt(s.values[idx]).toFixed(1)}" r="4" fill="${s.color}" stroke="#12151c" stroke-width="2"/>`).join("");
@@ -675,15 +687,36 @@ const TREND_METRICS = [
   { key: "lcogBest", label: "Event Score — LCOG" },
   { key: "kcBest", label: "Event Score — KC" },
   { key: "diBest", label: "Event Score — DI" },
-  { key: "help", label: "Help" },
-  { key: "mastered", label: "Mastered" },
-  { key: "ascensions", label: "Ascensions" },
-  { key: "collection", label: "Collection" },
+  { key: "help", label: "Help (per day)", perDay: true },
+  { key: "mastered", label: "Mastered (per day)", perDay: true },
+  { key: "ascensions", label: "Ascensions (per day)", perDay: true },
+  { key: "collection", label: "Collection (per day)", perDay: true },
   { key: "crafted", label: "Items Crafted (per day)", perDay: true },
   { key: "sold", label: "Items Sold (per day)", perDay: true },
-  { key: "quests", label: "Quests" },
+  { key: "quests", label: "Quests (per day)", perDay: true },
 ];
-const TREND_COLORS = ["#f2b544", "#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#9085e9", "#e66767"];
+// Deterministic per-member color: same member always gets the same hue, everywhere
+// on the site (chart lines, table dots), instead of a color that shifts by position.
+function memberColor(name, opts) {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  const hue = hash % 360;
+  const sat = (opts && opts.sat) || 70;
+  const light = (opts && opts.light) || 62;
+  return `hsl(${hue}, ${sat}%, ${light}%)`;
+}
+
+function nameCell(name) {
+  return `<span class="member-dot" style="background:${memberColor(name)}"></span>${escapeHtml(name)}`;
+}
+
+function roleBadge(role) {
+  const r = (role || "").toLowerCase();
+  let color = "var(--text-dim)", bg = "transparent", border = "var(--border)";
+  if (r === "guildmaster") { color = "var(--accent)"; bg = "var(--accent-soft)"; border = "var(--accent)"; }
+  else if (r === "officer") { color = "#3987e5"; bg = "rgba(57,135,229,0.15)"; border = "#3987e5"; }
+  return `<span class="role-badge" style="color:${color};background:${bg};border-color:${border}">${escapeHtml(role || "")}</span>`;
+}
 const MAX_TREND_MEMBERS = 8;
 let trendMetric = "investments";
 let trendSelectedNames = [];
@@ -723,15 +756,15 @@ function renderTrendChart() {
   const metric = TREND_METRICS.find(m => m.key === trendMetric) || TREND_METRICS[0];
   let seriesDefs, muted;
   if (trendSelectedNames.length === 0) {
-    // "All Guild": every member as their own line — too many for distinct colors, so
-    // render muted with hover-to-identify instead of trying to color 20 series.
-    seriesDefs = periodMembers.map(m => ({ label: m.name, values: metricSeries(m, metric, dates) }));
+    // "All Guild": every member gets their own color (dimmed at rest, since 20 lines at
+    // full brightness is unreadable) — hover brings one to full opacity to identify it.
+    seriesDefs = periodMembers.map(m => ({ label: m.name, color: memberColor(m.name), values: metricSeries(m, metric, dates) }));
     muted = true;
   } else {
-    seriesDefs = trendSelectedNames.map((name, i) => {
+    seriesDefs = trendSelectedNames.map(name => {
       const member = periodMembers.find(m => m.name === name);
       const values = member ? metricSeries(member, metric, dates) : dates.map(() => 0);
-      return { label: name, color: TREND_COLORS[i % TREND_COLORS.length], values };
+      return { label: name, color: memberColor(name), values };
     });
     muted = false;
   }
@@ -797,7 +830,7 @@ function renderPeriodTab(period) {
         <tbody>
           ${sortedRows.map(r => `
             <tr>
-              <td class="name">${escapeHtml(r.name)}${r.isNew ? ' <span class="new-badge">NEW</span>' : ""}</td>
+              <td class="name">${nameCell(r.name)}${r.isNew ? ' <span class="new-badge">NEW</span>' : ""}</td>
               <td class="num-cell">${r.isNew ? "-" : formatInvestment(r.startNW)}</td>
               <td class="num-cell">${formatInvestment(r.currentNW)}</td>
               <td class="num-cell ${r.isNew ? "" : deltaClass(r.deltaNW)}">${r.isNew ? '<span class="new-badge">NEW</span>' : formatDelta(r.deltaNW)}</td>
@@ -927,16 +960,16 @@ function renderActivity() {
     </div>
     <div class="activity-grid">
       ${activityPanel("Top 20 Overall Activity Points", "NW + Invest + Bounty + Crafted + Sold + Help + Quests + Collection + Mastered + Ascension",
-        byOverall.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${escapeHtml(r.name)}</td><td class="num-cell">${pointsFmt(r.totalPoints)}</td></tr>`).join(""),
+        byOverall.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${nameCell(r.name)}</td><td class="num-cell">${pointsFmt(r.totalPoints)}</td></tr>`).join(""),
         ["#", "Player", "Points"])}
       ${activityPanel("Top 20 Net Worth Gain", "1G Networth = 1 point",
-        byNW.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.nwGain)}">${formatDelta(r.nwGain)}</td><td class="num-cell">${pointsFmt(r.nwPoints)}</td></tr>`).join(""),
+        byNW.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${nameCell(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.nwGain)}">${formatDelta(r.nwGain)}</td><td class="num-cell">${pointsFmt(r.nwPoints)}</td></tr>`).join(""),
         ["#", "Player", "Raw", "Points"])}
       ${activityPanel("Top 20 Investment Gain", "1G Investment = 1.5 points",
-        byInvest.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.investGain)}">${formatDelta(r.investGain)}</td><td class="num-cell">${pointsFmt(r.investPoints)}</td></tr>`).join(""),
+        byInvest.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${nameCell(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.investGain)}">${formatDelta(r.investGain)}</td><td class="num-cell">${pointsFmt(r.investPoints)}</td></tr>`).join(""),
         ["#", "Player", "Raw", "Points"])}
       ${activityPanel("Top 20 Bounty Points", "3 Bounty = 1 point (rounded down)",
-        byBounty.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.bountyGain)}">${formatCount(r.bountyGain)}</td><td class="num-cell">${pointsFmt(r.bountyPoints)}</td></tr>`).join(""),
+        byBounty.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${nameCell(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.bountyGain)}">${formatCount(r.bountyGain)}</td><td class="num-cell">${pointsFmt(r.bountyPoints)}</td></tr>`).join(""),
         ["#", "Player", "Raw", "Points"])}
     </div>
   `;
