@@ -180,7 +180,7 @@
   <div class="tab-panel" id="tab-monthly"></div>
 
   <div class="tab-panel" id="tab-events">
-    <div class="report-meta">Ranked by score in the currently running event. "Record" flags when a member's current progress already beats the final score from their last completed run of that same event type (not just yesterday) — hover for that previous best. Needs at least one finished prior event to compare against.</div>
+    <div class="report-meta">Ranked by score in the currently running event. "Record" flags whenever a member's score in that event type beats their previous best we've recorded, showing the improvement — hover for the previous best itself. Needs 2+ snapshots of history to know it's actually a new high.</div>
     <div class="stats" id="eventStats"></div>
     <div class="table-scroll">
       <table id="eventTable">
@@ -268,33 +268,18 @@ function valueDaysAgo(history, asOfDate, daysAgo) {
 // when a new occurrence of that event starts — a drop marks the end of one cycle and the
 // value right before it was that cycle's final score. Splits history into completed
 // cycles (by those drops) plus whatever is still in progress.
-function splitEventCycles(history) {
-  const dates = Object.keys(history).sort();
-  if (!dates.length) return { completedFinals: [], current: null };
-  const completedFinals = [];
-  let cycleMax = history[dates[0]] || 0;
-  for (let i = 1; i < dates.length; i++) {
-    const v = history[dates[i]] || 0;
-    if (v < cycleMax) {
-      completedFinals.push(cycleMax);
-      cycleMax = v;
-    } else {
-      cycleMax = Math.max(cycleMax, v);
-    }
-  }
-  return { completedFinals, current: cycleMax };
-}
-
-// Returns { priorMax, gain } if the current (possibly still in-progress) event cycle
-// already beats the best FINAL score from a previously completed cycle of that same
-// event, else null. Needs at least one completed cycle to compare against — otherwise
-// there's no real "previous event" to have broken a record against yet.
+// Returns { priorMax, gain } if the latest recorded value is a new high across all
+// recorded history, else null. Needs at least two snapshots — with only one, there's
+// nothing to compare against yet. This flags continuous personal-best growth, not just
+// resets between distinct event occurrences.
 function newBestInfo(history) {
   if (!history) return null;
-  const { completedFinals, current } = splitEventCycles(history);
-  if (!completedFinals.length || !current) return null;
-  const priorMax = Math.max(...completedFinals);
-  return current > priorMax ? { priorMax, gain: current - priorMax } : null;
+  const dates = Object.keys(history).sort();
+  if (dates.length < 2) return null;
+  const latest = history[dates[dates.length - 1]];
+  if (!latest) return null;
+  const priorMax = Math.max(...dates.slice(0, -1).map(d => history[d]));
+  return latest > priorMax ? { priorMax, gain: latest - priorMax } : null;
 }
 
 let state = { rows: [], sortKey: "investment", sortDir: -1, search: "" };
