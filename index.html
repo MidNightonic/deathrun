@@ -391,7 +391,9 @@ async function load() {
         crafted: rec.crafted_history || {},
         sold: rec.sold_history || {},
         quests: rec.quests_history || {},
-        eventScore: rec.event_scores || {},
+        lcogBest: rec.lcog_best_history || {},
+        kcBest: rec.kc_best_history || {},
+        diBest: rec.di_best_history || {},
       };
     }).filter(Boolean);
 
@@ -670,13 +672,15 @@ const TREND_METRICS = [
   { key: "investments", label: "Investment" },
   { key: "networth", label: "Networth" },
   { key: "bounty", label: "Bounty" },
-  { key: "eventScore", label: "Event Score (current)" },
+  { key: "lcogBest", label: "Event Score — LCOG" },
+  { key: "kcBest", label: "Event Score — KC" },
+  { key: "diBest", label: "Event Score — DI" },
   { key: "help", label: "Help" },
   { key: "mastered", label: "Mastered" },
   { key: "ascensions", label: "Ascensions" },
   { key: "collection", label: "Collection" },
-  { key: "crafted", label: "Items Crafted" },
-  { key: "sold", label: "Items Sold" },
+  { key: "crafted", label: "Items Crafted (per day)", perDay: true },
+  { key: "sold", label: "Items Sold (per day)", perDay: true },
   { key: "quests", label: "Quests" },
 ];
 const TREND_COLORS = ["#f2b544", "#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#9085e9", "#e66767"];
@@ -694,6 +698,22 @@ function renderMemberPicker() {
   `;
 }
 
+// Cumulative counters (crafted, sold, ...) make a boring ever-rising ramp — for those,
+// chart the day-over-day change instead of the running total.
+function toDailySeries(dates, history) {
+  return dates.map((d, i) => {
+    if (i === 0) return 0;
+    const cur = valueAt(history, d);
+    const prev = valueAt(history, dates[i - 1]);
+    if (cur == null || prev == null) return 0;
+    return Math.max(0, cur - prev);
+  });
+}
+
+function metricSeries(member, metric, dates) {
+  return metric.perDay ? toDailySeries(dates, member[metric.key]) : dates.map(d => valueAt(member[metric.key], d) || 0);
+}
+
 function renderTrendChart() {
   const select = document.getElementById("trendMetric");
   if (select && select.value !== trendMetric) select.value = trendMetric;
@@ -705,12 +725,12 @@ function renderTrendChart() {
   if (trendSelectedNames.length === 0) {
     // "All Guild": every member as their own line — too many for distinct colors, so
     // render muted with hover-to-identify instead of trying to color 20 series.
-    seriesDefs = periodMembers.map(m => ({ label: m.name, values: dates.map(d => valueAt(m[metric.key], d) || 0) }));
+    seriesDefs = periodMembers.map(m => ({ label: m.name, values: metricSeries(m, metric, dates) }));
     muted = true;
   } else {
     seriesDefs = trendSelectedNames.map((name, i) => {
       const member = periodMembers.find(m => m.name === name);
-      const values = member ? dates.map(d => valueAt(member[metric.key], d) || 0) : dates.map(() => 0);
+      const values = member ? metricSeries(member, metric, dates) : dates.map(() => 0);
       return { label: name, color: TREND_COLORS[i % TREND_COLORS.length], values };
     });
     muted = false;
