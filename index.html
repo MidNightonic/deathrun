@@ -65,7 +65,8 @@
   input[type="search"]:focus { outline: none; border-color: var(--accent); }
 
   .table-scroll {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
   }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   thead th {
@@ -77,7 +78,7 @@
   .sort-arrow { display: inline-block; width: 10px; margin-left: 2px; color: var(--accent); font-size: 10px; }
   tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   tbody tr:hover { background: var(--panel-hover); }
-  tbody td { padding: 12px 16px; vertical-align: middle; }
+  tbody td { padding: 12px 16px; vertical-align: middle; white-space: nowrap; }
   .name { font-weight: 600; color: var(--text); }
   .role { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.03em; }
   .num-cell { font-family: var(--mono); text-align: right; }
