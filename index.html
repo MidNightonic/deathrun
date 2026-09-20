@@ -55,14 +55,30 @@
   .stat .num { font-family: var(--mono); font-size: 22px; font-weight: 600; color: var(--text); line-height: 1.2; }
   .stat .label { font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-dim); margin-top: 6px; }
 
-  .controls { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
-  input[type="search"] {
-    flex: 1; min-width: 180px;
-    background: var(--panel); border: 1px solid var(--border); color: var(--text);
-    border-radius: 8px; padding: 10px 14px; font-family: var(--sans); font-size: 14px;
+  .chart-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px; margin-bottom: 28px;
   }
-  input[type="search"]::placeholder { color: var(--text-dim); }
-  input[type="search"]:focus { outline: none; border-color: var(--accent); }
+  .chart-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+  .chart-head h3 { margin: 0; font-size: 14px; font-weight: 700; color: var(--text); }
+  .chart-legend { display: flex; gap: 16px; font-size: 12px; color: var(--text-dim); }
+  .chart-legend .key { display: inline-flex; align-items: center; gap: 6px; }
+  .chart-legend .swatch { width: 12px; height: 2px; border-radius: 1px; display: inline-block; }
+  .chart-wrap { position: relative; }
+  .chart-svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .chart-grid { stroke: var(--border); stroke-width: 1; }
+  .chart-axis-label { fill: var(--text-dim); font-size: 9px; font-family: var(--mono); }
+  .chart-crosshair { stroke: var(--text-dim); stroke-width: 1; }
+  .chart-tooltip {
+    position: absolute; pointer-events: none; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 10px; font-size: 12px; opacity: 0; transition: opacity 0.1s;
+    white-space: nowrap; z-index: 5;
+  }
+  .chart-tooltip .row { display: flex; gap: 6px; align-items: center; color: var(--text-dim); }
+  .chart-tooltip .swatch { width: 10px; height: 2px; border-radius: 1px; display: inline-block; }
+  .chart-tooltip .val { font-family: var(--mono); font-weight: 600; color: var(--text); }
+  .chart-tooltip .date { font-weight: 600; color: var(--text); margin-bottom: 4px; }
+
 
   .table-scroll {
     background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
@@ -73,6 +89,7 @@
     text-align: left; font-family: var(--sans); font-size: 11px; letter-spacing: 0.04em;
     text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border);
     padding: 12px 16px; cursor: pointer; user-select: none; white-space: nowrap;
+    position: sticky; top: 0; background: var(--panel); z-index: 2;
   }
   thead th:hover { color: var(--accent); }
   .sort-arrow { display: inline-block; width: 10px; margin-left: 2px; color: var(--accent); font-size: 10px; }
@@ -146,6 +163,14 @@
 
   <div class="stats" id="stats"></div>
 
+  <div class="chart-card">
+    <div class="chart-head">
+      <h3>Guild Growth</h3>
+      <div class="chart-legend" id="chartLegend"></div>
+    </div>
+    <div class="chart-wrap" id="chartWrap"></div>
+  </div>
+
   <div class="tabs">
     <button class="tab active" data-tab="overview">Overview</button>
     <button class="tab" data-tab="daily">Daily</button>
@@ -156,10 +181,6 @@
   </div>
 
   <div class="tab-panel active" id="tab-overview">
-    <div class="controls">
-      <input type="search" id="search" placeholder="Search member...">
-    </div>
-
     <div class="table-scroll">
       <table id="table">
         <thead>
@@ -282,7 +303,7 @@ function newBestInfo(history) {
   return latest > priorMax ? { priorMax, gain: latest - priorMax } : null;
 }
 
-let state = { rows: [], sortKey: "investment", sortDir: -1, search: "" };
+let state = { rows: [], sortKey: "investment", sortDir: -1 };
 let eventRows = [];
 let eventSort = { key: "score", dir: -1 };
 let periodMembers = [];
@@ -385,6 +406,7 @@ async function load() {
     `;
 
     footer.textContent = `Latest snapshot: ${guildEntry.snapshot_date || "-"} · ${state.rows.length} members · generated ${membersData.generated_at || "-"}`;
+    renderGuildChart();
     render();
     renderEvents();
     PERIODS.forEach(p => renderPeriodTab(p));
@@ -397,7 +419,7 @@ async function load() {
 }
 
 function render() {
-  let rows = state.rows.filter(r => r.name.toLowerCase().includes(state.search.toLowerCase()));
+  let rows = state.rows;
   rows = sortRows(rows, state.sortKey, state.sortDir);
   applySortArrows(document.getElementById("table"), state.sortKey, state.sortDir);
 
@@ -417,7 +439,12 @@ function renderEvents() {
   const tbody = document.getElementById("eventTbody");
   const empty = document.getElementById("eventEmpty");
   const withScore = eventRows.filter(r => r.score > 0);
-  empty.style.display = withScore.length ? "none" : "block";
+  if (!withScore.length) {
+    empty.style.display = "block";
+    empty.textContent = "No event score data yet.";
+  } else {
+    empty.style.display = "none";
+  }
 
   const totalScore = eventRows.reduce((s, r) => s + r.score, 0);
   const totalLcog = eventRows.reduce((s, r) => s + r.bestLcog, 0);
@@ -457,6 +484,115 @@ function isNewInPeriod(joined, asOfDate, days) {
   if (Number.isNaN(joinedMs)) return false;
   const asOfMs = Date.parse(asOfDate + "T23:59:59Z");
   return (asOfMs - joinedMs) / 86400000 < days;
+}
+
+function renderGuildChart() {
+  const wrap = document.getElementById("chartWrap");
+  const legend = document.getElementById("chartLegend");
+  if (!wrap) return;
+  const dates = availableDates;
+  if (dates.length < 2) {
+    wrap.innerHTML = '<div class="empty">Need at least 2 days of history for a trend chart.</div>';
+    legend.innerHTML = "";
+    return;
+  }
+
+  const investSeries = dates.map(d => periodMembers.reduce((s, m) => s + (valueAt(m.investments, d) || 0), 0));
+  const nwSeries = dates.map(d => periodMembers.reduce((s, m) => s + (valueAt(m.networth, d) || 0), 0));
+  const seriesDefs = [
+    { label: "Total Investment", color: "#f2b544", values: investSeries },
+    { label: "Guild Networth", color: "#3987e5", values: nwSeries },
+  ];
+
+  const W = 900, H = 260, padL = 60, padR = 16, padT = 16, padB = 26;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const maxV = Math.max(...investSeries, ...nwSeries) * 1.08 || 1;
+  const xAt = i => padL + (dates.length === 1 ? 0 : (i / (dates.length - 1)) * plotW);
+  const yAt = v => padT + plotH - (v / maxV) * plotH;
+  const pathFor = values => values.map((v, i) => `${i === 0 ? "M" : "L"}${xAt(i).toFixed(1)},${yAt(v).toFixed(1)}`).join(" ");
+
+  const tickCount = 4;
+  const yTicks = Array.from({ length: tickCount + 1 }, (_, i) => maxV * i / tickCount);
+  const gridLines = yTicks.map(t => `<line x1="${padL}" x2="${W - padR}" y1="${yAt(t).toFixed(1)}" y2="${yAt(t).toFixed(1)}" class="chart-grid"/>`).join("");
+  const yLabels = yTicks.map(t => `<text x="${padL - 8}" y="${(yAt(t) + 3).toFixed(1)}" text-anchor="end" class="chart-axis-label">${formatInvestment(t)}</text>`).join("");
+
+  const step = Math.max(1, Math.floor((dates.length - 1) / 5));
+  const xTickIdxs = [];
+  for (let i = 0; i < dates.length; i += step) xTickIdxs.push(i);
+  if (xTickIdxs[xTickIdxs.length - 1] !== dates.length - 1) xTickIdxs.push(dates.length - 1);
+  const xLabels = xTickIdxs.map(i => `<text x="${xAt(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" class="chart-axis-label">${escapeHtml(dates[i].slice(5))}</text>`).join("");
+
+  const paths = seriesDefs.map(s => `<path d="${pathFor(s.values)}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`).join("");
+  const endDots = seriesDefs.map(s => {
+    const i = s.values.length - 1;
+    return `<circle cx="${xAt(i).toFixed(1)}" cy="${yAt(s.values[i]).toFixed(1)}" r="4" fill="${s.color}" stroke="#12151c" stroke-width="2"/>`;
+  }).join("");
+
+  wrap.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" class="chart-svg" id="guildChartSvg">
+      ${gridLines}${yLabels}${xLabels}${paths}${endDots}
+      <line id="chartCrosshair" x1="0" x2="0" y1="${padT}" y2="${H - padB}" class="chart-crosshair" style="display:none"/>
+      <g id="chartHoverDots"></g>
+      <rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="transparent" id="chartHitRect"/>
+    </svg>
+    <div class="chart-tooltip" id="chartTooltip"></div>
+  `;
+
+  legend.innerHTML = seriesDefs.map(s =>
+    `<span class="key"><span class="swatch" style="background:${s.color}"></span>${escapeHtml(s.label)}</span>`
+  ).join("");
+
+  const hitRect = document.getElementById("chartHitRect");
+  const tooltip = document.getElementById("chartTooltip");
+  const crosshair = document.getElementById("chartCrosshair");
+  const hoverDots = document.getElementById("chartHoverDots");
+
+  function showAt(clientX, clientY) {
+    const svgRect = hitRect.ownerSVGElement.getBoundingClientRect();
+    const localX = (clientX - svgRect.left) * (W / svgRect.width);
+    let idx = Math.round(((localX - padL) / plotW) * (dates.length - 1));
+    idx = Math.max(0, Math.min(dates.length - 1, idx));
+    const x = xAt(idx);
+    crosshair.setAttribute("x1", x);
+    crosshair.setAttribute("x2", x);
+    crosshair.style.display = "block";
+    hoverDots.innerHTML = seriesDefs.map(s => `<circle cx="${x.toFixed(1)}" cy="${yAt(s.values[idx]).toFixed(1)}" r="4" fill="${s.color}" stroke="#12151c" stroke-width="2"/>`).join("");
+
+    const dateEl = document.createElement("div");
+    dateEl.className = "date";
+    dateEl.textContent = dates[idx];
+    tooltip.innerHTML = "";
+    tooltip.appendChild(dateEl);
+    seriesDefs.forEach(s => {
+      const row = document.createElement("div");
+      row.className = "row";
+      const sw = document.createElement("span");
+      sw.className = "swatch";
+      sw.style.background = s.color;
+      const label = document.createTextNode(" " + s.label + ": ");
+      const val = document.createElement("span");
+      val.className = "val";
+      val.textContent = formatInvestment(s.values[idx]);
+      row.append(sw, label, val);
+      tooltip.appendChild(row);
+    });
+    tooltip.style.opacity = "1";
+
+    const wrapRect = wrap.getBoundingClientRect();
+    let left = clientX - wrapRect.left + 14;
+    let top = clientY - wrapRect.top - 40;
+    if (left + 180 > wrapRect.width) left = clientX - wrapRect.left - 190;
+    tooltip.style.left = left + "px";
+    tooltip.style.top = Math.max(0, top) + "px";
+  }
+
+  const svgEl = document.getElementById("guildChartSvg");
+  svgEl.addEventListener("mousemove", e => showAt(e.clientX, e.clientY));
+  svgEl.addEventListener("mouseleave", () => {
+    crosshair.style.display = "none";
+    hoverDots.innerHTML = "";
+    tooltip.style.opacity = "0";
+  });
 }
 
 function renderPeriodTab(period) {
@@ -622,10 +758,16 @@ function renderActivity() {
     return { name: m.name, role: m.role, nwGain, investGain, bountyGain, nwPoints, investPoints, bountyPoints, totalPoints };
   });
 
-  const byOverall = rows.slice().sort((a, b) => b.totalPoints - a.totalPoints).slice(0, 20);
-  const byNW = rows.filter(r => r.nwGain != null).sort((a, b) => b.nwGain - a.nwGain).slice(0, 20);
-  const byInvest = rows.filter(r => r.investGain != null).sort((a, b) => b.investGain - a.investGain).slice(0, 20);
-  const byBounty = rows.filter(r => r.bountyGain != null).sort((a, b) => b.bountyGain - a.bountyGain).slice(0, 20);
+  // Rank against the full guild first (so a searched-for player keeps their true rank
+  // number), then filter to the search term, then cap the list length.
+  function topN(sortedFull) {
+    return sortedFull.slice(0, 20).map((r, i) => ({ ...r, rank: i + 1 }));
+  }
+
+  const byOverall = topN(rows.slice().sort((a, b) => b.totalPoints - a.totalPoints));
+  const byNW = topN(rows.filter(r => r.nwGain != null).sort((a, b) => b.nwGain - a.nwGain));
+  const byInvest = topN(rows.filter(r => r.investGain != null).sort((a, b) => b.investGain - a.investGain));
+  const byBounty = topN(rows.filter(r => r.bountyGain != null).sort((a, b) => b.bountyGain - a.bountyGain));
 
   const tagRow = r => `<span class="activity-tag">[${pointsFmt(r.totalPoints)}]</span>`;
 
@@ -642,16 +784,16 @@ function renderActivity() {
     </div>
     <div class="activity-grid">
       ${activityPanel("Top 20 Overall Activity Points", "NW + Invest + Bounty + Crafted + Sold + Help + Quests + Collection + Mastered + Ascension",
-        byOverall.map((r, i) => `<tr><td class="rank-cell">${i + 1}</td><td class="name">${escapeHtml(r.name)}</td><td class="num-cell">${pointsFmt(r.totalPoints)}</td></tr>`).join(""),
+        byOverall.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${escapeHtml(r.name)}</td><td class="num-cell">${pointsFmt(r.totalPoints)}</td></tr>`).join(""),
         ["#", "Player", "Points"])}
       ${activityPanel("Top 20 Net Worth Gain", "1G Networth = 1 point",
-        byNW.map((r, i) => `<tr><td class="rank-cell">${i + 1}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.nwGain)}">${formatDelta(r.nwGain)}</td><td class="num-cell">${pointsFmt(r.nwPoints)}</td></tr>`).join(""),
+        byNW.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.nwGain)}">${formatDelta(r.nwGain)}</td><td class="num-cell">${pointsFmt(r.nwPoints)}</td></tr>`).join(""),
         ["#", "Player", "Raw", "Points"])}
       ${activityPanel("Top 20 Investment Gain", "1G Investment = 1.5 points",
-        byInvest.map((r, i) => `<tr><td class="rank-cell">${i + 1}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.investGain)}">${formatDelta(r.investGain)}</td><td class="num-cell">${pointsFmt(r.investPoints)}</td></tr>`).join(""),
+        byInvest.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.investGain)}">${formatDelta(r.investGain)}</td><td class="num-cell">${pointsFmt(r.investPoints)}</td></tr>`).join(""),
         ["#", "Player", "Raw", "Points"])}
       ${activityPanel("Top 20 Bounty Points", "3 Bounty = 1 point (rounded down)",
-        byBounty.map((r, i) => `<tr><td class="rank-cell">${i + 1}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.bountyGain)}">${formatCount(r.bountyGain)}</td><td class="num-cell">${pointsFmt(r.bountyPoints)}</td></tr>`).join(""),
+        byBounty.map(r => `<tr><td class="rank-cell">${r.rank}</td><td class="name">${escapeHtml(r.name)} ${tagRow(r)}</td><td class="num-cell ${deltaClass(r.bountyGain)}">${formatCount(r.bountyGain)}</td><td class="num-cell">${pointsFmt(r.bountyPoints)}</td></tr>`).join(""),
         ["#", "Player", "Raw", "Points"])}
     </div>
   `;
@@ -669,7 +811,6 @@ document.querySelectorAll("#table thead th[data-key]").forEach(th => {
     render();
   });
 });
-document.getElementById("search").addEventListener("input", e => { state.search = e.target.value; render(); });
 
 document.getElementById("eventTable").addEventListener("click", e => {
   const th = e.target.closest("th[data-key]");
