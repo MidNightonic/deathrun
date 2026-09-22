@@ -327,18 +327,31 @@ function valueDaysAgo(history, asOfDate, daysAgo) {
 // when a new occurrence of that event starts — a drop marks the end of one cycle and the
 // value right before it was that cycle's final score. Splits history into completed
 // cycles (by those drops) plus whatever is still in progress.
-// Returns { priorMax, gain } if the latest recorded value is a new high across all
-// recorded history, else null. Needs at least two snapshots — with only one, there's
-// nothing to compare against yet. This flags continuous personal-best growth, not just
-// resets between distinct event occurrences.
-function newBestInfo(history) {
-  if (!history) return null;
+// best_X_score is a lifetime max the game itself maintains: flat while no live attempt
+// beats it, climbing day-by-day while one does, then flat again once that attempt ends.
+// The value right before the *current* climb-streak began is the actual "previous event
+// score" to compare against — not yesterday's value, which just re-anchors every day and
+// makes the displayed gain reset instead of accumulating toward the true improvement.
+function climbAnchor(history) {
   const dates = Object.keys(history).sort();
   if (dates.length < 2) return null;
+  let i = dates.length - 1;
+  while (i > 0 && history[dates[i]] !== history[dates[i - 1]]) i--;
+  if (i === 0) return null; // been climbing since before our history starts — no known baseline
+  return history[dates[i]];
+}
+
+// Returns { priorMax, gain } while a member is mid-climb past their own pre-event best in
+// that event type, else null (nothing broken, or the climb already plateaued — i.e. the
+// event ended). Anchor stays fixed at the pre-event value for the whole climb, so the gain
+// grows correctly instead of resetting to a small day-over-day delta each snapshot.
+function newBestInfo(history) {
+  if (!history) return null;
+  const anchor = climbAnchor(history);
+  if (anchor == null) return null;
+  const dates = Object.keys(history).sort();
   const latest = history[dates[dates.length - 1]];
-  if (!latest) return null;
-  const priorMax = Math.max(...dates.slice(0, -1).map(d => history[d]));
-  return latest > priorMax ? { priorMax, gain: latest - priorMax } : null;
+  return latest > anchor ? { priorMax: anchor, gain: latest - anchor } : null;
 }
 
 let state = { rows: [], sortKey: "investment", sortDir: -1 };
