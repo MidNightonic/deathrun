@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-05T08:32:48Z",
+  "generated_at": "2026-10-05T18:02:38Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,12 +8,12 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-10-05",
-      "fetched_at": "2026-10-05T08:32:46.863099Z",
+      "fetched_at": "2026-10-05T18:02:36.705433Z",
       "level": 200,
       "population": 20,
       "capacity": 20,
-      "networth": 55615515046869,
-      "rank": 180,
+      "networth": 55988615046869,
+      "rank": 175,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -32,12 +32,12 @@
           "name": "MidNight#93973"
         },
         {
-          "id": "5ddc7cc252c21a111561fe0f",
-          "name": "Keyonayo#93192"
-        },
-        {
           "id": "5e53afcc35a5f712243299ab",
           "name": "Valerian#63289"
+        },
+        {
+          "id": "5ddc7cc252c21a111561fe0f",
+          "name": "Keyonayo#93192"
         },
         {
           "id": "6380131d1d9e3612f4eef059",
