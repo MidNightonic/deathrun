@@ -1,22 +1,33 @@
 name: Guild Snapshot (hourly)
 
+# GitHub's own cron is throttled on free repos (runs land hours apart), so this workflow
+# keeps itself alive: it takes a snapshot on the hour for ~5 hours, then re-dispatches
+# itself. The hourly schedule below is only a safety net that restarts the chain if it
+# ever dies. The TitansDB API allows one call per 15 minutes, so hourly is well within it.
+
 on:
   schedule:
-    # Every hour, on the hour (UTC).
     - cron: "0 * * * *"
   workflow_dispatch:
     inputs:
       snapshot_date:
-        description: "Override snapshot date (YYYY-MM-DD), optional"
+        description: "Override snapshot date (YYYY-MM-DD), optional (first snapshot only)"
         required: false
         default: ""
 
 permissions:
   contents: write
+  actions: write
+
+# Only one chain at a time; a newer pending run replaces an older pending one.
+concurrency:
+  group: guild-snapshot-chain
+  cancel-in-progress: false
 
 jobs:
   snapshot:
     runs-on: ubuntu-latest
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
 
@@ -24,26 +35,45 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Fetch snapshot
+      - name: Hourly snapshot loop
         env:
           TITANSDB_API_KEY: ${{ secrets.TITANSDB_API_KEY }}
-        run: |
-          cd scripts
-          if [ -n "${{ github.event.inputs.snapshot_date }}" ]; then
-            python3 fetch_snapshot.py --date "${{ github.event.inputs.snapshot_date }}"
-          else
-            python3 fetch_snapshot.py
-          fi
-
-      - name: Build report
-        run: |
-          cd scripts
-          python3 build_report.py
-
-      - name: Commit updated data
+          SNAPSHOT_DATE: ${{ github.event.inputs.snapshot_date }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data reports
-          git diff --staged --quiet || git commit -m "Guild snapshot"
-          git push
+
+          for i in 1 2 3 4 5; do
+            # Skip if a snapshot was committed in the last 20 minutes (API: 1 call / 15 min).
+            last=$(git log -1 --author="github-actions" --format=%ct 2>/dev/null || echo 0)
+            now=$(date +%s)
+            if [ $((now - last)) -lt 1200 ]; then
+              echo "Recent snapshot exists, skipping fetch"
+            else
+              git pull --rebase origin main || true
+              (
+                cd scripts
+                if [ -n "$SNAPSHOT_DATE" ] && [ "$i" = "1" ]; then
+                  python3 fetch_snapshot.py --date "$SNAPSHOT_DATE"
+                else
+                  python3 fetch_snapshot.py
+                fi
+                python3 build_report.py
+              ) || echo "Snapshot failed this round, will retry next hour"
+
+              git add data reports
+              git diff --staged --quiet || git commit -m "Guild snapshot"
+              git pull --rebase origin main || true
+              git push || echo "Push failed this round"
+            fi
+
+            [ "$i" = "5" ] && break
+            # Sleep until the top of the next hour.
+            sleep $((3600 - $(date +%s) % 3600))
+          done
+
+      - name: Re-dispatch next chain
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run daily-snapshot.yml --ref main --repo "${{ github.repository }}"
