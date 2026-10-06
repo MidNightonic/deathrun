@@ -321,35 +321,41 @@ function valueDaysAgo(history, asOfDate, daysAgo) {
   return history[dates[dates.length - 1]];
 }
 
-// True if the most recent recorded value is a new high across all recorded history.
-// Needs at least two snapshots to mean anything — with only one, there's nothing to beat yet.
-// These "best_X_score" trackers climb continuously while an event is live and only drop
-// when a new occurrence of that event starts — a drop marks the end of one cycle and the
-// value right before it was that cycle's final score. Splits history into completed
-// cycles (by those drops) plus whatever is still in progress.
 // best_X_score is a lifetime max the game itself maintains: flat while no live attempt
-// beats it, climbing day-by-day while one does, then flat again once that attempt ends.
-// The value right before the *current* climb-streak began is the actual "previous event
-// score" to compare against — not yesterday's value, which just re-anchors every day and
-// makes the displayed gain reset instead of accumulating toward the true improvement.
-function climbAnchor(history) {
+// beats it, climbing while one does, then flat again once that attempt ends. The baseline
+// we compare against is the best from *before the event that produced the latest climb*
+// began -- found via the drop in current_event_score when that event started. Anchoring to
+// the event (not to "the last two equal snapshots") keeps the baseline fixed even when the
+// score sits flat for a few snapshots mid-event or after it ends.
+// Returns { priorMax, gain } until a newer event starts, else null.
+function newBestInfo(history, eventScores) {
+  if (!history) return null;
   const dates = Object.keys(history).sort();
   if (dates.length < 2) return null;
-  let i = dates.length - 1;
-  while (i > 0 && history[dates[i]] !== history[dates[i - 1]]) i--;
-  if (i === 0) return null; // been climbing since before our history starts — no known baseline
-  return history[dates[i]];
-}
 
-// Returns { priorMax, gain } while a member is mid-climb past their own pre-event best in
-// that event type, else null (nothing broken, or the climb already plateaued — i.e. the
-// event ended). Anchor stays fixed at the pre-event value for the whole climb, so the gain
-// grows correctly instead of resetting to a small day-over-day delta each snapshot.
-function newBestInfo(history) {
-  if (!history) return null;
-  const anchor = climbAnchor(history);
-  if (anchor == null) return null;
-  const dates = Object.keys(history).sort();
+  let k = -1; // last snapshot where the best went up
+  for (let i = dates.length - 1; i > 0; i--) {
+    if (history[dates[i]] > history[dates[i - 1]]) { k = i; break; }
+  }
+  if (k < 0) return null;
+
+  const ev = eventScores || {};
+  const dropAt = i => ev[dates[i]] != null && ev[dates[i - 1]] != null && ev[dates[i]] < ev[dates[i - 1]];
+
+  // A new event started after the climb ended -> that record's event is over.
+  for (let i = k + 1; i < dates.length; i++) if (dropAt(i)) return null;
+
+  let anchor = null;
+  for (let i = k; i > 0; i--) {
+    if (dropAt(i)) { anchor = history[dates[i - 1]]; break; }
+  }
+  if (anchor == null) { // no event boundary in our history: fall back to start of the climb streak
+    let i = k;
+    while (i > 0 && history[dates[i]] !== history[dates[i - 1]]) i--;
+    if (i === 0) return null;
+    anchor = history[dates[i]];
+  }
+
   const latest = history[dates[dates.length - 1]];
   return latest > anchor ? { priorMax: anchor, gain: latest - anchor } : null;
 }
@@ -428,9 +434,9 @@ async function load() {
       const rec = allMembers[id];
       if (!rec) return null;
       const newBests = [];
-      const lcogBest = newBestInfo(rec.lcog_best_history);
-      const kcBest = newBestInfo(rec.kc_best_history);
-      const diBest = newBestInfo(rec.di_best_history);
+      const lcogBest = newBestInfo(rec.lcog_best_history, rec.event_scores);
+      const kcBest = newBestInfo(rec.kc_best_history, rec.event_scores);
+      const diBest = newBestInfo(rec.di_best_history, rec.event_scores);
       if (lcogBest) newBests.push({ type: "LCOG", ...lcogBest });
       if (kcBest) newBests.push({ type: "KC", ...kcBest });
       if (diBest) newBests.push({ type: "DI", ...diBest });
