@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-08T12:00:03Z",
+  "generated_at": "2026-10-08T13:00:03Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,11 +8,11 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-10-08",
-      "fetched_at": "2026-10-08T12:00:01.052132Z",
+      "fetched_at": "2026-10-08T13:00:01.369782Z",
       "level": 200,
       "population": 20,
       "capacity": 20,
-      "networth": 56408915046869,
+      "networth": 56410615046869,
       "rank": 169,
       "members": [
         {
@@ -60,12 +60,12 @@
           "name": "GuyonCouch#42411"
         },
         {
-          "id": "5d0ffd8b9e3f051073b3229b",
-          "name": "DallasEric#78795"
-        },
-        {
           "id": "674ca1bc0dddce7b1fcf18f1",
           "name": "DragonmawSyn#63271"
+        },
+        {
+          "id": "5d0ffd8b9e3f051073b3229b",
+          "name": "DallasEric#78795"
         },
         {
           "id": "5d12761988480d1076949208",
