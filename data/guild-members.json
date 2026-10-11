@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-11T12:00:03Z",
+  "generated_at": "2026-10-11T13:00:03Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,20 +8,16 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-10-11",
-      "fetched_at": "2026-10-11T12:00:01.307595Z",
+      "fetched_at": "2026-10-11T13:00:01.216639Z",
       "level": 200,
-      "population": 20,
+      "population": 19,
       "capacity": 20,
-      "networth": 56848365046869,
-      "rank": 173,
+      "networth": 53846875286269,
+      "rank": 197,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
           "name": "Aphrodite#11689"
-        },
-        {
-          "id": "6787913db4172937fd45014b",
-          "name": "⋆Ŧαiгყ⋆#4a9b1f3e"
         },
         {
           "id": "5e9f03a4368df71229110db1",
