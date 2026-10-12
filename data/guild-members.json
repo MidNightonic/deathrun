@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-12T15:00:02Z",
+  "generated_at": "2026-10-12T16:00:02Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,12 +8,12 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-10-12",
-      "fetched_at": "2026-10-12T15:00:00.767484Z",
+      "fetched_at": "2026-10-12T16:00:00.351114Z",
       "level": 200,
       "population": 20,
       "capacity": 20,
-      "networth": 55581295046869,
-      "rank": 186,
+      "networth": 55679195046869,
+      "rank": 185,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -82,10 +82,6 @@
         {
           "id": "5d118842f615dc108287e642",
           "name": "James Wesley#32454"
-        },
-        {
-          "id": "64c8b9380b6497835f9188da",
-          "name": "Sena#79879"
         },
         {
           "id": "5d53cdb7f61cdb1228f6a24f",
