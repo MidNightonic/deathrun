@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-13T00:00:03Z",
+  "generated_at": "2026-10-13T01:00:03Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,7 +8,7 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-10-13",
-      "fetched_at": "2026-10-13T00:00:01.374991Z",
+      "fetched_at": "2026-10-13T01:00:01.426620Z",
       "level": 200,
       "population": 20,
       "capacity": 20,
@@ -66,6 +66,10 @@
         {
           "id": "5d12761988480d1076949208",
           "name": "Slubby#10455"
+        },
+        {
+          "id": "63091bf46c9b2312e279d6a0",
+          "name": "JThomas#63233"
         },
         {
           "id": "641753a0c64344130387af8d",
