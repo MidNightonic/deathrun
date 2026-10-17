@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-17T11:00:02Z",
+  "generated_at": "2026-10-17T12:00:02Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -4211,7 +4211,7 @@
       },
       "joined": "2026-01-22 16:12:56",
       "is_vip": true,
-      "last_online": "2026-10-17 09:28:08",
+      "last_online": "2026-10-17 10:42:06",
       "latest_networth": 815671337875,
       "latest_help": 10712,
       "latest_bounty": 4935,
@@ -6750,7 +6750,7 @@
         "2026-10-14": 40959306,
         "2026-10-15": 41710984,
         "2026-10-16": 43054446,
-        "2026-10-17": 43285687
+        "2026-10-17": 43327300
       },
       "networth_history": {
         "2026-08-24": 1365423782813,
@@ -7039,13 +7039,13 @@
       },
       "joined": "2026-08-11 21:13:17",
       "is_vip": true,
-      "last_online": "2026-10-17 10:30:48",
+      "last_online": "2026-10-17 11:13:24",
       "latest_networth": 5473457730843,
       "latest_help": 2508,
       "latest_bounty": 13318,
       "latest_prestige": 118620,
       "latest_hero_power": 1457456,
-      "latest_event_score": 43285687,
+      "latest_event_score": 43327300,
       "best_lcog_score": 241410,
       "best_kc_score": 289840645,
       "best_di_score": 852909,
@@ -8634,7 +8634,7 @@
         "2026-10-14": 272139,
         "2026-10-15": 3871368,
         "2026-10-16": 5825769,
-        "2026-10-17": 5825769
+        "2026-10-17": 6117138
       },
       "networth_history": {
         "2026-08-24": 468043838606,
@@ -8923,13 +8923,13 @@
       },
       "joined": "2025-08-05 16:03:06",
       "is_vip": true,
-      "last_online": "2026-10-16 18:16:21",
+      "last_online": "2026-10-17 11:33:21",
       "latest_networth": 576299602270,
       "latest_help": 8423,
       "latest_bounty": 6097,
       "latest_prestige": 223500,
       "latest_hero_power": 415505,
-      "latest_event_score": 5825769,
+      "latest_event_score": 6117138,
       "best_lcog_score": 31293,
       "best_kc_score": 14407814,
       "best_di_score": 1148694,
