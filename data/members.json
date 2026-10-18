@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-18T02:00:02Z",
+  "generated_at": "2026-10-18T03:00:02Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -6851,7 +6851,7 @@
         "2026-10-15": 41710984,
         "2026-10-16": 43054446,
         "2026-10-17": 43594622,
-        "2026-10-18": 43637273
+        "2026-10-18": 43659363
       },
       "networth_history": {
         "2026-08-24": 1365423782813,
@@ -7145,13 +7145,13 @@
       },
       "joined": "2026-08-11 21:13:17",
       "is_vip": true,
-      "last_online": "2026-10-18 01:29:30",
+      "last_online": "2026-10-18 02:18:56",
       "latest_networth": 5517319879112,
       "latest_help": 2512,
       "latest_bounty": 13373,
       "latest_prestige": 118620,
       "latest_hero_power": 1457456,
-      "latest_event_score": 43637273,
+      "latest_event_score": 43659363,
       "best_lcog_score": 241410,
       "best_kc_score": 289840645,
       "best_di_score": 852909,
@@ -7787,7 +7787,7 @@
       },
       "joined": "2026-08-21 00:59:26",
       "is_vip": true,
-      "last_online": "2026-10-18 01:10:54",
+      "last_online": "2026-10-18 01:36:53",
       "latest_networth": 969247227808,
       "latest_help": 8702,
       "latest_bounty": 18779,
@@ -13198,6 +13198,67 @@
       "best_lcog_score": 68598,
       "best_kc_score": 13636752,
       "best_di_score": 44486395
+    },
+    "675b7171f41bcc7e4e58b636": {
+      "name": "jodieǃ#68953",
+      "level": 75,
+      "role": "Member",
+      "latest_investment": 472769760600,
+      "latest_date": "2026-10-18",
+      "investments": {
+        "2026-10-18": 472769760600
+      },
+      "event_scores": {
+        "2026-10-18": 74631
+      },
+      "networth_history": {
+        "2026-10-18": 197137936483
+      },
+      "bounty_history": {
+        "2026-10-18": 1535
+      },
+      "lcog_best_history": {
+        "2026-10-18": 30286
+      },
+      "kc_best_history": {
+        "2026-10-18": 3837476
+      },
+      "di_best_history": {
+        "2026-10-18": 778377
+      },
+      "help_history": {
+        "2026-10-18": 3915
+      },
+      "mastered_history": {
+        "2026-10-18": 539
+      },
+      "ascensions_history": {
+        "2026-10-18": 912
+      },
+      "collection_history": {
+        "2026-10-18": 15097
+      },
+      "crafted_history": {
+        "2026-10-18": 48078
+      },
+      "sold_history": {
+        "2026-10-18": 78940
+      },
+      "quests_history": {
+        "2026-10-18": 5689
+      },
+      "joined": "2026-10-17 22:15:13",
+      "is_vip": true,
+      "last_online": "2026-10-17 22:27:15",
+      "latest_networth": 197137936483,
+      "latest_help": 3915,
+      "latest_bounty": 1535,
+      "latest_prestige": 128090,
+      "latest_hero_power": 298422,
+      "latest_event_score": 74631,
+      "best_lcog_score": 30286,
+      "best_kc_score": 3837476,
+      "best_di_score": 778377
     }
   }
 }

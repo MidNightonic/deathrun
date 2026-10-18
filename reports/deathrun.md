@@ -4,12 +4,12 @@
 
 - Guild page: https://www.titansdb.com/
 - Guild ID: ``
-- Report updated: 2026-10-18T02:00:02Z
+- Report updated: 2026-10-18T03:00:02Z
 - Valid investment dates: 30 / last 30 days
 - Latest member list date: 2026-10-18
 - Latest investment date: 2026-10-18
-- Latest member count: 19
-- Latest total investment: 55.67T
+- Latest member count: 20
+- Latest total investment: 56.14T
 - Inactive members flagged: 2
 
 ## ⚠ Inactive Members (no investment change in 7+ days)
@@ -59,6 +59,7 @@ Cell format: `total (change since previous record)`. Most recent date is on the 
 | Roman#50873 | 81 | Member | 1.05T (0) | 1.05T (0) | 1.05T (0) | 1.05T (0) | 1.05T (+4.00G) | 1.04T (0) | 1.04T (+3.00G) | 1.04T (0) | 1.04T (+9.95G) | 1.03T (0) | 1.03T (0) | 1.03T (0) | 1.03T (0) | 1.03T (0) | 1.03T (0) | 1.03T (0) | 1.03T (0) | 1.03T (+5.00G) | 1.02T (0) | 1.02T (0) | 1.02T (+4.00G) | 1.02T (0) | 1.02T (0) | 1.02T (0) | 1.02T (0) | 1.02T (0) | 1.02T (0) | 1.02T (+4.00G) | 1.02T (0) | 1.02T |
 | James Wesley#32454 | 87 | Member | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T (0) | 1.01T | - | - | - | - | - | - | - | - | - | - | - |
 | TubularPeak#25592 | 75 | Member | 870.74G (0) | 870.74G (0) | 870.74G (0) | 870.74G (+8.60G) | 862.14G (0) | 862.14G (0) | 862.14G (+7.30G) | 854.84G (0) | 854.84G (+2.30G) | 852.54G (0) | 852.54G (+4.00G) | 848.54G (+1.70G) | 846.84G (+3.80G) | 843.04G (0) | 843.04G (+2.60G) | 840.44G (+5.80G) | 834.64G (+6.10G) | 828.54G (+6.80G) | 821.74G (0) | 821.74G (0) | 821.74G (+9.80G) | 811.94G (0) | 811.94G (+3.40G) | 808.54G (+1.45G) | 807.09G (0) | 807.09G (+2.10G) | 804.99G (+1.70G) | 803.29G (+11.20G) | 792.09G (0) | 792.09G |
+| jodieǃ#68953 | 75 | Member | 472.77G | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
 
 ## Auto-update
 
