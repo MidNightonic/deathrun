@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-19T00:00:02Z",
+  "generated_at": "2026-10-19T01:00:02Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,7 +8,7 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-10-19",
-      "fetched_at": "2026-10-19T00:00:01.123599Z",
+      "fetched_at": "2026-10-19T01:00:00.617018Z",
       "level": 202,
       "population": 20,
       "capacity": 20,
@@ -80,12 +80,12 @@
           "name": "James Wesley#32454"
         },
         {
-          "id": "61f6ed876baac312e56b6ed2",
-          "name": "ĦȄŜŦƗǠ#59387"
-        },
-        {
           "id": "5d1c03d45774bf10843fac74",
           "name": "Roman#50873"
+        },
+        {
+          "id": "61f6ed876baac312e56b6ed2",
+          "name": "ĦȄŜŦƗǠ#59387"
         },
         {
           "id": "5d53cdb7f61cdb1228f6a24f",
