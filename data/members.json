@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-23T17:00:02Z",
+  "generated_at": "2026-10-23T18:00:02Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -4360,7 +4360,7 @@
         "2026-10-20": 4371769,
         "2026-10-21": 4473477,
         "2026-10-22": 4473477,
-        "2026-10-23": 299943
+        "2026-10-23": 336643
       },
       "networth_history": {
         "2026-08-24": 793642385265,
@@ -4679,13 +4679,13 @@
       },
       "joined": "2026-01-22 16:12:56",
       "is_vip": true,
-      "last_online": "2026-10-23 16:36:26",
+      "last_online": "2026-10-23 17:13:02",
       "latest_networth": 820843778496,
       "latest_help": 10754,
       "latest_bounty": 4935,
       "latest_prestige": 144585,
       "latest_hero_power": 334331,
-      "latest_event_score": 299943,
+      "latest_event_score": 336643,
       "best_lcog_score": 30903,
       "best_kc_score": 8737564,
       "best_di_score": 712693,
@@ -5391,7 +5391,7 @@
       },
       "joined": "2024-01-12 21:57:25",
       "is_vip": true,
-      "last_online": "2026-10-23 15:25:26",
+      "last_online": "2026-10-23 17:01:37",
       "latest_networth": 2086903481987,
       "latest_help": 10148,
       "latest_bounty": 11047,
@@ -7356,7 +7356,7 @@
         "2026-10-20": 67133305,
         "2026-10-21": 67133305,
         "2026-10-22": 67133305,
-        "2026-10-23": 352258
+        "2026-10-23": 400758
       },
       "networth_history": {
         "2026-08-24": 1365423782813,
@@ -7675,13 +7675,13 @@
       },
       "joined": "2026-08-11 21:13:17",
       "is_vip": true,
-      "last_online": "2026-10-23 16:34:24",
+      "last_online": "2026-10-23 16:59:08",
       "latest_networth": 5959627757407,
       "latest_help": 2537,
       "latest_bounty": 13503,
       "latest_prestige": 119240,
       "latest_hero_power": 1461302,
-      "latest_event_score": 352258,
+      "latest_event_score": 400758,
       "best_lcog_score": 241410,
       "best_kc_score": 289840645,
       "best_di_score": 852909,
@@ -13117,7 +13117,7 @@
       },
       "joined": "2026-09-15 11:24:36",
       "is_vip": true,
-      "last_online": "2026-10-23 14:28:35",
+      "last_online": "2026-10-23 17:21:10",
       "latest_networth": 2711165978826,
       "latest_help": 17051,
       "latest_bounty": 12955,
@@ -13436,7 +13436,7 @@
         "2026-10-20": 3023695,
         "2026-10-21": 3023695,
         "2026-10-22": 3023695,
-        "2026-10-23": 0
+        "2026-10-23": 116440
       },
       "networth_history": {
         "2026-09-30": 1892692854911,
@@ -13752,13 +13752,13 @@
       },
       "joined": "2026-09-30 00:18:44",
       "is_vip": true,
-      "last_online": "2026-10-23 02:20:39",
+      "last_online": "2026-10-23 17:07:28",
       "latest_networth": 2081844864579,
       "latest_help": 5058,
       "latest_bounty": 10188,
       "latest_prestige": 140440,
       "latest_hero_power": 380980,
-      "latest_event_score": 0,
+      "latest_event_score": 116440,
       "best_lcog_score": 41843,
       "best_kc_score": 3992786,
       "best_di_score": 657893
@@ -13817,7 +13817,7 @@
         "2026-10-20": 2880371,
         "2026-10-21": 2925020,
         "2026-10-22": 2925020,
-        "2026-10-23": 0
+        "2026-10-23": 343476
       },
       "networth_history": {
         "2026-10-01": 2371325081263,
@@ -14121,13 +14121,13 @@
       },
       "joined": "2026-10-01 09:36:35",
       "is_vip": true,
-      "last_online": "2026-10-23 11:02:44",
+      "last_online": "2026-10-23 17:24:05",
       "latest_networth": 2440869432520,
       "latest_help": 8851,
       "latest_bounty": 2120,
       "latest_prestige": 248360,
       "latest_hero_power": 948581,
-      "latest_event_score": 0,
+      "latest_event_score": 343476,
       "best_lcog_score": 132638,
       "best_kc_score": 25539634,
       "best_di_score": 2442392
@@ -14162,7 +14162,7 @@
         "2026-10-20": 5221628,
         "2026-10-21": 5230196,
         "2026-10-22": 5230196,
-        "2026-10-23": 0
+        "2026-10-23": 124456
       },
       "networth_history": {
         "2026-10-13": 1557106947991,
@@ -14322,13 +14322,13 @@
       },
       "joined": "2026-10-12 14:53:15",
       "is_vip": true,
-      "last_online": "2026-10-23 16:34:22",
+      "last_online": "2026-10-23 16:59:24",
       "latest_networth": 1608440759993,
       "latest_help": 10572,
       "latest_bounty": 25469,
       "latest_prestige": 165545,
       "latest_hero_power": 238037,
-      "latest_event_score": 0,
+      "latest_event_score": 124456,
       "best_lcog_score": 42324,
       "best_kc_score": 7915807,
       "best_di_score": 733396
