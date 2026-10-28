@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-28T00:00:03Z",
+  "generated_at": "2026-10-28T01:00:02Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,12 +8,12 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-10-28",
-      "fetched_at": "2026-10-28T00:00:01.444772Z",
+      "fetched_at": "2026-10-28T01:00:00.745005Z",
       "level": 202,
       "population": 20,
       "capacity": 20,
-      "networth": 52318158796869,
-      "rank": 212,
+      "networth": 52343208796869,
+      "rank": 213,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -68,12 +68,12 @@
           "name": "Murxine#26790"
         },
         {
-          "id": "63006a3d2d828712e8fde16c",
-          "name": "b33tz#61271"
-        },
-        {
           "id": "61f6ed876baac312e56b6ed2",
           "name": "ĦȄŜŦƗǠ#59387"
+        },
+        {
+          "id": "63006a3d2d828712e8fde16c",
+          "name": "b33tz#61271"
         },
         {
           "id": "5d1c03d45774bf10843fac74",
