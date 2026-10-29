@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T02:00:02Z",
+  "generated_at": "2026-10-29T03:00:03Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -5943,7 +5943,7 @@
       },
       "joined": "2024-01-12 21:57:25",
       "is_vip": true,
-      "last_online": "2026-10-28 21:45:44",
+      "last_online": "2026-10-29 02:29:08",
       "latest_networth": 2108796896936,
       "latest_help": 10188,
       "latest_bounty": 11121,
@@ -13330,7 +13330,7 @@
       },
       "joined": "2026-09-02 17:49:31",
       "is_vip": false,
-      "last_online": "2026-10-29 00:49:10",
+      "last_online": "2026-10-29 02:20:02",
       "latest_networth": 326077618328,
       "latest_help": 7818,
       "latest_bounty": 10516,
