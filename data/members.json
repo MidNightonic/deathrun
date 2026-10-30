@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-30T19:00:05Z",
+  "generated_at": "2026-10-30T20:00:02Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -3251,7 +3251,7 @@
         "2026-10-27": 1090775,
         "2026-10-28": 1154570,
         "2026-10-29": 1154570,
-        "2026-10-30": 5156
+        "2026-10-30": 6268
       },
       "networth_history": {
         "2026-08-24": 3033925426744,
@@ -3611,7 +3611,7 @@
       "latest_bounty": 29629,
       "latest_prestige": 189605,
       "latest_hero_power": 602606,
-      "latest_event_score": 5156,
+      "latest_event_score": 6268,
       "best_lcog_score": 41055,
       "best_kc_score": 27487059,
       "best_di_score": 2213247,
@@ -5225,7 +5225,7 @@
       },
       "joined": "2026-01-22 16:12:56",
       "is_vip": true,
-      "last_online": "2026-10-30 17:52:13",
+      "last_online": "2026-10-30 19:01:31",
       "latest_networth": 826435012146,
       "latest_help": 10785,
       "latest_bounty": 4935,
@@ -9953,7 +9953,7 @@
       },
       "joined": "2026-06-10 21:24:28",
       "is_vip": true,
-      "last_online": "2026-10-29 20:14:06",
+      "last_online": "2026-10-30 18:58:30",
       "latest_networth": 545334693398,
       "latest_help": 8865,
       "latest_bounty": 5337,
@@ -13202,7 +13202,7 @@
         "2026-10-27": 895048,
         "2026-10-28": 895048,
         "2026-10-29": 895048,
-        "2026-10-30": 6971
+        "2026-10-30": 12753
       },
       "networth_history": {
         "2026-09-03": 260497867614,
@@ -13506,13 +13506,13 @@
       },
       "joined": "2026-09-02 17:49:31",
       "is_vip": true,
-      "last_online": "2026-10-30 18:12:46",
+      "last_online": "2026-10-30 19:35:41",
       "latest_networth": 327363869828,
       "latest_help": 7830,
       "latest_bounty": 10542,
       "latest_prestige": 148735,
       "latest_hero_power": 465360,
-      "latest_event_score": 6971,
+      "latest_event_score": 12753,
       "best_lcog_score": 54751,
       "best_kc_score": 11718464,
       "best_di_score": 1517934,
