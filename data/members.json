@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-31T05:00:02Z",
+  "generated_at": "2026-10-31T06:00:02Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -15992,7 +15992,7 @@
         "2026-10-28": 693375,
         "2026-10-29": 693375,
         "2026-10-30": 7769,
-        "2026-10-31": 10301
+        "2026-10-31": 12706
       },
       "networth_history": {
         "2026-10-13": 1557106947991,
@@ -16248,13 +16248,13 @@
       },
       "joined": "2026-10-12 14:53:15",
       "is_vip": true,
-      "last_online": "2026-10-31 01:29:37",
+      "last_online": "2026-10-31 05:29:11",
       "latest_networth": 1645360099650,
       "latest_help": 10605,
       "latest_bounty": 25737,
       "latest_prestige": 165605,
       "latest_hero_power": 238037,
-      "latest_event_score": 10301,
+      "latest_event_score": 12706,
       "best_lcog_score": 42324,
       "best_kc_score": 7915807,
       "best_di_score": 733396
@@ -16305,7 +16305,7 @@
         "2026-10-28": 832218,
         "2026-10-29": 832218,
         "2026-10-30": 0,
-        "2026-10-31": 0
+        "2026-10-31": 3817
       },
       "networth_history": {
         "2026-10-13": 1336155280384,
@@ -16561,13 +16561,13 @@
       },
       "joined": "2026-10-12 15:49:49",
       "is_vip": true,
-      "last_online": "2026-10-30 19:21:00",
+      "last_online": "2026-10-31 05:13:16",
       "latest_networth": 1399410243293,
       "latest_help": 12317,
       "latest_bounty": 20113,
       "latest_prestige": 198295,
       "latest_hero_power": 430466,
-      "latest_event_score": 0,
+      "latest_event_score": 3817,
       "best_lcog_score": 68598,
       "best_kc_score": 13636752,
       "best_di_score": 44486395
@@ -16835,7 +16835,7 @@
         "2026-10-28": 330081,
         "2026-10-29": 330081,
         "2026-10-30": 9863,
-        "2026-10-31": 20968
+        "2026-10-31": 22175
       },
       "networth_history": {
         "2026-10-26": 774876367653,
@@ -16941,7 +16941,7 @@
       "latest_bounty": 5131,
       "latest_prestige": 106680,
       "latest_hero_power": 913127,
-      "latest_event_score": 20968,
+      "latest_event_score": 22175,
       "best_lcog_score": 82293,
       "best_kc_score": 10978975,
       "best_di_score": 1562085
