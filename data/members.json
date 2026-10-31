@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-31T17:00:02Z",
+  "generated_at": "2026-10-31T18:00:02Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -3296,7 +3296,7 @@
         "2026-10-28": 1154570,
         "2026-10-29": 1154570,
         "2026-10-30": 6268,
-        "2026-10-31": 11919
+        "2026-10-31": 13576
       },
       "networth_history": {
         "2026-08-24": 3033925426744,
@@ -3661,7 +3661,7 @@
       "latest_bounty": 29638,
       "latest_prestige": 189605,
       "latest_hero_power": 602606,
-      "latest_event_score": 11919,
+      "latest_event_score": 13576,
       "best_lcog_score": 41055,
       "best_kc_score": 27487059,
       "best_di_score": 2213247,
@@ -10073,7 +10073,7 @@
       },
       "joined": "2026-06-10 21:24:28",
       "is_vip": true,
-      "last_online": "2026-10-31 15:41:43",
+      "last_online": "2026-10-31 17:16:30",
       "latest_networth": 547803384856,
       "latest_help": 8870,
       "latest_bounty": 5342,
@@ -10538,7 +10538,7 @@
         "2026-10-28": 715974,
         "2026-10-29": 715974,
         "2026-10-30": 914,
-        "2026-10-31": 7691
+        "2026-10-31": 9352
       },
       "networth_history": {
         "2026-08-24": 468043838606,
@@ -10897,13 +10897,13 @@
       },
       "joined": "2025-08-05 16:03:06",
       "is_vip": true,
-      "last_online": "2026-10-31 15:18:55",
+      "last_online": "2026-10-31 17:07:19",
       "latest_networth": 598320205632,
       "latest_help": 8493,
       "latest_bounty": 6097,
       "latest_prestige": 224025,
       "latest_hero_power": 415505,
-      "latest_event_score": 7691,
+      "latest_event_score": 9352,
       "best_lcog_score": 31293,
       "best_kc_score": 14407814,
       "best_di_score": 1148694,
@@ -16248,7 +16248,7 @@
       },
       "joined": "2026-10-12 14:53:15",
       "is_vip": true,
-      "last_online": "2026-10-31 16:05:11",
+      "last_online": "2026-10-31 17:27:43",
       "latest_networth": 1647062397085,
       "latest_help": 10612,
       "latest_bounty": 25755,
@@ -16935,7 +16935,7 @@
       },
       "joined": "2026-10-26 14:17:28",
       "is_vip": true,
-      "last_online": "2026-10-31 16:54:15",
+      "last_online": "2026-10-31 17:33:52",
       "latest_networth": 825655926946,
       "latest_help": 5708,
       "latest_bounty": 5136,
