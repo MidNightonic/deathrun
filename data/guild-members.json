@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-03T19:00:12Z",
+  "generated_at": "2026-11-03T20:00:12Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,12 +8,12 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-11-03",
-      "fetched_at": "2026-11-03T19:00:11.408499Z",
+      "fetched_at": "2026-11-03T20:00:09.924465Z",
       "level": 202,
-      "population": 20,
+      "population": 19,
       "capacity": 20,
-      "networth": 53328258796869,
-      "rank": 203,
+      "networth": 51644469036269,
+      "rank": 219,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -50,10 +50,6 @@
         {
           "id": "6462cc27fdb783d2aa0226ab",
           "name": "Horus#36191"
-        },
-        {
-          "id": "674ca1bc0dddce7b1fcf18f1",
-          "name": "DragonmawSyn#63271"
         },
         {
           "id": "5d0ffd8b9e3f051073b3229b",
