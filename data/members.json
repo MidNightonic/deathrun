@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-04T13:00:03Z",
+  "generated_at": "2026-11-04T14:00:03Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -2034,7 +2034,7 @@
       },
       "joined": "2022-09-12 20:28:06",
       "is_vip": false,
-      "last_online": "2026-11-04 11:49:16",
+      "last_online": "2026-11-04 13:32:36",
       "latest_networth": 1154375617836,
       "latest_help": 10262,
       "latest_bounty": 1880,
@@ -5615,7 +5615,7 @@
       },
       "joined": "2026-01-22 16:12:56",
       "is_vip": true,
-      "last_online": "2026-11-04 12:27:29",
+      "last_online": "2026-11-04 13:24:32",
       "latest_networth": 827741133841,
       "latest_help": 10799,
       "latest_bounty": 4935,
@@ -6495,7 +6495,7 @@
       },
       "joined": "2024-01-12 21:57:25",
       "is_vip": true,
-      "last_online": "2026-11-04 03:32:49",
+      "last_online": "2026-11-04 13:26:14",
       "latest_networth": 2187613967707,
       "latest_help": 10237,
       "latest_bounty": 11294,
@@ -12299,7 +12299,7 @@
       },
       "joined": "2025-11-09 17:41:26",
       "is_vip": true,
-      "last_online": "2026-11-04 01:01:46",
+      "last_online": "2026-11-04 12:54:39",
       "latest_networth": 296674392931,
       "latest_help": 3925,
       "latest_bounty": 5434,
@@ -15397,7 +15397,7 @@
       },
       "joined": "2026-09-15 11:24:36",
       "is_vip": true,
-      "last_online": "2026-11-04 10:12:22",
+      "last_online": "2026-11-04 13:25:59",
       "latest_networth": 2829251146432,
       "latest_help": 17165,
       "latest_bounty": 13099,
@@ -16284,7 +16284,7 @@
       },
       "joined": "2026-09-30 00:18:44",
       "is_vip": true,
-      "last_online": "2026-11-04 12:13:25",
+      "last_online": "2026-11-04 13:22:55",
       "latest_networth": 2207697242873,
       "latest_help": 5104,
       "latest_bounty": 10411,
@@ -18069,7 +18069,7 @@
         "2026-11-04": 0
       },
       "networth_history": {
-        "2026-11-04": 967358884780
+        "2026-11-04": 969148280810
       },
       "bounty_history": {
         "2026-11-04": 5405
@@ -18084,31 +18084,31 @@
         "2026-11-04": 1642917
       },
       "help_history": {
-        "2026-11-04": 4789
+        "2026-11-04": 4793
       },
       "mastered_history": {
-        "2026-11-04": 1054
+        "2026-11-04": 1055
       },
       "ascensions_history": {
-        "2026-11-04": 1001
+        "2026-11-04": 1012
       },
       "collection_history": {
-        "2026-11-04": 38624
+        "2026-11-04": 38728
       },
       "crafted_history": {
-        "2026-11-04": 90030
+        "2026-11-04": 90093
       },
       "sold_history": {
-        "2026-11-04": 200971
+        "2026-11-04": 201159
       },
       "quests_history": {
-        "2026-11-04": 15702
+        "2026-11-04": 15721
       },
       "joined": "2026-11-03 20:25:49",
       "is_vip": true,
-      "last_online": "2026-11-04 09:22:30",
-      "latest_networth": 967358884780,
-      "latest_help": 4789,
+      "last_online": "2026-11-04 09:28:54",
+      "latest_networth": 969148280810,
+      "latest_help": 4793,
       "latest_bounty": 5405,
       "latest_prestige": 291540,
       "latest_hero_power": 358532,
