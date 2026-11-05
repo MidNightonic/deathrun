@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-05T12:00:02Z",
+  "generated_at": "2026-11-05T13:00:02Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,11 +8,11 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-11-05",
-      "fetched_at": "2026-11-05T12:00:00.863031Z",
+      "fetched_at": "2026-11-05T13:00:00.699950Z",
       "level": 202,
       "population": 20,
       "capacity": 20,
-      "networth": 52653438796869,
+      "networth": 52659438796869,
       "rank": 212,
       "members": [
         {
@@ -84,12 +84,12 @@
           "name": "TubularPeak#25592"
         },
         {
-          "id": "63df43a91d77c912f405c3a4",
-          "name": "Aquaman#5e9d7a8b"
-        },
-        {
           "id": "6035405f0d88461329aa9a9c",
           "name": "Shinrai#77084"
+        },
+        {
+          "id": "63df43a91d77c912f405c3a4",
+          "name": "Aquaman#5e9d7a8b"
         },
         {
           "id": "675b7171f41bcc7e4e58b636",
