@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-08T12:00:03Z",
+  "generated_at": "2026-11-08T13:00:02Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,7 +8,7 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-11-08",
-      "fetched_at": "2026-11-08T12:00:01.336787Z",
+      "fetched_at": "2026-11-08T13:00:00.613623Z",
       "level": 202,
       "population": 20,
       "capacity": 20,
@@ -80,12 +80,12 @@
           "name": "Roman#50873"
         },
         {
-          "id": "5d53cdb7f61cdb1228f6a24f",
-          "name": "TubularPeak#25592"
-        },
-        {
           "id": "6035405f0d88461329aa9a9c",
           "name": "Shinrai#77084"
+        },
+        {
+          "id": "5d53cdb7f61cdb1228f6a24f",
+          "name": "TubularPeak#25592"
         },
         {
           "id": "63df43a91d77c912f405c3a4",
