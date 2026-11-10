@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-10T00:00:03Z",
+  "generated_at": "2026-11-10T01:00:02Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,7 +8,7 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-11-10",
-      "fetched_at": "2026-11-10T00:00:01.332688Z",
+      "fetched_at": "2026-11-10T01:00:01.237130Z",
       "level": 202,
       "population": 20,
       "capacity": 20,
@@ -36,12 +36,12 @@
           "name": "Keyonayo#93192"
         },
         {
-          "id": "5d974d5054fdce11bd6bda97",
-          "name": "Rosenrot#92252"
-        },
-        {
           "id": "6380131d1d9e3612f4eef059",
           "name": "StaceysCubby#0a5f6a2a"
+        },
+        {
+          "id": "5d974d5054fdce11bd6bda97",
+          "name": "Rosenrot#92252"
         },
         {
           "id": "6462cc27fdb783d2aa0226ab",
@@ -68,12 +68,12 @@
           "name": "b33tz#61271"
         },
         {
-          "id": "61f6ed876baac312e56b6ed2",
-          "name": "ĦȄŜŦƗǠ#59387"
-        },
-        {
           "id": "5d118842f615dc108287e642",
           "name": "James Wesley#32454"
+        },
+        {
+          "id": "61f6ed876baac312e56b6ed2",
+          "name": "ĦȄŜŦƗǠ#59387"
         },
         {
           "id": "5d1c03d45774bf10843fac74",
