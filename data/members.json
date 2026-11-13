@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-13T07:00:02Z",
+  "generated_at": "2026-11-13T08:00:03Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -5893,7 +5893,7 @@
         "2026-11-10": 0,
         "2026-11-11": 2252358,
         "2026-11-12": 4787139,
-        "2026-11-13": 4926956
+        "2026-11-13": 5313595
       },
       "networth_history": {
         "2026-08-24": 793642385265,
@@ -6317,13 +6317,13 @@
       },
       "joined": "2026-01-22 16:12:56",
       "is_vip": true,
-      "last_online": "2026-11-13 05:52:37",
+      "last_online": "2026-11-13 07:40:54",
       "latest_networth": 833710522626,
       "latest_help": 10826,
       "latest_bounty": 4935,
       "latest_prestige": 179585,
       "latest_hero_power": 334331,
-      "latest_event_score": 4926956,
+      "latest_event_score": 5313595,
       "best_lcog_score": 30903,
       "best_kc_score": 8737564,
       "best_di_score": 750550,
@@ -11069,7 +11069,7 @@
         "2026-11-10": 0,
         "2026-11-11": 110122,
         "2026-11-12": 761289,
-        "2026-11-13": 1247003
+        "2026-11-13": 1850529
       },
       "networth_history": {
         "2026-08-24": 434447318761,
@@ -11493,13 +11493,13 @@
       },
       "joined": "2026-06-10 21:24:28",
       "is_vip": true,
-      "last_online": "2026-11-13 05:44:01",
+      "last_online": "2026-11-13 07:01:58",
       "latest_networth": 574393399009,
       "latest_help": 8940,
       "latest_bounty": 5396,
       "latest_prestige": 184055,
       "latest_hero_power": 1073841,
-      "latest_event_score": 1247003,
+      "latest_event_score": 1850529,
       "best_lcog_score": 55195,
       "best_kc_score": 13565270,
       "best_di_score": 2384897,
@@ -18803,7 +18803,7 @@
         "2026-11-10": 0,
         "2026-11-11": 0,
         "2026-11-12": 4055831,
-        "2026-11-13": 5798697
+        "2026-11-13": 6081251
       },
       "networth_history": {
         "2026-10-13": 1557106947991,
@@ -19215,13 +19215,13 @@
       },
       "joined": "2026-10-12 14:53:15",
       "is_vip": true,
-      "last_online": "2026-11-13 05:50:19",
+      "last_online": "2026-11-13 06:58:16",
       "latest_networth": 1687884617180,
       "latest_help": 10682,
       "latest_bounty": 26284,
       "latest_prestige": 165005,
       "latest_hero_power": 238037,
-      "latest_event_score": 5798697,
+      "latest_event_score": 6081251,
       "best_lcog_score": 42324,
       "best_kc_score": 7915807,
       "best_di_score": 733396
@@ -20192,7 +20192,7 @@
         "2026-11-10": 0,
         "2026-11-11": 12936822,
         "2026-11-12": 17355662,
-        "2026-11-13": 18036130
+        "2026-11-13": 18078376
       },
       "networth_history": {
         "2026-10-26": 774876367653,
@@ -20448,13 +20448,13 @@
       },
       "joined": "2026-10-26 14:17:28",
       "is_vip": true,
-      "last_online": "2026-11-13 05:33:01",
+      "last_online": "2026-11-13 07:59:31",
       "latest_networth": 996101549750,
       "latest_help": 5812,
       "latest_bounty": 5412,
       "latest_prestige": 106150,
       "latest_hero_power": 913917,
-      "latest_event_score": 18036130,
+      "latest_event_score": 18078376,
       "best_lcog_score": 82293,
       "best_kc_score": 17355662,
       "best_di_score": 1562085
@@ -20487,7 +20487,7 @@
         "2026-11-10": 0,
         "2026-11-11": 70613,
         "2026-11-12": 3286300,
-        "2026-11-13": 5924916
+        "2026-11-13": 6375911
       },
       "networth_history": {
         "2026-11-04": 969148280810,
@@ -20635,13 +20635,13 @@
       },
       "joined": "2026-11-03 20:25:49",
       "is_vip": true,
-      "last_online": "2026-11-13 05:32:08",
+      "last_online": "2026-11-13 07:08:48",
       "latest_networth": 1012986873043,
       "latest_help": 4860,
       "latest_bounty": 5513,
       "latest_prestige": 262870,
       "latest_hero_power": 358532,
-      "latest_event_score": 5924916,
+      "latest_event_score": 6375911,
       "best_lcog_score": 65044,
       "best_kc_score": 9569271,
       "best_di_score": 1642917
