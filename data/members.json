@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-15T09:00:02Z",
+  "generated_at": "2026-11-15T10:00:02Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -11271,7 +11271,7 @@
         "2026-11-12": 761289,
         "2026-11-13": 3713363,
         "2026-11-14": 6604621,
-        "2026-11-15": 6987267
+        "2026-11-15": 7890316
       },
       "networth_history": {
         "2026-08-24": 434447318761,
@@ -11705,13 +11705,13 @@
       },
       "joined": "2026-06-10 21:24:28",
       "is_vip": true,
-      "last_online": "2026-11-14 23:45:39",
+      "last_online": "2026-11-15 09:44:12",
       "latest_networth": 575120864903,
       "latest_help": 8945,
       "latest_bounty": 5399,
       "latest_prestige": 184055,
       "latest_hero_power": 1073841,
-      "latest_event_score": 6987267,
+      "latest_event_score": 7890316,
       "best_lcog_score": 55195,
       "best_kc_score": 13565270,
       "best_di_score": 2384897,
@@ -18451,7 +18451,7 @@
       },
       "joined": "2026-09-30 00:18:44",
       "is_vip": true,
-      "last_online": "2026-11-15 07:52:46",
+      "last_online": "2026-11-15 09:43:06",
       "latest_networth": 2322599107493,
       "latest_help": 5142,
       "latest_bounty": 10570,
@@ -21025,7 +21025,7 @@
         "2026-11-12": 3286300,
         "2026-11-13": 8293538,
         "2026-11-14": 14167170,
-        "2026-11-15": 17089243
+        "2026-11-15": 17987014
       },
       "networth_history": {
         "2026-11-04": 969148280810,
@@ -21197,13 +21197,13 @@
       },
       "joined": "2026-11-03 20:25:49",
       "is_vip": true,
-      "last_online": "2026-11-15 08:40:39",
+      "last_online": "2026-11-15 09:29:55",
       "latest_networth": 1048053341893,
       "latest_help": 4874,
       "latest_bounty": 5641,
       "latest_prestige": 269820,
       "latest_hero_power": 361697,
-      "latest_event_score": 17089243,
+      "latest_event_score": 17987014,
       "best_lcog_score": 65044,
       "best_kc_score": 14701878,
       "best_di_score": 1642917
