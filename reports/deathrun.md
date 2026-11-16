@@ -4,7 +4,7 @@
 
 - Guild page: https://www.titansdb.com/
 - Guild ID: ``
-- Report updated: 2026-11-16T06:00:03Z
+- Report updated: 2026-11-16T07:00:02Z
 - Valid investment dates: 30 / last 30 days
 - Latest member list date: 2026-11-16
 - Latest investment date: 2026-11-16
