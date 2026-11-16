@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-16T08:00:02Z",
+  "generated_at": "2026-11-16T09:00:02Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -6112,7 +6112,7 @@
         "2026-11-13": 5741299,
         "2026-11-14": 7035534,
         "2026-11-15": 7664922,
-        "2026-11-16": 7795689
+        "2026-11-16": 7907721
       },
       "networth_history": {
         "2026-08-24": 793642385265,
@@ -6551,13 +6551,13 @@
       },
       "joined": "2026-01-22 16:12:56",
       "is_vip": true,
-      "last_online": "2026-11-16 07:02:24",
+      "last_online": "2026-11-16 08:02:35",
       "latest_networth": 834823168314,
       "latest_help": 10829,
       "latest_bounty": 4935,
       "latest_prestige": 179585,
       "latest_hero_power": 334331,
-      "latest_event_score": 7795689,
+      "latest_event_score": 7907721,
       "best_lcog_score": 30903,
       "best_kc_score": 8737564,
       "best_di_score": 750550,
@@ -11811,7 +11811,7 @@
       },
       "joined": "2026-06-10 21:24:28",
       "is_vip": true,
-      "last_online": "2026-11-16 06:24:28",
+      "last_online": "2026-11-16 08:11:15",
       "latest_networth": 576253590787,
       "latest_help": 8949,
       "latest_bounty": 5412,
@@ -20957,7 +20957,7 @@
         "2026-11-13": 19337780,
         "2026-11-14": 21016288,
         "2026-11-15": 23241971,
-        "2026-11-16": 23340406
+        "2026-11-16": 23553945
       },
       "networth_history": {
         "2026-10-26": 774876367653,
@@ -21249,13 +21249,13 @@
       },
       "joined": "2026-10-26 14:17:28",
       "is_vip": true,
-      "last_online": "2026-11-16 07:59:14",
+      "last_online": "2026-11-16 08:43:07",
       "latest_networth": 1056196843750,
       "latest_help": 5833,
       "latest_bounty": 5428,
       "latest_prestige": 105030,
       "latest_hero_power": 913917,
-      "latest_event_score": 23340406,
+      "latest_event_score": 23553945,
       "best_lcog_score": 82293,
       "best_kc_score": 23241971,
       "best_di_score": 1562085
