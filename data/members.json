@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-17T14:00:04Z",
+  "generated_at": "2026-11-17T15:00:02Z",
   "dates": [
     "2026-08-24",
     "2026-08-25",
@@ -714,7 +714,7 @@
       },
       "joined": "2026-01-11 09:36:25",
       "is_vip": true,
-      "last_online": "2026-11-17 13:27:15",
+      "last_online": "2026-11-17 14:59:53",
       "latest_networth": 1680436187161,
       "latest_help": 14916,
       "latest_bounty": 7036,
@@ -4061,7 +4061,7 @@
         "2026-11-14": 21496114,
         "2026-11-15": 24885364,
         "2026-11-16": 25803562,
-        "2026-11-17": 26207765
+        "2026-11-17": 26229577
       },
       "networth_history": {
         "2026-08-24": 3033925426744,
@@ -4511,7 +4511,7 @@
       "latest_bounty": 30096,
       "latest_prestige": 197130,
       "latest_hero_power": 611509,
-      "latest_event_score": 26207765,
+      "latest_event_score": 26229577,
       "best_lcog_score": 41055,
       "best_kc_score": 27487059,
       "best_di_score": 2213247,
@@ -7247,7 +7247,7 @@
         "2026-11-14": 9364662,
         "2026-11-15": 12432327,
         "2026-11-16": 13410679,
-        "2026-11-17": 14313899
+        "2026-11-17": 14809807
       },
       "networth_history": {
         "2026-08-24": 1678526726826,
@@ -7691,13 +7691,13 @@
       },
       "joined": "2024-01-12 21:57:25",
       "is_vip": true,
-      "last_online": "2026-11-17 03:25:28",
+      "last_online": "2026-11-17 14:22:23",
       "latest_networth": 2266208871911,
       "latest_help": 10292,
       "latest_bounty": 11493,
       "latest_prestige": 123800,
       "latest_hero_power": 590239,
-      "latest_event_score": 14313899,
+      "latest_event_score": 14809807,
       "best_lcog_score": 61471,
       "best_kc_score": 21461585,
       "best_di_score": 2146758,
@@ -21502,7 +21502,7 @@
       },
       "joined": "2026-10-26 14:17:28",
       "is_vip": true,
-      "last_online": "2026-11-17 13:26:24",
+      "last_online": "2026-11-17 14:21:06",
       "latest_networth": 1096606258500,
       "latest_help": 5844,
       "latest_bounty": 5471,
