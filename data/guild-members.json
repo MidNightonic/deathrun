@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-21T18:00:03Z",
+  "generated_at": "2026-11-21T19:00:02Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,7 +8,7 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-11-21",
-      "fetched_at": "2026-11-21T18:00:01.225232Z",
+      "fetched_at": "2026-11-21T19:00:00.548684Z",
       "level": 202,
       "population": 20,
       "capacity": 20,
@@ -26,6 +26,10 @@
         {
           "id": "5e9f03a4368df71229110db1",
           "name": "AlphaBrass#78875"
+        },
+        {
+          "id": "63006a3d2d828712e8fde16c",
+          "name": "b33tz#61271"
         },
         {
           "id": "657f8b23ad82ce868affac31",
@@ -62,10 +66,6 @@
         {
           "id": "61f6ed876baac312e56b6ed2",
           "name": "ĦȄŜŦƗǠ#59387"
-        },
-        {
-          "id": "63006a3d2d828712e8fde16c",
-          "name": "b33tz#61271"
         },
         {
           "id": "5d118842f615dc108287e642",
