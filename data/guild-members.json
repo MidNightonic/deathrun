@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-22T12:00:02Z",
+  "generated_at": "2026-11-22T13:00:02Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,7 +8,7 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-11-22",
-      "fetched_at": "2026-11-22T12:00:00.836106Z",
+      "fetched_at": "2026-11-22T13:00:00.762244Z",
       "level": 202,
       "population": 20,
       "capacity": 20,
@@ -56,12 +56,12 @@
           "name": "DallasEric#78795"
         },
         {
-          "id": "63091bf46c9b2312e279d6a0",
-          "name": "JThomas#63233"
-        },
-        {
           "id": "61f6ed876baac312e56b6ed2",
           "name": "ĦȄŜŦƗǠ#59387"
+        },
+        {
+          "id": "63091bf46c9b2312e279d6a0",
+          "name": "JThomas#63233"
         },
         {
           "id": "641753a0c64344130387af8d",
