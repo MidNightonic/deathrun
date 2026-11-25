@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-25T15:00:04Z",
+  "generated_at": "2026-11-25T16:00:02Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,12 +8,12 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-11-25",
-      "fetched_at": "2026-11-25T15:00:01.375177Z",
+      "fetched_at": "2026-11-25T16:00:01.020804Z",
       "level": 202,
-      "population": 20,
+      "population": 19,
       "capacity": 20,
-      "networth": 52720881792429,
-      "rank": 228,
+      "networth": 51632112031829,
+      "rank": 233,
       "members": [
         {
           "id": "5f6dfb5e7f7e06659bd69a40",
@@ -78,10 +78,6 @@
         {
           "id": "5d8c98cae2cb8811b35efa2f",
           "name": "Dilo#50611"
-        },
-        {
-          "id": "6035405f0d88461329aa9a9c",
-          "name": "Shinrai#77084"
         },
         {
           "id": "5d53cdb7f61cdb1228f6a24f",
