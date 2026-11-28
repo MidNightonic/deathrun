@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-28T09:00:02Z",
+  "generated_at": "2026-11-28T10:00:03Z",
   "guilds": {
     "deathrun": {
       "slug": "deathrun",
@@ -8,11 +8,11 @@
       "guild_id": "",
       "guild_url": "https://www.titansdb.com/",
       "snapshot_date": "2026-11-28",
-      "fetched_at": "2026-11-28T09:00:00.631904Z",
+      "fetched_at": "2026-11-28T10:00:01.657576Z",
       "level": 202,
       "population": 20,
       "capacity": 20,
-      "networth": 53452661715929,
+      "networth": 53455661715929,
       "rank": 220,
       "members": [
         {
